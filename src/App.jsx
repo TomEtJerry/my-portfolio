@@ -21,7 +21,7 @@ const AppContainer = styled.div`
     gap: 20dvw;
   }
   @media (max-width: 700px) {
-    padding: 30vw 0 40vw 0;
+    padding: 30vw 0 50vw 0;
     gap: 25dvw;
   }
 `;
@@ -39,6 +39,9 @@ const Background = styled.div`
   background-size: 100% 100%;
   opacity: 1;
   z-index: 1; /* Place en arrière-plan */
+    @media (max-width: 700px) {
+     height: 200px; /* Ajuste la hauteur selon tes besoins */
+  }
 `;
 
 const HeroSection = styled.div`
