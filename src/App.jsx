@@ -86,7 +86,7 @@ const HeroContainer = styled.div`
     padding: 0 0 0 4vw;
   }
     @media (max-width: 700px) {
-    padding: 0 0 0 7vw;
+    padding: 0 0 0 8vw;
   }
 `;
 
@@ -386,7 +386,7 @@ function App() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     if (isMobile) {
-      applyPerspective(12, 12, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
+      applyPerspective(10, 10, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
     } else {
       applyPerspective(10, 10, 500); // 🖥️ Valeurs par défaut pour desktop
     }
