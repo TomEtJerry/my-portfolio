@@ -193,7 +193,7 @@ const Projects = styled.div`
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
     width: 60dvw;
-    height: 50dvh;
+    height: 300px;
     padding: 0 2dvw 4dvw 2dvw;
     gap: 0;
     border-radius: 40px;
