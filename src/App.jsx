@@ -86,7 +86,7 @@ const HeroContainer = styled.div`
     padding: 0 0 0 4vw;
   }
     @media (max-width: 700px) {
-    padding: 0;
+    padding: 0 0 0 7vw;
   }
 `;
 
@@ -139,6 +139,9 @@ const HeroShadow = styled.h2`
 const DescriptionContainer = styled.div`
 text-align: center;
 padding: 2dvw 0 0 0;
+    @media (max-width: 1100px) {
+    padding: 5dvw 0 0 0;
+  }
 `;
 
 const HeroDescription = styled.h2`
@@ -371,12 +374,22 @@ function App() {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
 
-    gsap.to([shadow, title], {
-      rotationX: 10,
-      rotationY: 10,
-      transformPerspective: 500,
-      duration: 0
-    });
+    const applyPerspective = (rotationX, rotationY, perspective) => {
+      gsap.to([shadow, title], {
+        rotationX,
+        rotationY,
+        transformPerspective: perspective,
+        duration: 0
+      });
+    };
+
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    if (isMobile) {
+      applyPerspective(12, 12, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
+    } else {
+      applyPerspective(10, 10, 500); // 🖥️ Valeurs par défaut pour desktop
+    }
 
     buttonContainerRefs.current.forEach((container, index) => {
       if (!container) return;
