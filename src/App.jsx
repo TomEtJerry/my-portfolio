@@ -177,26 +177,26 @@ align-items: center;
 
 const Projects = styled.div`
   width: 50dvw;
-  height: 50dvh;
+  height: auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1dvw;
+  gap: 1.5dvw;
   align-items: center;
-  padding: 0 1dvw 0 0;
+  padding: 2dvw;
+  margin-bottom: 3dvw;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(100px);
-  border-radius: 50px;
-  background: linear-gradient(90deg, rgba(0, 229, 255, 0.40) 0.09%, rgba(0, 48, 87, 0.80) 99.91%);
-  box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.60);
-  z-index: 2;
+  border-radius: 3dvw;
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.4) 0.09%, rgba(0, 48, 87, 0.8) 99.91%);
+  box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.6);
+  transform-origin: center;
+  transition: all 0.3s ease;
+
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
-    width: 60dvw;
-    height: 50dvh;
-    padding: 0 2dvw 4dvw 2dvw;
-    gap: 0;
-    border-radius: 40px;
+    width: 65dvw;
+    gap: 2dvw;
+    padding: 4dvw;
+    border-radius: 5dvw;
   }
 `;
 
@@ -367,6 +367,13 @@ function App() {
   useEffect(() => {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
+    const handleResize = () => {
+      gsap.fromTo(
+        ".Projects",
+        { scale: 0.98 },
+        { scale: 1, duration: 0.4, ease: "power2.out" }
+      );
+    };
 
     gsap.to([shadow, title], {
       rotationX: 10,
@@ -411,8 +418,30 @@ function App() {
         ease: "power1.inOut",
       });
 
+      gsap.fromTo(container,
+        {
+          opacity: 0,
+          y: 100,
+          scale: 0.95
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 75%',
+            end: 'top 45%',
+            scrub: true
+          }
+        }
+      );
+
       container.addEventListener("mouseenter", () => tl.play());
       container.addEventListener("mouseleave", () => tl.pause().seek(0));
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
     });
   }, []);
 
