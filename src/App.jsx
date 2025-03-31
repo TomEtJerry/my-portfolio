@@ -375,82 +375,44 @@ function App() {
       duration: 0
     });
 
-    ScrollTrigger.matchMedia({
-      // Desktop (animation scroll active)
-      "(min-width: 768px)": () => {
-        buttonContainerRefs.current.forEach((container, index) => {
-          if (!container) return;
+    buttonContainerRefs.current.forEach((container, index) => {
+      if (!container) return;
 
-          gsap.fromTo(container,
-            {
-              opacity: 0,
-              y: 100,
-              scale: 0.95,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: container,
-                start: 'top 75%',
-                end: 'top 45%',
-                scrub: true,
-              }
-            }
-          );
+      gsap.fromTo(container,
+        {
+          opacity: 0,
+          y: 100,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top 75%',
+            end: 'top 45%',
+            scrub: true, // ← permet d’animer en fonction du scroll
+          }
+        }
+      );
 
-          const icon = buttonIconRefs.current[index];
-          const tl = gsap.timeline({ paused: true, repeat: -1 });
+      const icon = buttonIconRefs.current[index];
+      const tl = gsap.timeline({ paused: true, repeat: -1 });
 
-          tl.to(icon, {
-            x: 20,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power1.inOut",
-          }).to(icon, {
-            x: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power1.inOut",
-          });
+      tl.to(icon, {
+        x: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power1.inOut",
+      }).to(icon, {
+        x: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power1.inOut",
+      });
 
-          container.addEventListener("mouseenter", () => tl.play());
-          container.addEventListener("mouseleave", () => tl.pause().seek(0));
-        });
-      },
-
-      // Mobile (pas d'animation scroll)
-      "(max-width: 767px)": () => {
-        buttonContainerRefs.current.forEach((container, index) => {
-          if (!container) return;
-
-          gsap.set(container, {
-            opacity: 1,
-            y: 0,
-            scale: 1
-          });
-
-          const icon = buttonIconRefs.current[index];
-          const tl = gsap.timeline({ paused: true, repeat: -1 });
-
-          tl.to(icon, {
-            x: 20,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power1.inOut",
-          }).to(icon, {
-            x: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power1.inOut",
-          });
-
-          container.addEventListener("mouseenter", () => tl.play());
-          container.addEventListener("mouseleave", () => tl.pause().seek(0));
-        });
-      }
+      container.addEventListener("mouseenter", () => tl.play());
+      container.addEventListener("mouseleave", () => tl.pause().seek(0));
     });
   }, []);
 
