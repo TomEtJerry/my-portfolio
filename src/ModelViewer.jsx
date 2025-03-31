@@ -23,19 +23,18 @@ const ModelViewer = ({ modelPath }) => {
     const [size, setSize] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
-        const updateSize = () => {
-            if (containerRef.current) {
-                setSize({
-                    width: containerRef.current.clientWidth,
-                    height: containerRef.current.clientHeight,
-                });
-            }
+        const observer = new ResizeObserver(([entry]) => {
+            const { width, height } = entry.contentRect;
+            setSize({ width, height });
+        });
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (containerRef.current) observer.unobserve(containerRef.current);
         };
-
-        updateSize();
-        window.addEventListener("resize", updateSize);
-
-        return () => window.removeEventListener("resize", updateSize);
     }, []);
 
     return (
