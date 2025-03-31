@@ -195,8 +195,8 @@ const Projects = styled.div`
   z-index: 2;
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
-    width: 60dvw;
-    height: 300px;
+    width: 65dvw;
+    height: 350px;
     padding: 0 2dvw 4dvw 2dvw;
     gap: 0;
     border-radius: 40px;
