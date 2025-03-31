@@ -40,7 +40,7 @@ const Background = styled.div`
   opacity: 1;
   z-index: 1; /* Place en arrière-plan */
     @media (max-width: 700px) {
-     height: 200px; /* Ajuste la hauteur selon tes besoins */
+     height: 250px; /* Ajuste la hauteur selon tes besoins */
   }
 `;
 
