@@ -177,26 +177,26 @@ align-items: center;
 
 const Projects = styled.div`
   width: 50dvw;
-  height: auto;
+  height: 50dvh;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5dvw;
+  gap: 1dvw;
   align-items: center;
-  padding: 2dvw;
-  margin-bottom: 3dvw;
+  padding: 0 1dvw 0 0;
   cursor: pointer;
-  border-radius: 3dvw;
-  background: linear-gradient(90deg, rgba(0, 229, 255, 0.4) 0.09%, rgba(0, 48, 87, 0.8) 99.91%);
-  box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.6);
-  transform-origin: center;
-  transition: all 0.3s ease;
-
+  opacity: 0;
+  transform: translateY(100px);
+  border-radius: 50px;
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.40) 0.09%, rgba(0, 48, 87, 0.80) 99.91%);
+  box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.60);
+  z-index: 2;
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
-    width: 65dvw;
-    gap: 2dvw;
-    padding: 4dvw;
-    border-radius: 5dvw;
+    width: 60dvw;
+    height: 50dvh;
+    padding: 0 2dvw 4dvw 2dvw;
+    gap: 0;
+    border-radius: 40px;
   }
 `;
 
@@ -363,17 +363,17 @@ function App() {
   const buttonIconRefs = useRef([]);
   const heroTitleRef = useRef(null);
   const heroShadowRef = useRef(null);
+  const handleResize = () => {
+    gsap.fromTo(
+      ".Projects",
+      { scale: 0.98 },
+      { scale: 1, duration: 0.4, ease: "power2.out" }
+    );
+  };
 
   useEffect(() => {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
-    const handleResize = () => {
-      gsap.fromTo(
-        ".Projects",
-        { scale: 0.98 },
-        { scale: 1, duration: 0.4, ease: "power2.out" }
-      );
-    };
 
     gsap.to([shadow, title], {
       rotationX: 10,
