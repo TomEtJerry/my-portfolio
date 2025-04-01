@@ -394,6 +394,11 @@ function App() {
     buttonContainerRefs.current.forEach((container, index) => {
       if (!container) return;
 
+      // Valeurs scrollTrigger différentes
+      const scrollSettings = isMobile
+        ? { start: 'top 95%', end: 'top 55%' } // 📱 Mobile
+        : { start: 'top 75%', end: 'top 45%' }; // 💻 Desktop
+
       gsap.fromTo(container,
         {
           opacity: 0,
@@ -405,8 +410,7 @@ function App() {
           ease: 'none',
           scrollTrigger: {
             trigger: container,
-            start: 'top 75%',
-            end: 'top 45%',
+            ...scrollSettings,
             scrub: true, // ← permet d’animer en fonction du scroll
           }
         }
