@@ -16,12 +16,16 @@ const AppContainer = styled.div`
   background-attachment: fixed;
   padding: 6dvw 0 15dvw 0;
   gap: 8dvw;
-    @media (max-width: 1100px) {
+  @media (max-width: 1100px) {
     padding: 20vw 0 30vw 0;
     gap: 20dvw;
   }
   @media (max-width: 700px) {
     padding: 30vw 0 50vw 0;
+    gap: 25dvw;
+  }
+  @media (max-width: 330px) {
+    padding: 15vw 0 40vw 0;
     gap: 25dvw;
   }
 `;
@@ -205,6 +209,15 @@ const Projects = styled.div`
     border-radius: 40px;
     box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
   }
+  @media (max-width: 330px) {
+    grid-template-columns: 1fr;
+    width: 220px;
+    height: 250px;
+    padding: 0 10px 10px 10px;
+    gap: 0;
+    border-radius: 40px;
+    box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
+  }
 `;
 
 const Model = styled.div`
@@ -242,6 +255,11 @@ const Title = styled.h2`
     margin: 0 0 10px 0;
     line-height: 32px;
   }
+  @media (max-width: 330px) {
+    font-size: 26px;
+    margin: 0 0 5px 0;
+    line-height: 30px;
+  }
 `;
 
 const Container = styled.div`
@@ -254,6 +272,11 @@ const Container = styled.div`
     justify-content: center;
     margin: 0 0 20px 0;
     gap: 10px;
+  }
+  @media (max-width: 1100px) {
+    justify-content: center;
+    margin: 0 0 10px 0;
+    gap: 5px;
   }
 `;
 
@@ -280,6 +303,11 @@ const Icon = styled.img`
     height: 12px;
     margin: 0 5px 0 0;
   }
+  @media (max-width: 330px) {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px 0 0;
+  }
 `;
 
 const Text = styled.span`
@@ -290,6 +318,9 @@ const Text = styled.span`
   font-weight: 500;
   @media (max-width: 1100px) {
     font-size: 12px;
+  }
+  @media (max-width: 330px) {
+    font-size: 10px;
   }
 `;
 
@@ -314,6 +345,10 @@ const ButtonIcon = styled.img`
     width: 18px;
     height: 18px;
   }
+  @media (max-width: 330px) {
+    width: 14px;
+    height: 14px;
+  }
 `;
 
 const ButtonText = styled.span`
@@ -323,6 +358,9 @@ const ButtonText = styled.span`
   font-weight: 500;
   @media (max-width: 1100px) {
     font-size: 14px;
+  }
+  @media (max-width: 330px) {
+    font-size: 12px;
   }
 `;
 
