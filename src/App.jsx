@@ -22,7 +22,7 @@ const AppContainer = styled.div`
   }
   @media (max-width: 700px) {
     padding: 30vw 0 50vw 0;
-    gap: 15dvw;
+    gap: 25dvw;
   }
 `;
 
