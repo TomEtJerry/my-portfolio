@@ -374,6 +374,10 @@ function App() {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
 
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50); // Délai court pour attendre le layout initial
+
     const applyPerspective = (rotationX, rotationY, perspective) => {
       gsap.to([shadow, title], {
         rotationX,
@@ -433,7 +437,6 @@ function App() {
 
       container.addEventListener("mouseenter", () => tl.play());
       container.addEventListener("mouseleave", () => tl.pause().seek(0));
-      window.scrollTo(0, 0); // Force le scroll tout en haut
     });
   }, []);
 
