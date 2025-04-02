@@ -237,7 +237,7 @@ const Title = styled.h2`
   letter-spacing: 0.1vw;
   margin: 0 0 0.5dvw 0;
   @media (max-width: 1100px) {
-    font-size: 8vw;
+    font-size: 7vw;
     margin: 0 0 3dvw 0;
   }
 `;
