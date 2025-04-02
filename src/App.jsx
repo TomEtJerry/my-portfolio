@@ -377,7 +377,7 @@ function App() {
     const title = heroTitleRef.current;
     const timeout = setTimeout(() => {
       window.scrollTo(0, 0);
-    }, 100); // Laisse le temps à ScrollTrigger de finir l'init
+    }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
     const applyPerspective = (rotationX, rotationY, perspective) => {
       gsap.to([shadow, title], {
