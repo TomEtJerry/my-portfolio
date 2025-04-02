@@ -387,10 +387,6 @@ function App() {
 
     if (isMobile) {
       applyPerspective(10, 10, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
-
-      setTimeout(() => {
-        window.scrollTo(0, 0); // ✅ Scroll en haut après init GSAP
-      }, 100);
     } else {
       applyPerspective(10, 10, 500); // 🖥️ Valeurs par défaut pour desktop
     }
