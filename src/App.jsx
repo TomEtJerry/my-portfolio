@@ -422,22 +422,25 @@ function App() {
       );
 
       const icon = buttonIconRefs.current[index];
-      const tl = gsap.timeline({ paused: true, repeat: -1 });
 
-      tl.to(icon, {
-        x: 20,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power1.inOut",
-      }).to(icon, {
-        x: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power1.inOut",
-      });
+      if (!isMobile) {
+        const tl = gsap.timeline({ paused: true, repeat: -1 });
 
-      container.addEventListener("mouseenter", () => tl.play());
-      container.addEventListener("mouseleave", () => tl.pause().seek(0));
+        tl.to(icon, {
+          x: 20,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power1.inOut",
+        }).to(icon, {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power1.inOut",
+        });
+
+        container.addEventListener("mouseenter", () => tl.play());
+        container.addEventListener("mouseleave", () => tl.pause().seek(0));
+      }
     });
     return () => clearTimeout(timeout); // Nettoyage du timeout
   }, []);
