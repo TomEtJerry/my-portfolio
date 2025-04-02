@@ -200,9 +200,10 @@ const Projects = styled.div`
     grid-template-columns: 1fr;
     width: 250px;
     height: 400px;
-    padding: 0 2dvw 5dvw 2dvw;
+    padding: 0 10px 20px 10px;
     gap: 0;
     border-radius: 40px;
+    box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
   }
 `;
 
@@ -237,8 +238,9 @@ const Title = styled.h2`
   letter-spacing: 0.1vw;
   margin: 0 0 0.5dvw 0;
   @media (max-width: 1100px) {
-    font-size: 6vw;
-    margin: 0 0 3dvw 0;
+    font-size: 34px;
+    margin: 0 0 10px 0;
+    line-height: 36px;
   }
 `;
 
@@ -250,8 +252,8 @@ const Container = styled.div`
   margin: 0 0 2dvw 0;
   @media (max-width: 1100px) {
     justify-content: center;
-    margin: 0 0 5dvw 0;
-    gap: 2dvw;
+    margin: 0 0 20px 0;
+    gap: 10px;
   }
 `;
 
@@ -274,9 +276,9 @@ const Icon = styled.img`
   height: 0.9vw;
   margin-right: 0.5dvw;
   @media (max-width: 1100px) {
-    width: 3vw;
-    height: 3vw;
-    margin: 0 2dvw 0 0;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px 0 0;
   }
 `;
 
@@ -287,7 +289,7 @@ const Text = styled.span`
   font-style: normal;
   font-weight: 500;
   @media (max-width: 1100px) {
-    font-size: 3vw;
+    font-size: 12px;
   }
 `;
 
@@ -301,7 +303,7 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   @media (max-width: 1100px) {
-    gap: 1dvw;
+    gap: 5px;
   }
 `;
 
@@ -309,8 +311,8 @@ const ButtonIcon = styled.img`
   width: 1.4vw;
   height: 1.4vw;
   @media (max-width: 1100px) {
-    width: 4.5vw;
-    height: 4.5vw;
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -320,13 +322,13 @@ const ButtonText = styled.span`
   font-style: normal;
   font-weight: 500;
   @media (max-width: 1100px) {
-    font-size: 3.5vw;
+    font-size: 14px;
   }
 `;
 
 const projectsData = [
   {
-    title: "CUSTOMER DATA PLATFORM",
+    title: "CUSTOMER\nDATA PLATFORM",
     modelPath: "/saas.glb",
     url: "https://tomsantoni.myportfolio.com/customer-satisfaction-platform",
     badges: [
@@ -335,7 +337,7 @@ const projectsData = [
     ],
   },
   {
-    title: "E-COMMERCE PRODUCT PAGES",
+    title: "E-COMMERCE\nPRODUCT PAGES",
     modelPath: "/product_page.glb",
     url: "https://tomsantoni.myportfolio.com/product-pages-for-legrand",
     badges: [
@@ -478,7 +480,12 @@ function App() {
                 <ModelViewer modelPath={project.modelPath} />
               </Model>
               <Description>
-                <Title>{project.title}</Title>
+                <Title> {project.title.split('\n').map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    <br />
+                  </span>
+                ))}</Title>
                 <Container>
                   {project.badges.map((badge, i) => (
                     <Badge key={i}>
