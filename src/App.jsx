@@ -6,9 +6,6 @@ import Header from './Header'; // Importation du composant Header
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-// Appliquer normalizeScroll pour éviter les sauts de scroll au chargement
-ScrollTrigger.normalizeScroll(true);
-
 // Styled components
 const AppContainer = styled.div`
   display: flex;
@@ -376,6 +373,9 @@ function App() {
   useEffect(() => {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
+    const timeout = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100); // Laisse le temps à ScrollTrigger de finir l'init
 
     const applyPerspective = (rotationX, rotationY, perspective) => {
       gsap.to([shadow, title], {
@@ -437,13 +437,7 @@ function App() {
       container.addEventListener("mouseenter", () => tl.play());
       container.addEventListener("mouseleave", () => tl.pause().seek(0));
     });
-
-    // Rafraîchit ScrollTrigger une fois la page complètement chargée
-    window.addEventListener("load", () => {
-      ScrollTrigger.refresh();
-      window.scrollTo(0, 0);
-    });
-
+    return () => clearTimeout(timeout); // Nettoyage du timeout
   }, []);
 
   return (
