@@ -71,7 +71,7 @@ letter-spacing: 0.1vw;
 justify-content: center;
 align-items: center;
   @media (max-width: 1100px) {
-    font-size: 7vw;
+    font-size: 8vw;
   }
 `;
 
@@ -153,7 +153,7 @@ letter-spacing: 0.1vw;
 justify-content: center;
 align-items: center;
   @media (max-width: 1100px) {
-    font-size: 5vw;
+    font-size: 6vw;
   }
 `;
 
@@ -177,7 +177,7 @@ letter-spacing: 0.1vw;
 justify-content: center;
 align-items: center;
   @media (max-width: 1100px) {
-    font-size: 7vw;
+    font-size: 8vw;
   }
 `;
 
