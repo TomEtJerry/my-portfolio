@@ -433,6 +433,7 @@ function App() {
 
       container.addEventListener("mouseenter", () => tl.play());
       container.addEventListener("mouseleave", () => tl.pause().seek(0));
+      window.scrollTo(0, 0); // Force le scroll tout en haut
     });
   }, []);
 
