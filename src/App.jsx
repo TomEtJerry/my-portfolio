@@ -374,10 +374,6 @@ function App() {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
 
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 50); // Délai court pour attendre le layout initial
-
     const applyPerspective = (rotationX, rotationY, perspective) => {
       gsap.to([shadow, title], {
         rotationX,
@@ -400,7 +396,7 @@ function App() {
 
       // Valeurs scrollTrigger différentes
       const scrollSettings = isMobile
-        ? { start: 'top 95%', end: 'top 55%' } // 📱 Mobile
+        ? { start: 'top 100%', end: 'top 55%' } // 📱 Mobile
         : { start: 'top 75%', end: 'top 45%' }; // 💻 Desktop
 
       gsap.fromTo(container,
