@@ -387,6 +387,10 @@ function App() {
 
     if (isMobile) {
       applyPerspective(10, 10, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
+
+      setTimeout(() => {
+        window.scrollTo(0, 0); // ✅ Scroll en haut après init GSAP
+      }, 100);
     } else {
       applyPerspective(10, 10, 500); // 🖥️ Valeurs par défaut pour desktop
     }
@@ -396,7 +400,7 @@ function App() {
 
       // Valeurs scrollTrigger différentes
       const scrollSettings = isMobile
-        ? { start: 'top 100%', end: 'top 55%' } // 📱 Mobile
+        ? { start: 'top 95%', end: 'top 55%' } // 📱 Mobile
         : { start: 'top 75%', end: 'top 45%' }; // 💻 Desktop
 
       gsap.fromTo(container,
