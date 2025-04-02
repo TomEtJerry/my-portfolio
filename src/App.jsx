@@ -373,6 +373,9 @@ function App() {
   useEffect(() => {
     const shadow = heroShadowRef.current;
     const title = heroTitleRef.current;
+    const timeout = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100); // Laisse le temps à ScrollTrigger de finir l'init
 
     const applyPerspective = (rotationX, rotationY, perspective) => {
       gsap.to([shadow, title], {
@@ -434,6 +437,7 @@ function App() {
       container.addEventListener("mouseenter", () => tl.play());
       container.addEventListener("mouseleave", () => tl.pause().seek(0));
     });
+    return () => clearTimeout(timeout); // Nettoyage du timeout
   }, []);
 
   return (
