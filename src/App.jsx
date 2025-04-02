@@ -199,8 +199,8 @@ const Projects = styled.div`
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
     width: 250px;
-    height: 350px;
-    padding: 0 2dvw 4dvw 2dvw;
+    height: 400px;
+    padding: 0 2dvw 5dvw 2dvw;
     gap: 0;
     border-radius: 40px;
   }
@@ -237,8 +237,8 @@ const Title = styled.h2`
   letter-spacing: 0.1vw;
   margin: 0 0 0.5dvw 0;
   @media (max-width: 1100px) {
-    font-size: 6vw;
-    margin: 0 0 2dvw 0;
+    font-size: 8vw;
+    margin: 0 0 3dvw 0;
   }
 `;
 
@@ -250,7 +250,7 @@ const Container = styled.div`
   margin: 0 0 2dvw 0;
   @media (max-width: 1100px) {
     justify-content: center;
-    margin: 0 0 3dvw 0;
+    margin: 0 0 5dvw 0;
     gap: 2dvw;
   }
 `;
@@ -274,9 +274,9 @@ const Icon = styled.img`
   height: 0.9vw;
   margin-right: 0.5dvw;
   @media (max-width: 1100px) {
-    width: 2vw;
-    height: 2.5vw;
-    margin: 0 1dvw 0 0;
+    width: 3vw;
+    height: 3vw;
+    margin: 0 2dvw 0 0;
   }
 `;
 
@@ -287,7 +287,7 @@ const Text = styled.span`
   font-style: normal;
   font-weight: 500;
   @media (max-width: 1100px) {
-    font-size: 2.5vw;
+    font-size: 3vw;
   }
 `;
 
@@ -309,8 +309,8 @@ const ButtonIcon = styled.img`
   width: 1.4vw;
   height: 1.4vw;
   @media (max-width: 1100px) {
-    width: 4vw;
-    height: 4vw;
+    width: 4.5vw;
+    height: 4.5vw;
   }
 `;
 
@@ -320,7 +320,7 @@ const ButtonText = styled.span`
   font-style: normal;
   font-weight: 500;
   @media (max-width: 1100px) {
-    font-size: 3vw;
+    font-size: 3.5vw;
   }
 `;
 
