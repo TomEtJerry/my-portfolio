@@ -468,8 +468,6 @@ function App() {
           <a
             key={index}
             href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
             style={{ textDecoration: "none", width: "fit-content", zIndex: 2 }}
           >
             <Projects
