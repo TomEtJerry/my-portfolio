@@ -182,7 +182,7 @@ align-items: center;
 `;
 
 const Projects = styled.div`
-  width: 50dvw;
+  width: 55dvw;
   height: 50dvh;
   display: grid;
   grid-template-columns: 1fr 1fr;
