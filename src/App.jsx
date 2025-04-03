@@ -192,7 +192,7 @@ const Projects = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 1dvw;
   align-items: center;
-  padding: 0 1dvw 0 0;
+  padding: 0 0 0 0;
   cursor: pointer;
   opacity: 0;
   transform: translateY(100px);
@@ -273,7 +273,7 @@ const Container = styled.div`
     margin: 0 0 20px 0;
     gap: 10px;
   }
-  @media (max-width: 1100px) {
+  @media (max-width: 330px) {
     justify-content: center;
     margin: 0 0 10px 0;
     gap: 5px;
