@@ -189,7 +189,7 @@ const Projects = styled.div`
   width: 55dvw;
   height: 50dvh;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 1fr;
   gap: 1dvw;
   align-items: center;
   padding: 0 0 0 0;
@@ -200,7 +200,16 @@ const Projects = styled.div`
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.40) 0.09%, rgba(0, 48, 87, 0.80) 99.91%);
   box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.60);
   z-index: 2;
-  @media (max-width: 1100px) {
+    @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+    width: 500px;
+    height: 600px;
+    padding: 0 10px 20px 10px;
+    gap: 0;
+    border-radius: 40px;
+    box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
+  }
+  @media (max-width: 700px) {
     grid-template-columns: 1fr;
     width: 250px;
     height: 400px;
