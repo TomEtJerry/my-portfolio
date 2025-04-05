@@ -44,7 +44,7 @@ const Background = styled.div`
   opacity: 1;
   z-index: 1; /* Place en arrière-plan */
     @media (max-width: 700px) {
-     height: 250px; /* Ajuste la hauteur selon tes besoins */
+     height: 150px; /* Ajuste la hauteur selon tes besoins */
   }
 `;
 
@@ -212,7 +212,7 @@ const Projects = styled.div`
   @media (max-width: 700px) {
     grid-template-columns: 1fr;
     width: 250px;
-    height: 400px;
+    height: 450px;
     padding: 0 10px 20px 10px;
     gap: 0;
     border-radius: 40px;
@@ -221,7 +221,7 @@ const Projects = styled.div`
   @media (max-width: 330px) {
     grid-template-columns: 1fr;
     width: 220px;
-    height: 250px;
+    height: 300px;
     padding: 0 10px 10px 10px;
     gap: 0;
     border-radius: 40px;
