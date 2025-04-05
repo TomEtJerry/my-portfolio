@@ -9,7 +9,7 @@ const RotatingModel = ({ modelPath }) => {
 
     useEffect(() => {
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        setRotationSpeed(isMobile ? 0.006 : 0.003); // Mobile + lent
+        setRotationSpeed(isMobile ? 0.01 : 0.003); // Mobile + lent
     }, []);
 
     useFrame(() => {
