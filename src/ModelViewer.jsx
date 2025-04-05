@@ -2,16 +2,14 @@ import React, { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
-const FloatingModel = ({ modelPath }) => {
+const RotatingModel = ({ modelPath }) => {
     const { scene } = useGLTF(modelPath);
     const modelRef = useRef();
 
-    useFrame(({ clock }) => {
+    useFrame(() => {
         if (modelRef.current) {
-            // Rotation automatique sur X et Z pour l'effet de perspective
-            modelRef.current.rotation.x = Math.sin(clock.elapsedTime * 0.8) * 0.02;
-            modelRef.current.rotation.z = Math.sin(clock.elapsedTime * 0.8) * 0.04;
-            modelRef.current.rotation.y = Math.sin(clock.elapsedTime * 1) * 0.03;
+            // Rotation continue sur l'axe Y (vertical)
+            modelRef.current.rotation.y += 0.005; // Ajuste la vitesse ici
         }
     });
 
@@ -39,7 +37,7 @@ const ModelViewer = ({ modelPath }) => {
 
     return (
         <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-            <Canvas style={{ width: size.width, height: "100%" }} camera={{ position: [0, 0, 0.6] }}
+            <Canvas style={{ width: size.width, height: "100%" }} camera={{ position: [0, 0, 1.5] }}
                 resize={{ scroll: false, debounce: 0 }}>
                 {/* Lumières */}
                 <ambientLight intensity={0.5} />
@@ -47,7 +45,7 @@ const ModelViewer = ({ modelPath }) => {
                 <pointLight position={[-2, -2, 2]} intensity={10} color={"#97ADFF"} />
                 <spotLight position={[0, 5, 5]} angle={0.3} intensity={2} castShadow />
 
-                <FloatingModel modelPath={modelPath} />
+                <RotatingModel modelPath={modelPath} />
             </Canvas>
         </div>
     );
