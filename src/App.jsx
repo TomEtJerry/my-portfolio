@@ -187,7 +187,7 @@ align-items: center;
 
 const Projects = styled.div`
   width: 55dvw;
-  height: 50dvh;
+  height: 55dvh;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 1dvw;
