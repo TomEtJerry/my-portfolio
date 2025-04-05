@@ -9,11 +9,11 @@ const RotatingModel = ({ modelPath }) => {
     useFrame(() => {
         if (modelRef.current) {
             // Rotation continue sur l'axe Y (vertical)
-            modelRef.current.rotation.y += 0.005; // Ajuste la vitesse ici
+            modelRef.current.rotation.y += 0.003; // Ajuste la vitesse ici
         }
     });
 
-    return <primitive ref={modelRef} object={scene} scale={1} />;
+    return <primitive ref={modelRef} object={scene} scale={0.55} />;
 };
 
 const ModelViewer = ({ modelPath }) => {
@@ -37,7 +37,7 @@ const ModelViewer = ({ modelPath }) => {
 
     return (
         <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-            <Canvas style={{ width: size.width, height: "100%" }} camera={{ position: [0, 0, 1.5] }}
+            <Canvas style={{ width: size.width, height: "100%" }} camera={{ position: [0, 0, 1] }}
                 resize={{ scroll: false, debounce: 0 }}>
                 {/* Lumières */}
                 <ambientLight intensity={0.5} />
