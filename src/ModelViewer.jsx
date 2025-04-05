@@ -9,7 +9,7 @@ const RotatingModel = ({ modelPath }) => {
     useFrame(() => {
         if (modelRef.current) {
             // Rotation continue sur l'axe Y (vertical)
-            modelRef.current.rotation.y += 0.003; // Ajuste la vitesse ici
+            modelRef.current.rotation.y += 0.004; // Ajuste la vitesse ici
         }
     });
 
