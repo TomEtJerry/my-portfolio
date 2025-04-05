@@ -5,14 +5,18 @@ import { useGLTF } from "@react-three/drei";
 const RotatingModel = ({ modelPath }) => {
     const { scene } = useGLTF(modelPath);
     const modelRef = useRef();
+    const [rotationSpeed, setRotationSpeed] = useState(0.003); // vitesse par défaut (desktop)
+
+    useEffect(() => {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        setRotationSpeed(isMobile ? 0.003 : 0.003); // Mobile + lent
+    }, []);
 
     useFrame(() => {
         if (modelRef.current) {
-            // Rotation continue sur l'axe Y (vertical)
-            modelRef.current.rotation.y += 0.004; // Ajuste la vitesse ici
+            modelRef.current.rotation.y += rotationSpeed;
         }
     });
-
     return <primitive ref={modelRef} object={scene} scale={0.55} />;
 };
 
