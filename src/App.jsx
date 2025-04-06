@@ -219,6 +219,7 @@ const Projects = styled.div`
   border-radius: 50px;
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.40) 0.09%, rgba(0, 48, 87, 0.80) 99.91%);
   box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.60);
+  overflow-x: hidden;
   z-index: 2;
     @media (max-width: 1100px) {
     grid-template-columns: 1fr;

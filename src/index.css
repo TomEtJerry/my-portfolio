@@ -10,11 +10,6 @@ body {
   overscroll-behavior: none;
 }
 
-body {
-  overflow-x: clip;
-  /* ou rien du tout si tu veux du débordement contrôlé */
-}
-
 #root {
   width: 100%;
   height: 100vh;
