@@ -21,7 +21,7 @@ const AppContainer = styled.div`
     gap: 20dvw;
   }
   @media (max-width: 700px) {
-    padding: 30vw 0 50vw 0;
+    padding: 30vw 0 40vw 0;
     gap: 25dvw;
   }
   @media (max-width: 330px) {
