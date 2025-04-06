@@ -43,6 +43,9 @@ const Background = styled.div`
   background-size: 100% 100%;
   opacity: 1;
   z-index: 1; /* Place en arrière-plan */
+    @media (max-width: 1100px) {
+    height: 30vh; /* Ajuste la hauteur selon tes besoins */
+  }
     @media (max-width: 700px) {
      height: 150px; /* Ajuste la hauteur selon tes besoins */
   }
@@ -59,7 +62,7 @@ const NameContainer = styled.div`
 text-align: center;
   padding: 0 0 1dvw 0;
     @media (max-width: 1100px) {
-  padding: 0 0 10vw 0;
+  padding: 0 0 12vw 0;
   }
   @media (max-width: 700px) {
   padding: 0 0 15vw 0;
@@ -75,6 +78,9 @@ letter-spacing: 0.1vw;
 justify-content: center;
 align-items: center;
   @media (max-width: 1100px) {
+    font-size: 7vw;
+  }
+  @media (max-width: 700px) {
     font-size: 8vw;
   }
 `;
@@ -115,6 +121,10 @@ const HeroTitle = styled.h1`
   position: relative;
   z-index: 1; /* Texte en premier plan */
     @media (max-width: 1100px) {
+    font-size: 21vw;
+    line-height: 20vw;
+  }
+    @media (max-width: 700px) {
     font-size: 26vw;
     line-height: 25vw;
   }
@@ -135,6 +145,10 @@ const HeroShadow = styled.h2`
   -webkit-text-stroke: 2px rgb(68, 154, 183);
   z-index: 0; /* Texte ombre derrière */
     @media (max-width: 1100px) {
+    font-size: 21vw;
+    line-height: 20vw;
+  }
+    @media (max-width: 700px) {
     font-size: 26vw;
     line-height: 25vw;
   }
@@ -157,6 +171,9 @@ letter-spacing: 0.1vw;
 justify-content: center;
 align-items: center;
   @media (max-width: 1100px) {
+    font-size: 5vw;
+  }
+  @media (max-width: 700px) {
     font-size: 6vw;
   }
 `;
@@ -165,7 +182,7 @@ const ExitContainer = styled.div`
 text-align: center;
 padding: 5dvw 0 0 0;
   @media (max-width: 1100px) {
-  padding: 10vw 0 0 0;
+  padding: 12vw 0 0 0;
   }
   @media (max-width: 700px) {
   padding: 15vw 0 0 0;
@@ -181,6 +198,9 @@ letter-spacing: 0.1vw;
 justify-content: center;
 align-items: center;
   @media (max-width: 1100px) {
+    font-size: 7vw;
+  }
+  @media (max-width: 700px) {
     font-size: 8vw;
   }
 `;
