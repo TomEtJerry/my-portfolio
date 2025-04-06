@@ -17,7 +17,7 @@ const HeaderContainer = styled.header`
 const Logo = styled.img`
   height: 4vw; /* Ajuste la taille du logo */
     @media (max-width: 1100px) {
-    height: 10dvw;
+    height: 9dvw;
   }
     @media (max-width: 700px) {
     height: 12dvw;

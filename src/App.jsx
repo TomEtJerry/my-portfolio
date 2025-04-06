@@ -224,7 +224,7 @@ const Projects = styled.div`
     grid-template-columns: 1fr;
     width: 60dvw;
     height: 600px;
-    padding: 0 10px 20px 10px;
+    padding: 0 1vw 3vw 1vw;
     gap: 0;
     border-radius: 50px;
     box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
@@ -279,7 +279,12 @@ const Title = styled.h2`
   color: white;
   letter-spacing: 0.1vw;
   margin: 0 0 0.5dvw 0;
-  @media (max-width: 1100px) {
+    @media (max-width: 1100px) {
+    font-size: 6vw;
+    margin: 0 0 10px 0;
+    line-height: 6.5vw;
+  }
+  @media (max-width: 700px) {
     font-size: 28px;
     margin: 0 0 10px 0;
     line-height: 32px;
@@ -297,7 +302,12 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 1dvw;
   margin: 0 0 2dvw 0;
-  @media (max-width: 1100px) {
+    @media (max-width: 1100px) {
+    justify-content: center;
+    margin: 0 0 3vw 0;
+    gap: 2vw;
+  }
+  @media (max-width: 700px) {
     justify-content: center;
     margin: 0 0 20px 0;
     gap: 10px;
@@ -316,7 +326,12 @@ const Badge = styled.div`
   padding: 0.3dvw 0.8dvw;
   border-radius: 30px;
   border: 2px solid #97ADFF;
-  @media (max-width: 1100px) {
+    @media (max-width: 1100px) {
+    border: none;
+    padding: 1vw 2vw;
+    border: 2px solid #97ADFF;
+  }
+  @media (max-width: 700px) {
     border: none;
     padding: 3px 10px;
     border: 1px solid #97ADFF;
@@ -327,7 +342,12 @@ const Icon = styled.img`
   width: 0.9vw;
   height: 0.9vw;
   margin-right: 0.5dvw;
-  @media (max-width: 1100px) {
+   @media (max-width: 1100px) {
+    width: 2vw;
+    height: 2vw;
+    margin: 0 1vw 0 0;
+  }
+  @media (max-width: 700px) {
     width: 12px;
     height: 12px;
     margin: 0 5px 0 0;
@@ -345,7 +365,10 @@ const Text = styled.span`
   font-size: 0.9vw;
   font-style: normal;
   font-weight: 500;
-  @media (max-width: 1100px) {
+   @media (max-width: 1100px) {
+    font-size: 2vw;
+  }
+  @media (max-width: 700px) {
     font-size: 12px;
   }
   @media (max-width: 330px) {
@@ -363,6 +386,9 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   @media (max-width: 1100px) {
+    gap: 1vw;
+  }
+  @media (max-width: 700px) {
     gap: 5px;
   }
 `;
@@ -370,7 +396,11 @@ const Button = styled.button`
 const ButtonIcon = styled.img`
   width: 1.4vw;
   height: 1.4vw;
-  @media (max-width: 1100px) {
+    @media (max-width: 1100px) {
+    width: 3.5vw;
+    height: 3.5vw;
+  }
+  @media (max-width: 700px) {
     width: 18px;
     height: 18px;
   }
@@ -385,7 +415,10 @@ const ButtonText = styled.span`
   font-size: 1vw;
   font-style: normal;
   font-weight: 500;
-  @media (max-width: 1100px) {
+   @media (max-width: 1100px) {
+    font-size: 2.5vw;
+  }
+  @media (max-width: 700px) {
     font-size: 14px;
   }
   @media (max-width: 330px) {
