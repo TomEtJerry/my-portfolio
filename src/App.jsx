@@ -6,12 +6,6 @@ import Header from './Header'; // Importation du composant Header
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-// Appliquer normalizeScroll pour éviter les sauts de scroll au chargement
-ScrollTrigger.normalizeScroll(true);
-
-// Lazy loading global pour les images
-const LazyImage = styled.img.attrs({ loading: 'lazy' })``;
-
 // Styled components
 const AppContainer = styled.div`
   display: flex;
