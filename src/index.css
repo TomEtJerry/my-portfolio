@@ -7,9 +7,12 @@
 
 html,
 body {
-  font-family: 'Arial', sans-serif;
   overscroll-behavior: none;
-  overflow-x: hidden;
+}
+
+body {
+  overflow-x: clip;
+  /* ou rien du tout si tu veux du débordement contrôlé */
 }
 
 #root {
