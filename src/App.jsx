@@ -238,6 +238,7 @@ const Projects = styled.div`
     gap: 0;
     border-radius: 40px;
     box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
+    justify-content: center;
   }
   @media (max-width: 330px) {
     grid-template-columns: 1fr;

@@ -41,7 +41,7 @@ const ModelViewer = ({ modelPath }) => {
 
     return (
         <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-            <Canvas style={{ width: size.width, height: "100%" }} camera={{ position: [0, 0, 1] }}
+            <Canvas style={{ width: "100%", height: "100%" }} camera={{ position: [0, 0, 1] }}
                 resize={{ scroll: false, debounce: 0 }}>
                 {/* Lumières */}
                 <ambientLight intensity={0.5} />
