@@ -448,7 +448,7 @@ function App() {
 
       // Valeurs scrollTrigger différentes
       const scrollSettings = isMobile
-        ? { start: 'top 100%', end: 'top 45%' } // 📱 Mobile
+        ? { start: 'top 100%', end: 'top 50%' } // 📱 Mobile
         : { start: 'top 90%', end: 'top 45%' }; // 💻 Desktop
 
       gsap.fromTo(container,
