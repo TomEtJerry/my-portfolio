@@ -3,12 +3,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  max-width: 100%
 }
 
 html,
 body {
   font-family: 'Arial', sans-serif;
   overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 #root {
