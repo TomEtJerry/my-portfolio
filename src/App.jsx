@@ -56,12 +56,6 @@ const HeroSection = styled.div`
   flex-direction: column;
   width: 60dvw;
   z-index: 0;
-      @media (max-width: 1100px) {
-  width: 80dvw;
-  }
-  @media (max-width: 700px) {
-  width: 65dvw;
-  }
 `;
 
 const NameContainer = styled.div`
@@ -97,12 +91,12 @@ const HeroContainer = styled.div`
   justify-content: center;
   text-align: center;
   background: radial-gradient(45% 45% at 50% 50%, rgba(68, 154, 183, 0.50) 40%, rgba(68, 154, 183, 0.00) 100%);
-  padding: 0 0 0 3vw;
+  padding: 0 0 0 5vw;
     @media (max-width: 1100px) {
     padding: 0 0 0 4vw;
   }
     @media (max-width: 700px) {
-    padding: 0 0 0 0vw;
+    padding: 0 0 0 8vw;
   }
 `;
 
