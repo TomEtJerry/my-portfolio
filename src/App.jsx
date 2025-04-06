@@ -222,11 +222,11 @@ const Projects = styled.div`
   z-index: 2;
     @media (max-width: 1100px) {
     grid-template-columns: 1fr;
-    width: 500px;
-    height: 600px;
+    width: 60dvw;
+    height: 60dvh;
     padding: 0 10px 20px 10px;
     gap: 0;
-    border-radius: 40px;
+    border-radius: 50px;
     box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
   }
   @media (max-width: 700px) {
