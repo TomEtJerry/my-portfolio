@@ -26,7 +26,7 @@ const AppContainer = styled.div`
   }
   @media (max-width: 330px) {
     padding: 15vw 0 40vw 0;
-    gap: 25dvw;
+    gap: 20dvw;
   }
 `;
 
@@ -66,6 +66,9 @@ text-align: center;
   }
   @media (max-width: 700px) {
   padding: 0 0 23vw 0;
+  }
+  @media (max-width: 330px) {
+  padding: 0 0 20vw 0;
   }
 `;
 
@@ -185,6 +188,9 @@ padding: 6dvw 0 0 0;
   }
   @media (max-width: 700px) {
   padding: 23vw 0 0 0;
+  }
+    @media (max-width: 330px) {
+  padding: 20vw 0 0 0;
   }
 `;
 
