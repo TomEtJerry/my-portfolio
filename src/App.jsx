@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import styled from "styled-components";
 import { gsap } from 'gsap';
-import ModelViewer from "./ModelViewer"; // Importation du composant 3D
 import Header from './Header'; // Importation du composant Header
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
+
+const ModelViewer = lazy(() => import("./ModelViewer"));
 
 // Styled components
 const AppContainer = styled.div`
@@ -581,7 +582,9 @@ function App() {
               ref={(el) => (buttonContainerRefs.current[index] = el)}
             >
               <Model>
-                <ModelViewer modelPath={project.modelPath} />
+                <Suspense fallback={null}>
+                  <ModelViewer modelPath={project.modelPath} />
+                </Suspense>
               </Model>
               <Description>
                 <Title> {project.title.split('\n').map((line, i) => (

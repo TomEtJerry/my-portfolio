@@ -2,6 +2,12 @@ import React, { useRef, useEffect, useState, memo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
+// Préchargement des modèles pour éviter les délais de rendu
+useGLTF.preload("/saas.glb");
+useGLTF.preload("/product_page.glb");
+useGLTF.preload("/wordpress_site.glb");
+useGLTF.preload("/ebook.glb");
+
 const RotatingModel = memo(({ modelPath, speed }) => {
     const { scene } = useGLTF(modelPath);
     const modelRef = useRef();
