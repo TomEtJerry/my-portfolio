@@ -1,28 +1,24 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, memo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
-const RotatingModel = ({ modelPath }) => {
+const RotatingModel = memo(({ modelPath, speed }) => {
     const { scene } = useGLTF(modelPath);
     const modelRef = useRef();
-    const [rotationSpeed, setRotationSpeed] = useState(0.003); // vitesse par défaut (desktop)
-
-    useEffect(() => {
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        setRotationSpeed(isMobile ? 0.006 : 0.003); // Mobile + lent
-    }, []);
 
     useFrame(() => {
         if (modelRef.current) {
-            modelRef.current.rotation.y += rotationSpeed;
+            modelRef.current.rotation.y += speed;
         }
     });
-    return <primitive ref={modelRef} object={scene} scale={0.55} />;
-};
 
-const ModelViewer = ({ modelPath }) => {
+    return <primitive ref={modelRef} object={scene} scale={0.55} />;
+});
+
+const ModelViewer = memo(({ modelPath }) => {
     const containerRef = useRef();
     const [size, setSize] = useState({ width: 0, height: 0 });
+    const [speed, setSpeed] = useState(0.003);
 
     useEffect(() => {
         const observer = new ResizeObserver(([entry]) => {
@@ -34,25 +30,34 @@ const ModelViewer = ({ modelPath }) => {
             observer.observe(containerRef.current);
         }
 
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        setSpeed(isMobile ? 0.006 : 0.003);
+
         return () => {
             if (containerRef.current) observer.unobserve(containerRef.current);
         };
     }, []);
 
     return (
-        <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-            <Canvas style={{ width: "100%", height: "100%" }} camera={{ position: [0, 0, 1] }}
-                resize={{ scroll: false, debounce: 0 }}>
-                {/* Lumières */}
+        <div
+            ref={containerRef}
+            style={{ width: "100%", height: "100%", overflow: "hidden" }}
+        >
+            <Canvas
+                camera={{ position: [0, 0, 1] }}
+                resize={{ scroll: false, debounce: 0 }}
+                style={{ width: "100%", height: "100%" }}
+                Canvas frameloop="always"
+            >
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[1, 2, 3]} intensity={2} />
-                <pointLight position={[-2, -2, 2]} intensity={10} color={"#97ADFF"} />
+                <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
                 <spotLight position={[0, 5, 5]} angle={0.3} intensity={2} castShadow />
 
-                <RotatingModel modelPath={modelPath} />
+                <RotatingModel modelPath={modelPath} speed={speed} />
             </Canvas>
         </div>
     );
-};
+});
 
 export default ModelViewer;
