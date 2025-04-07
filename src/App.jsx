@@ -35,6 +35,7 @@ const BackgroundOverlay = styled.div`
   width: 100vw;
   height: 100vh;
   background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
+  background-attachment: fixed;
   z-index: -1;
   pointer-events: none;
   will-change: transform;
@@ -556,13 +557,6 @@ function App() {
         container.addEventListener("mouseleave", () => tl.pause().seek(0));
       }
     });
-
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 200);
-    });
-
     return () => clearTimeout(timeout); // Nettoyage du timeout
   }, []);
 
