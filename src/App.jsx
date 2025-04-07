@@ -55,6 +55,8 @@ const HeroSection = styled.div`
   flex-direction: column;
   width: 60dvw;
   z-index: 0;
+  @media (max-width: 700px) {
+  width: 75dvw;
   }
 `;
 
