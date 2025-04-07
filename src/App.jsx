@@ -15,7 +15,6 @@ const AppContainer = styled.div`
   padding: 6dvw 0 15dvw 0;
   gap: 8dvw;
   background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
-  background-attachment: fixed;
   @media (max-width: 1100px) {
     padding: 20vw 0 30vw 0;
     gap: 20dvw;
