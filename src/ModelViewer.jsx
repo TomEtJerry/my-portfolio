@@ -64,7 +64,6 @@ const ModelViewer = memo(({ modelPath }) => {
         >
             <Canvas
                 camera={{ position: [0, 0, 1] }}
-                dpr={[1, 1]} // Limite le rendu aux pixels nécessaires
                 style={{ width: "100%", height: "100%" }}
             >
                 <ambientLight intensity={0.5} />
