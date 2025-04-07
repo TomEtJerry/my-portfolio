@@ -14,6 +14,8 @@ const AppContainer = styled.div`
   align-items: center;
   padding: 6dvw 0 15dvw 0;
   gap: 8dvw;
+  background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
+  background-attachment: fixed;
   @media (max-width: 1100px) {
     padding: 20vw 0 30vw 0;
     gap: 20dvw;
@@ -35,7 +37,7 @@ const BackgroundOverlay = styled.div`
   width: 100%;
   height: 100%;
   background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
-  z-index: -10;
+  z-index: -1;
   pointer-events: none;
 `;
 
