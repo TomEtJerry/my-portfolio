@@ -556,6 +556,13 @@ function App() {
         container.addEventListener("mouseleave", () => tl.pause().seek(0));
       }
     });
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 200);
+    });
+
     return () => clearTimeout(timeout); // Nettoyage du timeout
   }, []);
 
