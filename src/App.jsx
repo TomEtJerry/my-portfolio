@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useRef, lazy, Suspense, useState } from 'react';
 import styled from "styled-components";
 import { gsap } from 'gsap';
 import Header from './Header'; // Importation du composant Header
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGLTF, useProgress, Html } from '@react-three/drei';
 gsap.registerPlugin(ScrollTrigger);
 
 const ModelViewer = lazy(() => import("./ModelViewer"));
@@ -469,12 +470,24 @@ const projectsData = [
   },
 ];
 
+function preloadGLTFModels() {
+  projectsData.forEach(project => {
+    useGLTF.preload(project.modelPath);
+  });
+}
 
 function App() {
   const buttonContainerRefs = useRef([]);
   const buttonIconRefs = useRef([]);
   const heroTitleRef = useRef(null);
   const heroShadowRef = useRef(null);
+
+  const [isPreloaded, setIsPreloaded] = useState(false);
+
+  useEffect(() => {
+    preloadGLTFModels();
+    setIsPreloaded(true);
+  }, []);
 
   useEffect(() => {
     const shadow = heroShadowRef.current;
