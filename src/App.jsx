@@ -54,7 +54,7 @@ const Background = styled.div`
 const HeroSection = styled.div`
   display : flex;
   flex-direction: column;
-  width: 75dvw;
+  width: 60dvw;
   z-index: 0;
   }
 `;
@@ -97,7 +97,6 @@ const HeroContainer = styled.div`
     padding: 0 0 0 4vw;
   }
     @media (max-width: 700px) {
-    padding: 0 0 0 8vw;
   }
 `;
 
@@ -126,8 +125,8 @@ const HeroTitle = styled.h1`
     line-height: 20vw;
   }
     @media (max-width: 700px) {
-    font-size: 26vw;
-    line-height: 25vw;
+    font-size: 21vw;
+    line-height: 20vw;
   }
 `;
 
@@ -150,8 +149,8 @@ const HeroShadow = styled.h2`
     line-height: 20vw;
   }
     @media (max-width: 700px) {
-    font-size: 26vw;
-    line-height: 25vw;
+    font-size: 21vw;
+    line-height: 20vw;
   }
 `;
 
