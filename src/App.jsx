@@ -14,6 +14,8 @@ const AppContainer = styled.div`
   align-items: center;
   padding: 6dvw 0 15dvw 0;
   gap: 8dvw;
+  background-color: transparent;
+  background-attachment: fixed
   @media (max-width: 1100px) {
     padding: 20vw 0 30vw 0;
     gap: 20dvw;
