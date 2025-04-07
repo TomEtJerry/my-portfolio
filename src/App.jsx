@@ -39,7 +39,6 @@ const Background = styled.div`
   background-image: url("/background.webp");
   background-position: bottom center;
   background-repeat: no-repeat;
-  background-size: cover;
   background-size: 100% 100%;
   opacity: 1;
   z-index: 1; /* Place en arrière-plan */
@@ -61,7 +60,7 @@ const HeroSection = styled.div`
 
 const NameContainer = styled.div`
 text-align: center;
-  padding: 0 0 1dvw 0;
+  padding: 0 0 1.5dvw 0;
     @media (max-width: 1100px) {
   padding: 0 0 12vw 0;
   }
@@ -91,7 +90,7 @@ const HeroContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: radial-gradient(45% 45% at 50% 50%, rgba(68, 154, 183, 0.50) 40%, rgba(68, 154, 183, 0.00) 100%);
+  background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
   padding: 0 0 0 2vw;
     @media (max-width: 1100px) {
     padding: 0 0 0 4vw;
