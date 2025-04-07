@@ -16,11 +16,14 @@ const HeaderContainer = styled.header`
 
 const Logo = styled.img`
   height: 4vw; /* Ajuste la taille du logo */
+  width: auto;
     @media (max-width: 1100px) {
     height: 9dvw;
+    width: auto;
   }
     @media (max-width: 700px) {
     height: 12dvw;
+    width: auto;
   }
 `;
 
