@@ -47,7 +47,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "600px", // Déclenche le rendu 600px avant que l'élément n'entre dans le viewport
+                rootMargin: "300px", // Déclenche le rendu 600px avant que l'élément n'entre dans le viewport
             }
         );
         if (containerRef.current) {
