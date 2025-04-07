@@ -12,8 +12,6 @@ const AppContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
-  background-attachment: fixed;
   padding: 6dvw 0 15dvw 0;
   gap: 8dvw;
   @media (max-width: 1100px) {
@@ -28,6 +26,16 @@ const AppContainer = styled.div`
     padding: 15vw 0 40vw 0;
     gap: 25dvw;
   }
+`;
+
+const BackgroundOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
+  z-index: -1;
 `;
 
 const Background = styled.div`
@@ -551,6 +559,7 @@ function App() {
 
   return (
     <>
+      <BackgroundOverlay />
       <Header />
       <AppContainer>
         <Background />
