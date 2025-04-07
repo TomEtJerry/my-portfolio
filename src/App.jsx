@@ -32,13 +32,10 @@ const BackgroundOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
-  background-attachment: fixed;
   z-index: -1;
-  pointer-events: none;
-  will-change: transform;
 `;
 
 const Background = styled.div`
