@@ -92,7 +92,7 @@ const HeroContainer = styled.div`
   justify-content: center;
   text-align: center;
   background: radial-gradient(45% 45% at 50% 50%, rgba(68, 154, 183, 0.50) 40%, rgba(68, 154, 183, 0.00) 100%);
-  padding: 0 0 0 5vw;
+  padding: 0 0 0 2vw;
     @media (max-width: 1100px) {
     padding: 0 0 0 4vw;
   }
@@ -108,12 +108,12 @@ const HeroTitleWrapper = styled.div`
 
 const HeroTitle = styled.h1`
   font-family: "bueno", sans-serif;
-  font-size: 16vw;
+  font-size: 15vw;
   font-weight: 700;
   font-style: normal;
   color: white;
   letter-spacing: 0.2vw;
-  line-height: 15vw;
+  line-height: 14vw;
   text-align: center;
   transform-style: preserve-3d;
   perspective: 1000px;
@@ -133,12 +133,12 @@ const HeroTitle = styled.h1`
 
 const HeroShadow = styled.h2`
   font-family: "bueno", sans-serif;
-  font-size: 16vw;
+  font-size: 15vw;
   font-weight: 700;
   font-style: normal;
   color:rgb(68, 154, 183);
   letter-spacing: 0.2vw;
-  line-height: 15vw;
+  line-height: 14vw;
   position: absolute;
   top: 0.4vw; /* Décalage de l'ombre */
   right: 1vw; /* Décalage de l'ombre */
@@ -156,7 +156,7 @@ const HeroShadow = styled.h2`
 
 const DescriptionContainer = styled.div`
 text-align: center;
-padding: 2dvw 0 0 0;
+padding: 2.5dvw 0 0 0;
     @media (max-width: 1100px) {
     padding: 5dvw 0 0 0;
   }
@@ -180,7 +180,7 @@ align-items: center;
 
 const ExitContainer = styled.div`
 text-align: center;
-padding: 5dvw 0 0 0;
+padding: 6dvw 0 0 0;
   @media (max-width: 1100px) {
   padding: 12vw 0 0 0;
   }
@@ -497,7 +497,7 @@ function App() {
     if (isMobile) {
       applyPerspective(10, 10, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
     } else {
-      applyPerspective(10, 10, 500); // 🖥️ Valeurs par défaut pour desktop
+      applyPerspective(10, 10, 600); // 🖥️ Valeurs par défaut pour desktop
     }
 
     buttonContainerRefs.current.forEach((container, index) => {
