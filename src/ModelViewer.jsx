@@ -47,7 +47,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "200px", // Déclenche le rendu 200px avant que l'élément n'entre dans le viewport
+                rootMargin: "300px", // Déclenche le rendu 200px avant que l'élément n'entre dans le viewport
             }
         );
         if (containerRef.current) {
@@ -70,7 +70,6 @@ const ModelViewer = memo(({ modelPath }) => {
             {isInView ? (
                 <Canvas
                     camera={{ position: [0, 0, 1] }}
-                    dpr={[1, 1]} // Limite le rendu aux pixels nécessaires
                     style={{ width: "100%", height: "100%" }}
                 >
                     <ambientLight intensity={0.5} />
