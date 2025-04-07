@@ -559,8 +559,8 @@ function App() {
 
   return (
     <>
-      <BackgroundOverlay />
       <Header />
+      <BackgroundOverlay />
       <AppContainer>
         <Background />
         <HeroSection>
