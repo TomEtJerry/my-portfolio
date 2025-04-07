@@ -31,7 +31,7 @@ const ModelViewer = memo(({ modelPath }) => {
         }
 
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        setSpeed(isMobile ? 0.006 : 0.01);
+        setSpeed(isMobile ? 0.006 : 0.003);
 
         return () => {
             if (containerRef.current) observer.unobserve(containerRef.current);
