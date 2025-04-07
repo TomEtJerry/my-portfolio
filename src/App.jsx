@@ -30,6 +30,16 @@ const AppContainer = styled.div`
   }
 `;
 
+const FixedBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, #18323C 0.35%, #0B0E1A 99.65%);
+  z-index: -1; // envoie l’élément en arrière-plan
+`;
+
 const Background = styled.div`
   position: fixed;
   bottom: 0;
@@ -552,6 +562,7 @@ function App() {
   return (
     <>
       <Header />
+      <FixedBackground />
       <AppContainer>
         <Background />
         <HeroSection>
