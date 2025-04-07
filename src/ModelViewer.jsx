@@ -42,7 +42,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "200px"
+                rootMargin: "100px"
             }
         );
 
@@ -70,7 +70,6 @@ const ModelViewer = memo(({ modelPath }) => {
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[1, 2, 3]} intensity={2} />
                 <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
-                <spotLight position={[0, 5, 5]} angle={0.3} intensity={2} castShadow />
                 <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
             </Canvas>
         </div>
