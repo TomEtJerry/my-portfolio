@@ -54,10 +54,8 @@ const Background = styled.div`
 const HeroSection = styled.div`
   display : flex;
   flex-direction: column;
-  width: 60dvw;
-  z-index: 0;
-    @media (max-width: 700px) {
   width: 75dvw;
+  z-index: 0;
   }
 `;
 
