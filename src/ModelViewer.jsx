@@ -42,7 +42,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "50px"
+                rootMargin: "100px"
             }
         );
 
