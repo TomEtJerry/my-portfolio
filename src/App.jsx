@@ -46,7 +46,7 @@ const Background = styled.div`
     height: 30vh; /* Ajuste la hauteur selon tes besoins */
   }
     @media (max-width: 700px) {
-     height: 100px; /* Ajuste la hauteur selon tes besoins */
+     height: 150px; /* Ajuste la hauteur selon tes besoins */
   }
 `;
 
@@ -65,7 +65,7 @@ text-align: center;
   padding: 0 0 12vw 0;
   }
   @media (max-width: 700px) {
-  padding: 0 0 15vw 0;
+  padding: 0 0 23vw 0;
   }
 `;
 
@@ -184,7 +184,7 @@ padding: 6dvw 0 0 0;
   padding: 12vw 0 0 0;
   }
   @media (max-width: 700px) {
-  padding: 15vw 0 0 0;
+  padding: 23vw 0 0 0;
   }
 `;
 
