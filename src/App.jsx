@@ -2,6 +2,8 @@ import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import styled from "styled-components";
 import { gsap } from 'gsap';
 import Header from './Header'; // Importation du composant Header
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
 
 const ModelViewer = lazy(() => import("./ModelViewer"));
 
@@ -481,6 +483,7 @@ function App() {
   const heroContainerRef = useRef(null);
 
   useEffect(() => {
+    const container = heroContainerRef.current;
     const timeout = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
@@ -488,66 +491,58 @@ function App() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const perspectiveValue = isMobile ? 300 : 600;
 
-    import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
-      gsap.registerPlugin(ScrollTrigger);
+    gsap.to(container, {
+      rotationX: 10,
+      rotationY: 10,
+      transformPerspective: perspectiveValue,
+      duration: 0
+    });
 
-      // Animation sur le conteneur du Hero (titre et ombre)
-      const container = heroContainerRef.current;
-      if (container) {
-        gsap.to(container, {
-          rotationX: 10,
-          rotationY: 10,
-          transformPerspective: perspectiveValue,
-          duration: 0
-        });
-      }
+    buttonContainerRefs.current.forEach((container, index) => {
+      if (!container) return;
 
-      buttonContainerRefs.current.forEach((container, index) => {
-        if (!container) return;
+      // Valeurs scrollTrigger différentes
+      const scrollSettings = isMobile
+        ? { start: 'top 100%', end: 'top 50%' } // 📱 Mobile
+        : { start: 'top 90%', end: 'top 45%' }; // 💻 Desktop
 
-        // Valeurs scrollTrigger différentes
-        const scrollSettings = isMobile
-          ? { start: 'top 100%', end: 'top 50%' } // 📱 Mobile
-          : { start: 'top 90%', end: 'top 45%' }; // 💻 Desktop
-
-        gsap.fromTo(container,
-          {
-            opacity: 0,
-            y: 100,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: container,
-              ...scrollSettings,
-              scrub: true, // ← permet d’animer en fonction du scroll
-            }
+      gsap.fromTo(container,
+        {
+          opacity: 0,
+          y: 100,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            ...scrollSettings,
+            scrub: true, // ← permet d’animer en fonction du scroll
           }
-        );
-
-        const icon = buttonIconRefs.current[index];
-
-        if (!isMobile) {
-          const tl = gsap.timeline({ paused: true, repeat: -1 });
-
-          tl.to(icon, {
-            x: 20,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power1.inOut",
-          }).to(icon, {
-            x: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power1.inOut",
-          });
-
-          container.addEventListener("mouseenter", () => tl.play());
-          container.addEventListener("mouseleave", () => tl.pause().seek(0));
         }
-      });
+      );
+
+      const icon = buttonIconRefs.current[index];
+
+      if (!isMobile) {
+        const tl = gsap.timeline({ paused: true, repeat: -1 });
+
+        tl.to(icon, {
+          x: 20,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power1.inOut",
+        }).to(icon, {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power1.inOut",
+        });
+
+        container.addEventListener("mouseenter", () => tl.play());
+        container.addEventListener("mouseleave", () => tl.pause().seek(0));
+      }
     });
     return () => clearTimeout(timeout); // Nettoyage du timeout
   }, []);
