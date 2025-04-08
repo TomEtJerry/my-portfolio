@@ -36,7 +36,7 @@ const ModelViewer = memo(({ modelPath }) => {
 
     useEffect(() => {
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        setSpeed(isMobile ? 0.006 : 0.008);
+        setSpeed(isMobile ? 0.006 : 0.003);
     }, []);
 
     useEffect(() => {

@@ -104,9 +104,12 @@ const HeroContainer = styled.div`
   }
 `;
 
-const HeroTitleWrapper = styled.div`
+/* Pour regrouper le titre et l'ombre dans un conteneur commun */
+const HeroTitleContainer = styled.div`
   position: relative;
-  display: inline-block;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
   text-align: center;
 `;
 
@@ -118,41 +121,38 @@ const HeroTitle = styled.h1`
   color: white;
   letter-spacing: 0.2vw;
   line-height: 14vw;
-  text-align: center;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  will-change: transform;
+  margin: 0;
   position: relative;
   z-index: 1; /* Texte en premier plan */
-    @media (max-width: 1100px) {
+  @media (max-width: 1100px) {
     font-size: 21vw;
     line-height: 20vw;
   }
-    @media (max-width: 700px) {
+  @media (max-width: 700px) {
     font-size: 24vw;
     line-height: 23vw;
   }
 `;
-
 
 const HeroShadow = styled.h2`
   font-family: "bueno", sans-serif;
   font-size: 15vw;
   font-weight: 700;
   font-style: normal;
-  color:rgb(68, 154, 183);
+  color: rgb(68, 154, 183);
   letter-spacing: 0.2vw;
   line-height: 14vw;
   position: absolute;
   top: 0.4vw; /* Décalage de l'ombre */
   right: 1vw; /* Décalage de l'ombre */
   -webkit-text-stroke: 2px rgb(68, 154, 183);
+  margin: 0;
   z-index: 0; /* Texte ombre derrière */
-    @media (max-width: 1100px) {
+  @media (max-width: 1100px) {
     font-size: 21vw;
     line-height: 20vw;
   }
-    @media (max-width: 700px) {
+  @media (max-width: 700px) {
     font-size: 24vw;
     line-height: 23vw;
   }
@@ -480,32 +480,23 @@ const projectsData = [
 function App() {
   const buttonContainerRefs = useRef([]);
   const buttonIconRefs = useRef([]);
-  const heroTitleRef = useRef(null);
-  const heroShadowRef = useRef(null);
+  const heroContainerRef = useRef(null);
 
   useEffect(() => {
-    const shadow = heroShadowRef.current;
-    const title = heroTitleRef.current;
+    const container = heroContainerRef.current;
     const timeout = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
-    const applyPerspective = (rotationX, rotationY, perspective) => {
-      gsap.to([shadow, title], {
-        rotationX,
-        rotationY,
-        transformPerspective: perspective,
-        duration: 0
-      });
-    };
-
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const perspectiveValue = isMobile ? 250 : 600;
 
-    if (isMobile) {
-      applyPerspective(10, 10, 250); // 🔧 Valeurs pour mobile (moins fort, plus doux)
-    } else {
-      applyPerspective(10, 10, 600); // 🖥️ Valeurs par défaut pour desktop
-    }
+    gsap.to(container, {
+      rotationX: 10,
+      rotationY: 10,
+      transformPerspective: perspectiveValue,
+      duration: 0
+    });
 
     buttonContainerRefs.current.forEach((container, index) => {
       if (!container) return;
@@ -566,10 +557,10 @@ function App() {
             <NameText>TOM SANTONI</NameText>
           </NameContainer>
           <HeroContainer>
-            <HeroTitleWrapper>
-              <HeroShadow ref={heroShadowRef}>UX-UI DESIGNER</HeroShadow>
-              <HeroTitle ref={heroTitleRef}>UX-UI DESIGNER</HeroTitle>
-            </HeroTitleWrapper>
+            <HeroTitleContainer ref={heroContainerRef}>
+              <HeroShadow>UX-UI DESIGNER</HeroShadow>
+              <HeroTitle>UX-UI DESIGNER</HeroTitle>
+            </HeroTitleContainer>
           </HeroContainer>
           <DescriptionContainer>
             <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
