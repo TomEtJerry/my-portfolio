@@ -44,7 +44,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "100px", // ✅ Déclenche 300px avant d'entrer dans le viewport
+                rootMargin: "300px", // ✅ Déclenche 300px avant d'entrer dans le viewport
             }
         );
 
