@@ -3,13 +3,13 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
 // Préchargement des modèles pour éviter les délais de rendu
-useGLTF.preload("/saas.glb");
-useGLTF.preload("/product_page.glb");
-useGLTF.preload("/wordpress_site.glb");
-useGLTF.preload("/ebook.glb");
+useGLTF.preload("/saas.glb", "/gltf/");
+useGLTF.preload("/product_page.glb", "/gltf/");
+useGLTF.preload("/wordpress_site.glb", "/gltf/");
+useGLTF.preload("/ebook.glb", "/gltf/");
 
 const RotatingModel = memo(({ modelPath, speed }) => {
-    const { scene } = useGLTF(modelPath);
+    const { scene } = useGLTF(modelPath, "/gltf/");
     const modelRef = useRef();
 
     useFrame(() => {
