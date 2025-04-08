@@ -34,7 +34,7 @@ const ModelViewer = memo(({ modelPath }) => {
         setSpeed(isMobile ? 0.006 : 0.003);
     }, []);
 
-    // Canvas rendering (300px)
+    // Observer pour rendre le Canvas (300px avant d'entrer)
     useEffect(() => {
         const renderObserver = new IntersectionObserver(
             ([entry]) => {
@@ -42,7 +42,11 @@ const ModelViewer = memo(({ modelPath }) => {
                     setShouldRender(true);
                 }
             },
-            { root: null, threshold: 0, rootMargin: "500px" }
+            {
+                root: null,
+                threshold: 0,
+                rootMargin: "300px",
+            }
         );
 
         const current = containerRef.current;
@@ -53,9 +57,9 @@ const ModelViewer = memo(({ modelPath }) => {
         };
     }, []);
 
-    // dpr + animation (50px)
+    // Observer pour activer animation + haute résolution (à 50px)
     useEffect(() => {
-        const animObserver = new IntersectionObserver(
+        const dprAndAnimationObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setDprValue(window.devicePixelRatio || 1);
@@ -65,57 +69,37 @@ const ModelViewer = memo(({ modelPath }) => {
                     setAnimate(false);
                 }
             },
-            { root: null, threshold: 0, rootMargin: "100px" }
+            {
+                root: null,
+                threshold: 0,
+                rootMargin: "50px", // ✅ animation + dpr déclenchés en même temps
+            }
         );
 
         const current = containerRef.current;
-        if (current) animObserver.observe(current);
+        if (current) dprAndAnimationObserver.observe(current);
 
         return () => {
-            if (current) animObserver.unobserve(current);
+            if (current) dprAndAnimationObserver.unobserve(current);
         };
     }, []);
 
     return (
         <div
             ref={containerRef}
-            style={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-            }}
+            style={{ width: "100%", height: "100%", overflow: "hidden" }}
         >
-            {/* 👇 Spacer invisible qui préserve la hauteur */}
-            <div
-                style={{
-                    paddingTop: "100%", // 👈 change selon ton ratio (100% = carré)
-                    visibility: "hidden",
-                }}
-            />
-
-            {/* 👇 Canvas 3D */}
             {shouldRender && (
-                <div
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        top: 0,
-                        left: 0,
-                    }}
+                <Canvas
+                    camera={{ position: [0, 0, 1] }}
+                    style={{ width: "100%", height: "100%" }}
+                    dpr={dprValue}
                 >
-                    <Canvas
-                        camera={{ position: [0, 0, 1] }}
-                        style={{ width: "100%", height: "100%" }}
-                        dpr={dprValue}
-                    >
-                        <ambientLight intensity={0.5} />
-                        <directionalLight position={[1, 2, 3]} intensity={2} />
-                        <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
-                        <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
-                    </Canvas>
-                </div>
+                    <ambientLight intensity={0.5} />
+                    <directionalLight position={[1, 2, 3]} intensity={2} />
+                    <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
+                    <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
+                </Canvas>
             )}
         </div>
     );
