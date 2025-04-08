@@ -13,7 +13,7 @@ const RotatingModel = memo(({ modelPath, speed }) => {
     const modelRef = useRef();
 
     useFrame(() => {
-        if (modelRef.current) {
+        if (modelRef.current && speed > 0) {
             modelRef.current.rotation.y += speed;
         }
     });
@@ -25,34 +25,62 @@ const ModelViewer = memo(({ modelPath }) => {
     const containerRef = useRef();
 
     const [shouldRender, setShouldRender] = useState(false);
-    const [speed, setSpeed] = useState(0.003);
     const [dprValue, setDprValue] = useState(0.5);
+    const [animate, setAnimate] = useState(false);
+    const [speed, setSpeed] = useState(0.003);
 
     useEffect(() => {
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
         setSpeed(isMobile ? 0.006 : 0.003);
     }, []);
 
+    // Observer pour rendre le Canvas (300px avant d'entrer)
     useEffect(() => {
-        const observer = new IntersectionObserver(
+        const renderObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setShouldRender(true); // Montre le Canvas
-                    setDprValue(window.devicePixelRatio || 1);
+                    setShouldRender(true);
                 }
             },
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "500px", // ✅ Déclenche 400px avant d'entrer dans le viewport
+                rootMargin: "300px",
             }
         );
 
-        const currentRef = containerRef.current;
-        if (currentRef) observer.observe(currentRef);
+        const current = containerRef.current;
+        if (current) renderObserver.observe(current);
 
         return () => {
-            if (currentRef) observer.unobserve(currentRef);
+            if (current) renderObserver.unobserve(current);
+        };
+    }, []);
+
+    // Observer pour activer animation + haute résolution (à 50px)
+    useEffect(() => {
+        const dprAndAnimationObserver = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setDprValue(window.devicePixelRatio || 1);
+                    setAnimate(true);
+                } else {
+                    setDprValue(0.5);
+                    setAnimate(false);
+                }
+            },
+            {
+                root: null,
+                threshold: 0,
+                rootMargin: "50px", // ✅ animation + dpr déclenchés en même temps
+            }
+        );
+
+        const current = containerRef.current;
+        if (current) dprAndAnimationObserver.observe(current);
+
+        return () => {
+            if (current) dprAndAnimationObserver.unobserve(current);
         };
     }, []);
 
@@ -70,7 +98,7 @@ const ModelViewer = memo(({ modelPath }) => {
                     <ambientLight intensity={0.5} />
                     <directionalLight position={[1, 2, 3]} intensity={2} />
                     <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
-                    <RotatingModel modelPath={modelPath} speed={speed} />
+                    <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
                 </Canvas>
             )}
         </div>
