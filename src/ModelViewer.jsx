@@ -42,7 +42,7 @@ const ModelViewer = memo(({ modelPath }) => {
                     setShouldRender(true);
                 }
             },
-            { root: null, threshold: 0, rootMargin: "300px" }
+            { root: null, threshold: 0, rootMargin: "500px" }
         );
 
         const current = containerRef.current;
