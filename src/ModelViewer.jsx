@@ -45,7 +45,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "300px",
+                rootMargin: "100px",
             }
         );
 
@@ -72,7 +72,7 @@ const ModelViewer = memo(({ modelPath }) => {
             {
                 root: null,
                 threshold: 0,
-                rootMargin: "50px", // ✅ animation + dpr déclenchés en même temps
+                rootMargin: "100px", // ✅ animation + dpr déclenchés en même temps
             }
         );
 
