@@ -5,8 +5,6 @@ import Header from './Header'; // Importation du composant Header
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-const ModelViewer = lazy(() => import("./ModelViewer"));
-
 // Styled components
 const AppContainer = styled.div`
   display: flex;
@@ -440,7 +438,7 @@ const ButtonText = styled.span`
 const projectsData = [
   {
     title: "CUSTOMER\nDATA PLATFORM",
-    modelPath: "/saas.glb",
+    component: lazy(() => import("./SaasModel")),
     url: "https://tomsantoni.myportfolio.com/customer-satisfaction-platform",
     badges: [
       { icon: "/Design.svg", text: "UX/UI Design" },
@@ -449,7 +447,7 @@ const projectsData = [
   },
   {
     title: "E-COMMERCE\nPRODUCT PAGES",
-    modelPath: "/product_page.glb",
+    component: lazy(() => import("./ProductPageModel")),
     url: "https://tomsantoni.myportfolio.com/product-pages-for-legrand",
     badges: [
       { icon: "/Design.svg", text: "UX/UI Design" },
@@ -458,7 +456,7 @@ const projectsData = [
   },
   {
     title: "WORDPRESS WEBSITE",
-    modelPath: "/wordpress_site.glb",
+    component: lazy(() => import("./WordpressSiteModel")),
     url: "https://tomsantoni.myportfolio.com/new-cliking-website",
     badges: [
       { icon: "/Design.svg", text: "UX/UI Design" },
@@ -467,7 +465,7 @@ const projectsData = [
   },
   {
     title: "LINKEDIN AD CAMPAIGN",
-    modelPath: "/ebook.glb",
+    component: lazy(() => import("./EbookModel")),
     url: "https://tomsantoni.myportfolio.com/marketing-campaign-for-cliking",
     badges: [
       { icon: "/Design.svg", text: "Photoshop" },
@@ -581,7 +579,7 @@ function App() {
             >
               <Model>
                 <Suspense fallback={null}>
-                  <ModelViewer modelPath={project.modelPath} />
+                  <project.component />
                 </Suspense>
               </Model>
               <Description>
