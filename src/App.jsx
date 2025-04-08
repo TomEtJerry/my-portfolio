@@ -46,7 +46,7 @@ const Background = styled.div`
     height: 30vh; /* Ajuste la hauteur selon tes besoins */
   }
     @media (max-width: 700px) {
-     display: none;
+     height: 150px; /* Ajuste la hauteur selon tes besoins */
   }
 `;
 
