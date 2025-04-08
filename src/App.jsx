@@ -129,7 +129,8 @@ const HeroTitle = styled.h1`
     line-height: 20vw;
   }
   @media (max-width: 700px) {
-    display: none;
+    font-size: 24vw;
+    line-height: 23vw;
   }
 `;
 
@@ -152,7 +153,8 @@ const HeroShadow = styled.h2`
     line-height: 20vw;
   }
   @media (max-width: 700px) {
-    display: none;
+    font-size: 24vw;
+    line-height: 23vw;
   }
 `;
 
