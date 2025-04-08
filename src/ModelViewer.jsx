@@ -21,7 +21,7 @@ const RotatingModel = memo(({ modelPath, speed }) => {
     return <primitive ref={modelRef} object={scene} scale={0.55} />;
 });
 
-const ModelViewer = memo(({ modelPath, previewImage }) => {
+const ModelViewer = memo(({ modelPath }) => {
     const containerRef = useRef();
 
     const [shouldRender, setShouldRender] = useState(false);
@@ -93,23 +93,6 @@ const ModelViewer = memo(({ modelPath, previewImage }) => {
                     visibility: "hidden",
                 }}
             />
-
-            {/* 👇 Fallback image */}
-            {!shouldRender && previewImage && (
-                <img
-                    src={previewImage}
-                    alt="3D preview"
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                        top: 0,
-                        left: 0,
-                        zIndex: 1,
-                    }}
-                />
-            )}
 
             {/* 👇 Canvas 3D */}
             {shouldRender && (
