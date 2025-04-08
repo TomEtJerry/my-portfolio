@@ -56,7 +56,7 @@ const HeroSection = styled.div`
   width: 60dvw;
   z-index: 0;
   @media (max-width: 700px) {
-  width: 90dvw;
+  width: 100%;
   }
 `;
 
