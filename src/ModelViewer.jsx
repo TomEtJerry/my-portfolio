@@ -21,7 +21,7 @@ const RotatingModel = memo(({ modelPath, speed }) => {
     return <primitive ref={modelRef} object={scene} scale={0.55} />;
 });
 
-const ModelViewer = memo(({ modelPath }) => {
+const ModelViewer = memo(({ modelPath, previewImage }) => {
     const containerRef = useRef();
 
     const [shouldRender, setShouldRender] = useState(false);
@@ -34,7 +34,7 @@ const ModelViewer = memo(({ modelPath }) => {
         setSpeed(isMobile ? 0.006 : 0.003);
     }, []);
 
-    // Observer pour rendre le Canvas (300px avant d'entrer)
+    // Canvas rendering (300px)
     useEffect(() => {
         const renderObserver = new IntersectionObserver(
             ([entry]) => {
@@ -42,11 +42,7 @@ const ModelViewer = memo(({ modelPath }) => {
                     setShouldRender(true);
                 }
             },
-            {
-                root: null,
-                threshold: 0,
-                rootMargin: "100px",
-            }
+            { root: null, threshold: 0, rootMargin: "300px" }
         );
 
         const current = containerRef.current;
@@ -57,9 +53,9 @@ const ModelViewer = memo(({ modelPath }) => {
         };
     }, []);
 
-    // Observer pour activer animation + haute résolution (à 50px)
+    // dpr + animation (50px)
     useEffect(() => {
-        const dprAndAnimationObserver = new IntersectionObserver(
+        const animObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setDprValue(window.devicePixelRatio || 1);
@@ -69,37 +65,74 @@ const ModelViewer = memo(({ modelPath }) => {
                     setAnimate(false);
                 }
             },
-            {
-                root: null,
-                threshold: 0,
-                rootMargin: "100px", // ✅ animation + dpr déclenchés en même temps
-            }
+            { root: null, threshold: 0, rootMargin: "100px" }
         );
 
         const current = containerRef.current;
-        if (current) dprAndAnimationObserver.observe(current);
+        if (current) animObserver.observe(current);
 
         return () => {
-            if (current) dprAndAnimationObserver.unobserve(current);
+            if (current) animObserver.unobserve(current);
         };
     }, []);
 
     return (
         <div
             ref={containerRef}
-            style={{ width: "100%", height: "100%", overflow: "hidden" }}
+            style={{
+                position: "relative",
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+            }}
         >
+            {/* 👇 Spacer invisible qui préserve la hauteur */}
+            <div
+                style={{
+                    paddingTop: "100%", // 👈 change selon ton ratio (100% = carré)
+                    visibility: "hidden",
+                }}
+            />
+
+            {/* 👇 Fallback image */}
+            {!shouldRender && previewImage && (
+                <img
+                    src={previewImage}
+                    alt="3D preview"
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        top: 0,
+                        left: 0,
+                        zIndex: 1,
+                    }}
+                />
+            )}
+
+            {/* 👇 Canvas 3D */}
             {shouldRender && (
-                <Canvas
-                    camera={{ position: [0, 0, 1] }}
-                    style={{ width: "100%", height: "100%" }}
-                    dpr={dprValue}
+                <div
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        top: 0,
+                        left: 0,
+                    }}
                 >
-                    <ambientLight intensity={0.5} />
-                    <directionalLight position={[1, 2, 3]} intensity={2} />
-                    <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
-                    <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
-                </Canvas>
+                    <Canvas
+                        camera={{ position: [0, 0, 1] }}
+                        style={{ width: "100%", height: "100%" }}
+                        dpr={dprValue}
+                    >
+                        <ambientLight intensity={0.5} />
+                        <directionalLight position={[1, 2, 3]} intensity={2} />
+                        <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
+                        <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
+                    </Canvas>
+                </div>
             )}
         </div>
     );
