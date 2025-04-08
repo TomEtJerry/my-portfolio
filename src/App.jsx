@@ -352,6 +352,7 @@ const Badge = styled.div`
 const Icon = styled.img`
   width: 0.9vw;
   height: 0.9vw;
+  alt: "icon";
   margin-right: 0.5dvw;
    @media (max-width: 1100px) {
     width: 2vw;
@@ -407,6 +408,7 @@ const Button = styled.button`
 const ButtonIcon = styled.img`
   width: 1.4vw;
   height: 1.4vw;
+  alt: "arrow"; 
     @media (max-width: 1100px) {
     width: 3.5vw;
     height: 3.5vw;
