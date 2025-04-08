@@ -30,27 +30,7 @@ const AppContainer = styled.div`
   }
 `;
 
-const Background = styled.div.attrs({
-  "aria-hidden": "true"
-})`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40vh; /* Ajuste la hauteur selon tes besoins */
-  background-image: url("/background.webp");
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  opacity: 1;
-  z-index: 1; /* Place en arrière-plan */
-    @media (max-width: 1100px) {
-    height: 30vh; /* Ajuste la hauteur selon tes besoins */
-  }
-    @media (max-width: 700px) {
-     height: 150px; /* Ajuste la hauteur selon tes besoins */
-  }
-`;
+
 
 const HeroSection = styled.div`
   display : flex;
@@ -562,7 +542,6 @@ function App() {
     <>
       <Header />
       <AppContainer>
-        <Background />
         <HeroSection>
           <NameContainer>
             <NameText>TOM SANTONI</NameText>
