@@ -21,3 +21,10 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'K2D';
+  src: url('/fonts/K2D-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
