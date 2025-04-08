@@ -32,7 +32,7 @@ const ModelViewer = memo(({ modelPath }) => {
     // Contrôle de l'animation : on ne la fait tourner que quand l'objet est proche du viewport
     const [animate, setAnimate] = useState(false);
     // Contrôle du devicePixelRatio (dpr) du Canvas
-    const [dprValue, setDprValue] = useState(0.1); // Démarrage en basse résolution
+    const [dprValue, setDprValue] = useState(0.5); // Démarrage en basse résolution
 
     useEffect(() => {
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -50,7 +50,7 @@ const ModelViewer = memo(({ modelPath }) => {
                 } else {
                     setAnimate(false);
                     // Réduit la résolution lorsque l'objet est éloigné du viewport
-                    setDprValue(0.1);
+                    setDprValue(0.5);
                 }
             },
             {
