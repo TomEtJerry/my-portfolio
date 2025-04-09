@@ -54,13 +54,10 @@ const Background = styled.div`
 `;
 
 const HeroSection = styled.div`
-  display : flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   width: 60dvw;
   z-index: 0;
-  text-align: center;
-    justify-content: center;
-  align-items: center;
   @media (max-width: 700px) {
   width: 95dvw;
   }
@@ -97,8 +94,9 @@ align-items: center;
 `;
 
 const HeroContainer = styled.div`
-  display : flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+    align-items: center;
   justify-content: center;
   text-align: center;
   background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
