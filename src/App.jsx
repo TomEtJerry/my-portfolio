@@ -104,6 +104,7 @@ const HeroContainer = styled.div`
     padding: 0 0 0 4vw;
   }
     @media (max-width: 700px) {
+    padding: 0 0 0 1vw;
   }
 `;
 
