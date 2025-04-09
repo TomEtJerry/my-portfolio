@@ -101,7 +101,7 @@ const HeroTitleContainer = styled.div`
   perspective: 1000px;
   will-change: transform;
   text-align: center;
-  margin: 0 0 0 4vw;
+  margin: 0 0 0 3vw;
       @media (max-width: 1100px) {
     margin: 0 0 0 1vw;
   }
