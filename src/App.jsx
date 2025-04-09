@@ -472,7 +472,7 @@ const projectsData = [
     url: "https://tomsantoni.myportfolio.com/new-cliking-website",
     badges: [
       { icon: "/Design.svg", text: "UX/UI Design" },
-      { icon: "/Photoshop.svg", text: "Wordpress" },
+      { icon: "/Wordpress.svg", text: "Wordpress" },
     ],
   },
   {
@@ -480,8 +480,8 @@ const projectsData = [
     modelPath: "/ebook.glb",
     url: "https://tomsantoni.myportfolio.com/marketing-campaign-for-cliking",
     badges: [
-      { icon: "/Design.svg", text: "Photoshop" },
-      { icon: "/Photoshop.svg", text: "After Effects" },
+      { icon: "/Photoshop.svg", text: "Photoshop" },
+      { icon: "/Aftereffects.svg", text: "After Effects" },
     ],
   },
 ];
