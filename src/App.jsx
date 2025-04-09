@@ -25,8 +25,8 @@ const AppContainer = styled.div`
     gap: 25dvw;
   }
   @media (max-width: 330px) {
-    padding: 15vw 0 40vw 0;
-    gap: 20dvw;
+    padding: 16vw 0 40vw 0;
+    gap: 15dvw;
   }
 `;
 
@@ -47,6 +47,9 @@ const Background = styled.div`
   }
     @media (max-width: 700px) {
      height: 150px; /* Ajuste la hauteur selon tes besoins */
+  }
+    @media (max-width: 330px) {
+     height: 120px; /* Ajuste la hauteur selon tes besoins */
   }
 `;
 
@@ -70,7 +73,7 @@ text-align: center;
   padding: 0 0 23vw 0;
   }
   @media (max-width: 330px) {
-  padding: 0 0 20vw 0;
+  padding: 0 0 16vw 0;
   }
 `;
 
@@ -192,7 +195,7 @@ padding: 6dvw 0 0 0;
   padding: 23vw 0 0 0;
   }
     @media (max-width: 330px) {
-  padding: 20vw 0 0 0;
+  padding: 16vw 0 0 0;
   }
 `;
 
