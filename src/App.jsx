@@ -93,27 +93,20 @@ align-items: center;
   }
 `;
 
-const HeroContainer = styled.div`
-  display : flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
-  padding: 0 0 0 2vw;
-    @media (max-width: 1100px) {
-    padding: 0 0 0 4vw;
-  }
-    @media (max-width: 700px) {
-  }
-`;
-
 /* Pour regrouper le titre et l'ombre dans un conteneur commun */
 const HeroTitleContainer = styled.div`
   position: relative;
+  background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
   transform-style: preserve-3d;
   perspective: 1000px;
   will-change: transform;
   text-align: center;
+  margin: 0 0 0 4vw;
+      @media (max-width: 1100px) {
+    padding: 0 0 0 4vw;
+  }
+    @media (max-width: 700px) {
+  }
 `;
 
 const HeroTitle = styled.h1`
@@ -566,12 +559,10 @@ function App() {
           <NameContainer>
             <NameText>TOM SANTONI</NameText>
           </NameContainer>
-          <HeroContainer>
-            <HeroTitleContainer ref={heroContainerRef}>
-              <HeroShadow>UX-UI DESIGNER</HeroShadow>
-              <HeroTitle>UX-UI DESIGNER</HeroTitle>
-            </HeroTitleContainer>
-          </HeroContainer>
+          <HeroTitleContainer ref={heroContainerRef}>
+            <HeroShadow>UX-UI DESIGNER</HeroShadow>
+            <HeroTitle>UX-UI DESIGNER</HeroTitle>
+          </HeroTitleContainer>
           <DescriptionContainer>
             <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
           </DescriptionContainer>
