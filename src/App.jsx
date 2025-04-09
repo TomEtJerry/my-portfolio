@@ -104,6 +104,7 @@ const HeroContainer = styled.div`
     padding: 0 0 0 4vw;
   }
     @media (max-width: 700px) {
+      padding: 0 0 0 3vw;
   }
 `;
 
@@ -132,8 +133,8 @@ const HeroTitle = styled.h1`
     line-height: 20vw;
   }
   @media (max-width: 700px) {
-    font-size: 24vw;
-    line-height: 23vw;
+    font-size: 26vw;
+    line-height: 25vw;
   }
 `;
 
@@ -156,8 +157,8 @@ const HeroShadow = styled.h2`
     line-height: 20vw;
   }
   @media (max-width: 700px) {
-    font-size: 24vw;
-    line-height: 23vw;
+    font-size: 26vw;
+    line-height: 25vw;
   }
 `;
 
