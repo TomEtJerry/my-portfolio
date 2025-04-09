@@ -93,22 +93,27 @@ align-items: center;
   }
 `;
 
+const HeroContainer = styled.div`
+  display : flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
+  padding: 0 0 0 2vw;
+    @media (max-width: 1100px) {
+    padding: 0 0 0 4vw;
+  }
+    @media (max-width: 700px) {
+  }
+`;
+
 /* Pour regrouper le titre et l'ombre dans un conteneur commun */
 const HeroTitleContainer = styled.div`
   position: relative;
-  background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
   transform-style: preserve-3d;
   perspective: 1000px;
   will-change: transform;
   text-align: center;
-  margin: 0 0 0 3vw;
-  padding: 0;
-      @media (max-width: 1100px) {
-    margin: 0 0 0 1vw;
-  }
-    @media (max-width: 700px) {
-    margin: 0 0 0 2vw;
-  }
 `;
 
 const HeroTitle = styled.h1`
@@ -494,7 +499,7 @@ function App() {
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const perspectiveValue = isMobile ? 600 : 600;
+    const perspectiveValue = isMobile ? 400 : 600;
 
     gsap.to(container, {
       rotationX: 10,
@@ -561,10 +566,12 @@ function App() {
           <NameContainer>
             <NameText>TOM SANTONI</NameText>
           </NameContainer>
-          <HeroTitleContainer ref={heroContainerRef}>
-            <HeroShadow>UX-UI DESIGNER</HeroShadow>
-            <HeroTitle>UX-UI DESIGNER</HeroTitle>
-          </HeroTitleContainer>
+          <HeroContainer>
+            <HeroTitleContainer ref={heroContainerRef}>
+              <HeroShadow>UX-UI DESIGNER</HeroShadow>
+              <HeroTitle>UX-UI DESIGNER</HeroTitle>
+            </HeroTitleContainer>
+          </HeroContainer>
           <DescriptionContainer>
             <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
           </DescriptionContainer>
