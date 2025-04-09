@@ -165,7 +165,7 @@ const DescriptionContainer = styled.div`
 text-align: center;
 padding: 2.5dvw 0 0 0;
     @media (max-width: 1100px) {
-    padding: 5dvw 10dvw 0 10dvw;
+    padding: 5dvw 0 0 0;
   }
 `;
 
@@ -499,7 +499,7 @@ function App() {
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const perspectiveValue = isMobile ? 500 : 600;
+    const perspectiveValue = isMobile ? 600 : 600;
 
     gsap.to(container, {
       rotationX: 10,
