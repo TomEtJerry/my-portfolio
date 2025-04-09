@@ -103,9 +103,10 @@ const HeroTitleContainer = styled.div`
   text-align: center;
   margin: 0 0 0 4vw;
       @media (max-width: 1100px) {
-    padding: 0 0 0 4vw;
+    margin: 0 0 0 1vw;
   }
     @media (max-width: 700px) {
+    margin: 0 0 0 2vw;
   }
 `;
 
@@ -492,7 +493,7 @@ function App() {
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const perspectiveValue = isMobile ? 400 : 600;
+    const perspectiveValue = isMobile ? 600 : 600;
 
     gsap.to(container, {
       rotationX: 10,
