@@ -499,7 +499,7 @@ function App() {
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const perspectiveValue = isMobile ? 400 : 600;
+    const perspectiveValue = isMobile ? 500 : 600;
 
     gsap.to(container, {
       rotationX: 10,
