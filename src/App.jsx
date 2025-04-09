@@ -98,7 +98,7 @@ const HeroContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: radial-gradient(40% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
+  background: radial-gradient(50% 40% at 50% 50%, rgba(68, 154, 183, 0.50) 30%, rgba(68, 154, 183, 0.00) 100%);
   padding: 0 0 0 2vw;
     @media (max-width: 1100px) {
     padding: 0 0 0 4vw;
