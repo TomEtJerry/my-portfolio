@@ -8,18 +8,24 @@ useGLTF.preload("/product_page.glb", "/gltf/");
 useGLTF.preload("/wordpress_site.glb", "/gltf/");
 useGLTF.preload("/ebook.glb", "/gltf/");
 
-const RotatingModel = memo(({ modelPath, speed }) => {
-    const { scene } = useGLTF(modelPath, "/gltf/");
+const RotatingModel = ({ modelPath }) => {
+    const { scene } = useGLTF(modelPath);
     const modelRef = useRef();
+    const [rotationSpeed, setRotationSpeed] = useState(0.005);
 
-    useFrame(() => {
-        if (modelRef.current && speed > 0) {
-            modelRef.current.rotation.y += speed;
+    useEffect(() => {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        setRotationSpeed(isMobile ? 0.006 : 0.005);
+    }, []);
+
+    useFrame((state, delta) => {
+        if (modelRef.current) {
+            modelRef.current.rotation.y += rotationSpeed * delta * 60;
         }
     });
 
     return <primitive ref={modelRef} object={scene} scale={0.55} />;
-});
+};
 
 const ModelViewer = memo(({ modelPath }) => {
     const containerRef = useRef();
