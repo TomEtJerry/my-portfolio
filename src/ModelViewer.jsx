@@ -27,7 +27,7 @@ const ModelViewer = memo(({ modelPath }) => {
     const [shouldRender, setShouldRender] = useState(false);
     const [dprValue, setDprValue] = useState(0.5);
     const [animate, setAnimate] = useState(false);
-    const [speed, setSpeed] = useState(0.006); // Même vitesse partout
+    const [speed, setSpeed] = useState(0.005); // Même vitesse partout
 
     // Observer pour rendre le Canvas (300px avant d'entrer)
     useEffect(() => {
