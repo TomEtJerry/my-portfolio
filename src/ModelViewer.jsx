@@ -8,19 +8,13 @@ useGLTF.preload("/product_page.glb", "/gltf/");
 useGLTF.preload("/wordpress_site.glb", "/gltf/");
 useGLTF.preload("/ebook.glb", "/gltf/");
 
-const RotatingModel = ({ modelPath }) => {
+const RotatingModel = ({ modelPath, speed }) => {
     const { scene } = useGLTF(modelPath);
     const modelRef = useRef();
-    const [rotationSpeed, setRotationSpeed] = useState(0.005);
-
-    useEffect(() => {
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        setRotationSpeed(isMobile ? 0.006 : 0.005);
-    }, []);
 
     useFrame((state, delta) => {
         if (modelRef.current) {
-            modelRef.current.rotation.y += rotationSpeed * delta * 60;
+            modelRef.current.rotation.y += speed * delta * 60;
         }
     });
 
@@ -33,12 +27,7 @@ const ModelViewer = memo(({ modelPath }) => {
     const [shouldRender, setShouldRender] = useState(false);
     const [dprValue, setDprValue] = useState(0.5);
     const [animate, setAnimate] = useState(false);
-    const [speed, setSpeed] = useState(0.003);
-
-    useEffect(() => {
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        setSpeed(isMobile ? 0.006 : 0.003);
-    }, []);
+    const [speed, setSpeed] = useState(0.006); // Même vitesse partout
 
     // Observer pour rendre le Canvas (300px avant d'entrer)
     useEffect(() => {
