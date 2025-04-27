@@ -9,7 +9,7 @@ useGLTF.preload("/wordpress_site.glb", "/gltf/");
 useGLTF.preload("/ebook.glb", "/gltf/");
 
 const RotatingModel = ({ modelPath, speed }) => {
-    const { scene } = useGLTF(modelPath);
+    const { scene } = useGLTF(modelPath, true);
     const modelRef = useRef();
 
     useFrame((state, delta) => {
