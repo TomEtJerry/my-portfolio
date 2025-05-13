@@ -9,7 +9,7 @@ export default function ScrollTriggerRefresher() {
         // On laisse le temps à la nouvelle page de charger
         const timer = setTimeout(() => {
             ScrollTrigger.refresh();
-        }, 300); // 300ms suffisent pour recalculer les triggers après un changement de route
+        }, 1000); // 300ms suffisent pour recalculer les triggers après un changement de route
 
         return () => clearTimeout(timer);
     }, [pathname]);
