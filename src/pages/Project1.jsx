@@ -602,6 +602,8 @@ export default function Project1() {
       hoverContainer.addEventListener('mouseleave', onLeave);
     }
 
+    ScrollTrigger.refresh();
+
     // 🔚 unique cleanup
     return () => {
       if (observer && videoEl) observer.disconnect();
