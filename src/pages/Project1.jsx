@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { BeforeAfter } from '../components/BeforeAfter';
 import { Link } from 'react-router-dom';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLocation } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -530,6 +531,7 @@ export default function Project1() {
   const iconRef = useRef(null);
   const containerIconRef = useRef(null);
   const videoRef = useRef(null);
+  const { pathname } = useLocation();
 
   // on crée une ref-array pour les Content1
   const contentRefs = useRef([])
@@ -541,9 +543,7 @@ export default function Project1() {
   }
 
   useEffect(() => {
-
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-
     const container = HeroContainerRef.current;
     const videoEl = videoRef.current;
     const icon = iconRef.current;
@@ -609,7 +609,6 @@ export default function Project1() {
       ScrollTrigger.refresh();
     });
 
-    // ✅ Fix aussi sur resize
     window.addEventListener('resize', ScrollTrigger.refresh);
 
     // 🔚 unique cleanup
@@ -621,7 +620,7 @@ export default function Project1() {
       }
       window.removeEventListener('resize', ScrollTrigger.refresh);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <>
