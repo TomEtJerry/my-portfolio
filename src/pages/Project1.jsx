@@ -19,7 +19,9 @@ const GradientHero = styled.section`
 const HeroContainer = styled.div`
 display: flex;
 justify-content: right;
-text-align: end;
+align-items: right;
+text-align: right;
+padding: 4dvw 8dvw 0 0;
   @media (max-width: 1000px) {
   justify-content: left;
   align-items: left;
@@ -28,14 +30,17 @@ text-align: end;
   }
   @media (max-width: 700px) {
   justify-content: left;
-  text-align: end;
+  align-items: left;
+  text-align: left;
+  margin: 22dvw 0 0 0;
   }
 `;
 
 const DescriptionContainer = styled.div`
 display: flex;
 flex-direction: column;
-padding: 4dvw 8dvw 0 0;
+align-items: right;
+text-align: right;
 `;
 
 const TitleContainer = styled.section`
@@ -618,9 +623,11 @@ export default function Project1() {
                 <h1>CUSTOMER DATA PLATFORM</h1>
               </Title>
             </TitleContainer>
-            <Description>
-              <h2>Redesign of a SaaS platform which analyzes customer satisfaction</h2>
-            </Description>
+            <div>
+              <Description>
+                <h2>Redesign of a SaaS platform which analyzes customer satisfaction</h2>
+              </Description>
+            </div>
           </DescriptionContainer>
         </HeroContainer>
         <Project>
