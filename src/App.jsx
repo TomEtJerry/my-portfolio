@@ -7,8 +7,17 @@ import Project1 from './pages/Project1';
 import Project2 from './pages/Project2';
 import Project3 from './pages/Project3';
 import Project4 from './pages/Project4';
+import { useLocation } from 'react-router-dom';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function App() {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    // Après chaque navigation, force GSAP à recalculer les ScrollTrigger
+    ScrollTrigger.refresh();
+  }, [location.pathname]);
+
   return (
     <>
       <Header />
