@@ -19,8 +19,7 @@ const GradientHero = styled.section`
 const HeroContainer = styled.div`
 display: flex;
 justify-content: right;
-align-items: right;
-text-align: right;
+text-align: end;
 padding: 4dvw 8dvw 0 0;
   @media (max-width: 1000px) {
   justify-content: left;
@@ -30,8 +29,7 @@ padding: 4dvw 8dvw 0 0;
   }
   @media (max-width: 700px) {
   justify-content: left;
-  align-items: left;
-  text-align: left;
+  text-align: end;
   padding: 10dvw 8dvw 0 0;
   }
 `;
@@ -39,8 +37,7 @@ padding: 4dvw 8dvw 0 0;
 const DescriptionContainer = styled.div`
 display: flex;
 flex-direction: column;
-align-items: right;
-text-align: right;
+text-align: end;
 `;
 
 const TitleContainer = styled.section`
