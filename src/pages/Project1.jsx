@@ -76,7 +76,7 @@ const Title = styled.h1`
    font-size: 5vw;
   }
   @media (max-width: 700px) {
-   font-size: 5vw;
+   font-size: 5.5vw;
   }
 `;
 
@@ -623,11 +623,9 @@ export default function Project1() {
                 <h1>CUSTOMER DATA PLATFORM</h1>
               </Title>
             </TitleContainer>
-            <div>
-              <Description>
-                <h2>Redesign of a SaaS platform which analyzes customer satisfaction</h2>
-              </Description>
-            </div>
+            <Description>
+              <h2>Redesign of a SaaS platform which analyzes customer satisfaction</h2>
+            </Description>
           </DescriptionContainer>
         </HeroContainer>
         <Project>
