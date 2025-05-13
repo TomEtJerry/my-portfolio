@@ -664,8 +664,9 @@ export default function Project1() {
         />
         <Content1>
           <TextCustomerJourney>IMPROVEMENT OF CUSTOMER JOURNEY</TextCustomerJourney>
-          <ContentImages data-animate>
+          <ContentImages>
             <Video
+              data-animate
               ref={videoRef}
               src="/video_saas.mp4"     // chemin vers ton fichier .mp4
               muted
