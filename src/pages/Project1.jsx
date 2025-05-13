@@ -602,7 +602,11 @@ export default function Project1() {
       hoverContainer.addEventListener('mouseleave', onLeave);
     }
 
-    ScrollTrigger.refresh();
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 0);
+    });
 
     // 🔚 unique cleanup
     return () => {
