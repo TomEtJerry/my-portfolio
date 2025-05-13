@@ -541,6 +541,9 @@ export default function Project1() {
   }
 
   useEffect(() => {
+
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
     const container = HeroContainerRef.current;
     const videoEl = videoRef.current;
     const icon = iconRef.current;
@@ -603,9 +606,7 @@ export default function Project1() {
     }
 
     requestAnimationFrame(() => {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 0);
+      ScrollTrigger.refresh();
     });
 
     // 🔚 unique cleanup
