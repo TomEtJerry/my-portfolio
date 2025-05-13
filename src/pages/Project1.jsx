@@ -605,16 +605,12 @@ export default function Project1() {
       hoverContainer.addEventListener('mouseleave', onLeave);
     }
 
-    const refreshScrollTrigger = () => {
+    requestAnimationFrame(() => {
       ScrollTrigger.refresh();
-    };
+    });
 
-    // Attendre que les images soient vraiment chargées
-    if (document.readyState === 'complete') {
-      refreshScrollTrigger();
-    } else {
-      window.addEventListener('load', refreshScrollTrigger);
-    }
+    // ✅ Fix aussi sur resize
+    window.addEventListener('resize', ScrollTrigger.refresh);
 
     // 🔚 unique cleanup
     return () => {
@@ -623,7 +619,7 @@ export default function Project1() {
         hoverContainer.removeEventListener('mouseenter', onEnter);
         hoverContainer.removeEventListener('mouseleave', onLeave);
       }
-      window.removeEventListener('load', refreshScrollTrigger);
+      window.removeEventListener('resize', ScrollTrigger.refresh);
     };
   }, []);
 
