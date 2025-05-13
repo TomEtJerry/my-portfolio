@@ -605,6 +605,28 @@ export default function Project1() {
       hoverContainer.addEventListener('mouseleave', onLeave);
     }
 
+    const images = document.querySelectorAll('img, video');
+
+    let imagesLoaded = 0;
+    const totalImages = images.length;
+
+    const refreshOnLoad = () => {
+      imagesLoaded++;
+      if (imagesLoaded === totalImages) {
+        console.log('All media loaded, refreshing ScrollTrigger');
+        ScrollTrigger.refresh();
+      }
+    };
+
+    images.forEach(img => {
+      if (img.complete) {
+        refreshOnLoad(); // déjà chargé
+      } else {
+        img.addEventListener('load', refreshOnLoad);
+        img.addEventListener('loadeddata', refreshOnLoad); // pour video
+      }
+    });
+
     requestAnimationFrame(() => {
       ScrollTrigger.refresh();
     });
