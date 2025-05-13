@@ -7,11 +7,13 @@ import Project1 from './pages/Project1';
 import Project2 from './pages/Project2';
 import Project3 from './pages/Project3';
 import Project4 from './pages/Project4';
+import ScrollTriggerRefresher from './components/ScrollTriggerRefresher';
 
 export default function App() {
   return (
     <>
       <Header />
+      <ScrollTriggerRefresher />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/project1" element={<Project1 />} />
