@@ -605,9 +605,16 @@ export default function Project1() {
       hoverContainer.addEventListener('mouseleave', onLeave);
     }
 
-    requestAnimationFrame(() => {
+    const refreshScrollTrigger = () => {
       ScrollTrigger.refresh();
-    });
+    };
+
+    // Attendre que les images soient vraiment chargées
+    if (document.readyState === 'complete') {
+      refreshScrollTrigger();
+    } else {
+      window.addEventListener('load', refreshScrollTrigger);
+    }
 
     // 🔚 unique cleanup
     return () => {
@@ -616,6 +623,7 @@ export default function Project1() {
         hoverContainer.removeEventListener('mouseenter', onEnter);
         hoverContainer.removeEventListener('mouseleave', onLeave);
       }
+      window.removeEventListener('load', refreshScrollTrigger);
     };
   }, []);
 
