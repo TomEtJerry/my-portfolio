@@ -76,7 +76,7 @@ const Title = styled.h1`
    font-size: 5vw;
   }
   @media (max-width: 700px) {
-   font-size: 5.5vw;
+   font-size: 5vw;
   }
 `;
 
@@ -87,10 +87,10 @@ const Description = styled.h2`
   font-style: normal;
   color: #B4B4B4;
  @media (max-width: 1000px) {
-   font-size: 1.7vw;
+   font-size: 1.5vw;
   }
   @media (max-width: 700px) {
-    font-size: 1.7vw;
+    font-size: 1.5vw;
   }
 `;
 
