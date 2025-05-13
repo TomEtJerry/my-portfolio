@@ -32,7 +32,7 @@ padding: 4dvw 8dvw 0 0;
   justify-content: left;
   align-items: left;
   text-align: left;
-  margin: 22dvw 0 0 0;
+  padding: 10dvw 8dvw 0 0;
   }
 `;
 
