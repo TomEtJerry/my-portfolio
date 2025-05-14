@@ -55,9 +55,6 @@ perspective: 1000px;
 will-change: transform;
 gap: 1dvw;
   @media (max-width: 1000px) {
-   gap: 1.5dvw;
-  }
-  @media (max-width: 700px) {
     gap: 2dvw;
   }
 `;
@@ -76,9 +73,6 @@ const Title = styled.h1`
   color: white;
   white-space: nowrap; 
   @media (max-width: 1000px) {
-   font-size: 5vw;
-  }
-  @media (max-width: 700px) {
    font-size: 6vw;
   }
 `;
@@ -90,7 +84,8 @@ const Description = styled.h2`
   font-style: normal;
   color: #B4B4B4;
  @media (max-width: 1000px) {
-   font-size: 1.5vw;
+   font-size: 3vw;
+   margin: 0 0 0 4dvw;
   }
   @media (max-width: 700px) {
     font-size: 4vw;
@@ -105,12 +100,7 @@ const Project = styled.div`
   align-items: center;
   margin: 0 0 0 0;
   flex: 1;
- @media (max-width: 1000px) {
-   grid-template-columns: 1fr; 
-   gap: 0dvw;
-   align-items: stretch;
-  }
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
    grid-template-columns: 1fr; 
    gap: 0dvw;
    align-items: stretch;
@@ -122,18 +112,15 @@ const Model = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
- @media (max-width: 700px) {
-  }
 `;
 
 const ModelImage = styled.img`
   max-width: 100%;
+  max-height: 70vh; 
   height: auto;
    @media (max-width: 1000px) {
-   max-width: 80%;
-  }
-   @media (max-width: 700px) {
    max-width: 100%;
+   max-height: 30vh;
   }
 `;
 
@@ -143,7 +130,7 @@ const Informations = styled.div`
   flex-direction: column;
   padding: 0 0 0 1dvw;
   gap: 3dvw;
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
    gap: none;
   }
 `;
@@ -181,7 +168,7 @@ const InfoValue = styled.p`
   font-style: normal;
   color: #B4B4B4;
  @media (max-width: 1000px) {
-   font-size: 2.5vw;
+   font-size: 3vw;
   }
     @media (max-width: 700px) {
    font-size: 4vw;
