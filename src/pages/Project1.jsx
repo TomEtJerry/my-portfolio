@@ -93,7 +93,7 @@ const Description = styled.h2`
    font-size: 1.5vw;
   }
   @media (max-width: 700px) {
-    font-size: 2vw;
+    font-size: 2.5vw;
     margin: 0 0 0 4dvw;
   }
 `;
