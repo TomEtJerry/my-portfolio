@@ -13,7 +13,7 @@ const AppContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6dvw 0 15dvw 0;
+  padding: 0dvw 0 15dvw 0;
   gap: 8dvw;
   background-color: #0B0E1A;
   @media (max-width: 1100px) {
@@ -60,6 +60,15 @@ const HeroSection = styled.div`
   z-index: 0;
   @media (max-width: 700px) {
   width: 95dvw;
+  }
+`;
+
+const FirstPrint = styled.div`
+  @media(min-width: 1100px) {
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100dvh;
   }
 `;
 
@@ -187,7 +196,7 @@ align-items: center;
 
 const ExitContainer = styled.div`
 text-align: center;
-padding: 6dvw 0 0 0;
+padding: 0dvw 0 0 0;
   @media (max-width: 1100px) {
   padding: 12vw 0 0 0;
   }
@@ -561,18 +570,20 @@ export default function Home() {
     <AppContainer>
       <Background />
       <HeroSection>
-        <NameContainer>
-          <NameText>TOM SANTONI</NameText>
-        </NameContainer>
-        <HeroContainer>
-          <HeroTitleContainer ref={heroContainerRef}>
-            <HeroShadow>UX-UI DESIGNER</HeroShadow>
-            <HeroTitle>UX-UI DESIGNER</HeroTitle>
-          </HeroTitleContainer>
-        </HeroContainer>
-        <DescriptionContainer>
-          <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
-        </DescriptionContainer>
+        <FirstPrint>
+          <NameContainer>
+            <NameText>TOM SANTONI</NameText>
+          </NameContainer>
+          <HeroContainer>
+            <HeroTitleContainer ref={heroContainerRef}>
+              <HeroShadow>UX-UI DESIGNER</HeroShadow>
+              <HeroTitle>UX-UI DESIGNER</HeroTitle>
+            </HeroTitleContainer>
+          </HeroContainer>
+          <DescriptionContainer>
+            <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
+          </DescriptionContainer>
+        </FirstPrint>
         <ExitContainer>
           <ExitText>SELECTED WORK</ExitText>
         </ExitContainer>
