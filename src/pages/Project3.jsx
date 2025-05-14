@@ -533,7 +533,7 @@ export default function Project3() {
               </Title>
             </TitleContainer>
             <Description>
-              Design of new the Cliking website with wordpress
+              Design of the new Cliking website with wordpress
             </Description>
           </DescriptionContainer>
         </HeroContainer>
