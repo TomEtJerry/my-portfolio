@@ -18,15 +18,15 @@ const AppContainer = styled.div`
   background-color: #0B0E1A;
   @media (max-width: 1100px) {
     padding: 18vw 0 30vw 0;
-    gap: 10dvw;
+    gap: 15dvw;
   }
   @media (max-width: 700px) {
     padding: 27vw 0 40vw 0;
-    gap: 10dvw;
+    gap: 15dvw;
   }
   @media (max-width: 330px) {
     padding: 18vw 0 40vw 0;
-    gap: 10dvw;
+    gap: 15dvw;
   }
 `;
 
