@@ -184,7 +184,7 @@ const InfoValue = styled.p`
    font-size: 2.5vw;
   }
     @media (max-width: 700px) {
-   font-size: 3vw;
+   font-size: 4vw;
   }
 `;
 
