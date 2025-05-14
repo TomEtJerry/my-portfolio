@@ -14,19 +14,19 @@ const AppContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0dvw 0 15dvw 0;
-  gap: 8dvw;
+  gap: 4dvw;
   background-color: #0B0E1A;
   @media (max-width: 1100px) {
     padding: 20vw 0 30vw 0;
-    gap: 20dvw;
+    gap: 15dvw;
   }
   @media (max-width: 700px) {
     padding: 30vw 0 40vw 0;
-    gap: 25dvw;
+    gap: 15dvw;
   }
   @media (max-width: 330px) {
     padding: 16vw 0 40vw 0;
-    gap: 15dvw;
+    gap: 10dvw;
   }
 `;
 
@@ -223,6 +223,21 @@ align-items: center;
     font-size: 8vw;
   }
 `;
+
+const Content = styled.div`
+display: flex;
+flex-direction: column;
+gap: 8dvw;
+  @media (max-width: 1100px) {
+    gap: 20dvw;
+  }
+  @media (max-width: 700px) {
+    gap: 30dvw;
+  }
+  @media (max-width: 330px) {
+    gap: 15dvw;
+  }
+`
 
 const Projects = styled.div`
   width: 55dvw;
@@ -588,47 +603,49 @@ export default function Home() {
           <ExitText>SELECTED WORK</ExitText>
         </ExitContainer>
       </HeroSection>
-      {projectsData.map((project, index) => (
-        <Link
-          key={index}
-          to={project.path}
-          style={{ textDecoration: 'none', width: 'fit-content', zIndex: 2 }}
-        >
-          <Projects
-            className="Projects"
-            ref={(el) => (buttonContainerRefs.current[index] = el)}
+      <Content>
+        {projectsData.map((project, index) => (
+          <Link
+            key={index}
+            to={project.path}
+            style={{ textDecoration: 'none', width: 'fit-content', zIndex: 2 }}
           >
-            <Model>
-              <Suspense fallback={null}>
-                <ModelViewer modelPath={project.modelPath} />
-              </Suspense>
-            </Model>
-            <Description>
-              <Title> {project.title.split('\n').map((line, i) => (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ))}</Title>
-              <Container>
-                {project.badges.map((badge, i) => (
-                  <Badge key={i}>
-                    <Icon src={badge.icon} />
-                    <Text>{badge.text}</Text>
-                  </Badge>
-                ))}
-              </Container>
-              <Button>
-                <ButtonText>OPEN PROJECT</ButtonText>
-                <ButtonIcon
-                  ref={(el) => (buttonIconRefs.current[index] = el)}
-                  src="/ArrowRight.svg"
-                />
-              </Button>
-            </Description>
-          </Projects>
-        </Link>
-      ))}
+            <Projects
+              className="Projects"
+              ref={(el) => (buttonContainerRefs.current[index] = el)}
+            >
+              <Model>
+                <Suspense fallback={null}>
+                  <ModelViewer modelPath={project.modelPath} />
+                </Suspense>
+              </Model>
+              <Description>
+                <Title> {project.title.split('\n').map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    <br />
+                  </span>
+                ))}</Title>
+                <Container>
+                  {project.badges.map((badge, i) => (
+                    <Badge key={i}>
+                      <Icon src={badge.icon} />
+                      <Text>{badge.text}</Text>
+                    </Badge>
+                  ))}
+                </Container>
+                <Button>
+                  <ButtonText>OPEN PROJECT</ButtonText>
+                  <ButtonIcon
+                    ref={(el) => (buttonIconRefs.current[index] = el)}
+                    src="/ArrowRight.svg"
+                  />
+                </Button>
+              </Description>
+            </Projects>
+          </Link>
+        ))}
+      </Content>
     </AppContainer>
   );
 }
