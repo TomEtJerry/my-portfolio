@@ -207,9 +207,7 @@ const ContentImages = styled.div`
  flex-direction: column;
  gap: 4dvw;
   @media (max-width: 1000px) {
-  }
-  @media (max-width: 700px) {
-   gap: 6dvw;
+   gap: 10dvw;
   }
 `;
 
