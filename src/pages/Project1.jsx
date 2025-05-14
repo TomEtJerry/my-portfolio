@@ -178,6 +178,7 @@ const InfoValue = styled.p`
   font-family: "K2D", sans-serif;
   font-size: 1.2vw;    /* un peu plus gros */
   font-weight: 500;
+  font-style: normal;
   color: #B4B4B4;
  @media (max-width: 1000px) {
    font-size: 2.5vw;
