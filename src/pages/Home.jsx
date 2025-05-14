@@ -17,15 +17,15 @@ const AppContainer = styled.div`
   gap: 4dvw;
   background-color: #0B0E1A;
   @media (max-width: 1100px) {
-    padding: 20vw 0 30vw 0;
-    gap: 15dvw;
+    padding: 18vw 0 30vw 0;
+    gap: 10dvw;
   }
   @media (max-width: 700px) {
-    padding: 30vw 0 40vw 0;
-    gap: 15dvw;
+    padding: 27vw 0 40vw 0;
+    gap: 10dvw;
   }
   @media (max-width: 330px) {
-    padding: 16vw 0 40vw 0;
+    padding: 18vw 0 40vw 0;
     gap: 10dvw;
   }
 `;
@@ -64,7 +64,7 @@ const HeroSection = styled.div`
 `;
 
 const FirstPrint = styled.div`
-  @media(min-width: 1100px) {
+@media (min-width: 1100px) {
   display : flex;
   flex-direction: column;
   justify-content: center;
@@ -76,13 +76,13 @@ const NameContainer = styled.div`
 text-align: center;
   padding: 0 0 1.5dvw 0;
     @media (max-width: 1100px) {
-  padding: 0 0 12vw 0;
+  padding: 0 0 18vw 0;
   }
   @media (max-width: 700px) {
-  padding: 0 0 23vw 0;
+  padding: 0 0 27vw 0;
   }
   @media (max-width: 330px) {
-  padding: 0 0 16vw 0;
+  padding: 0 0 18vw 0;
   }
 `;
 
@@ -174,8 +174,14 @@ const DescriptionContainer = styled.div`
 text-align: center;
 padding: 2.5dvw 0 0 0;
     @media (max-width: 1100px) {
-    padding: 5dvw 0 0 0;
-  }
+    padding: 18dvw 5dvw 0 5dvw;
+      }
+    @media (max-width: 700px) {
+    padding: 27dvw 10dvw 0 10dvw;
+      }
+        @media (max-width: 330px) {
+    padding: 18dvw 10dvw 0 10dvw;
+      }
 `;
 
 const HeroDescription = styled.h2`
@@ -191,6 +197,7 @@ align-items: center;
   }
   @media (max-width: 700px) {
     font-size: 6vw;
+    line-height: 7vw;
   }
 `;
 
@@ -198,13 +205,13 @@ const ExitContainer = styled.div`
 text-align: center;
 padding: 0dvw 0 0 0;
   @media (max-width: 1100px) {
-  padding: 12vw 0 0 0;
+  padding: 18vw 0 0 0;
   }
   @media (max-width: 700px) {
-  padding: 23vw 0 0 0;
+  padding: 27vw 0 0 0;
   }
     @media (max-width: 330px) {
-  padding: 16vw 0 0 0;
+  padding: 18vw 0 0 0;
   }
 `;
 
@@ -537,7 +544,7 @@ export default function Home() {
 
       // Valeurs scrollTrigger différentes
       const scrollSettings = isMobile
-        ? { start: 'top 100%', end: 'top 50%' } // 📱 Mobile
+        ? { start: 'top 120%', end: 'top 50%' } // 📱 Mobile
         : { start: 'top 100%', end: 'top 50%' }; // 💻 Desktop
 
       gsap.fromTo(container,
