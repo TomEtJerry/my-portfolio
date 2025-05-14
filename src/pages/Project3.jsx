@@ -41,6 +41,9 @@ display: flex;
 flex-direction: column;
 align-items: right;
 text-align: right;
+  @media (max-width: 1000px) {
+  text-align: left;
+  }
 `;
 
 const TitleContainer = styled.section`
@@ -52,9 +55,6 @@ perspective: 1000px;
 will-change: transform;
 gap: 1dvw;
   @media (max-width: 1000px) {
-   gap: 1.5dvw;
-  }
-  @media (max-width: 700px) {
     gap: 2dvw;
   }
 `;
@@ -67,30 +67,29 @@ height: 100%;
 
 const Title = styled.h1`
   font-family: "K2D", sans-serif;
-  font-size: 3vw;
-  font-weight: 500;
+  font-size: 3.5vw;
+  font-weight: bold;
   font-style: normal;
   color: white;
   white-space: nowrap; 
   @media (max-width: 1000px) {
-   font-size: 5vw;
-  }
-  @media (max-width: 700px) {
-   font-size: 5vw;
+   font-size: 6vw;
   }
 `;
 
 const Description = styled.h2`
   font-family: "K2D", sans-serif;
-  font-size: 1vw;
+  font-size: 1.5vw;
   font-weight: 500;
   font-style: normal;
   color: #B4B4B4;
  @media (max-width: 1000px) {
-   font-size: 1.7vw;
+   font-size: 3vw;
+   margin: 0 0 0 4dvw;
   }
   @media (max-width: 700px) {
-    font-size: 1.7vw;
+    font-size: 4vw;
+    margin: 0 0 0 4dvw;
   }
 `;
 
@@ -101,12 +100,7 @@ const Project = styled.div`
   align-items: center;
   margin: 0 0 0 0;
   flex: 1;
- @media (max-width: 1000px) {
-   grid-template-columns: 1fr; 
-   gap: 0dvw;
-   align-items: stretch;
-  }
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
    grid-template-columns: 1fr; 
    gap: 0dvw;
    align-items: stretch;
@@ -118,18 +112,15 @@ const Model = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
- @media (max-width: 700px) {
-  }
 `;
 
 const ModelImage = styled.img`
   max-width: 100%;
+  max-height: 70vh; 
   height: auto;
    @media (max-width: 1000px) {
-   max-width: 80%;
-  }
-   @media (max-width: 700px) {
    max-width: 100%;
+   max-height: 30vh;
   }
 `;
 
@@ -139,7 +130,7 @@ const Informations = styled.div`
   flex-direction: column;
   padding: 0 0 0 1dvw;
   gap: 3dvw;
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
    gap: none;
   }
 `;
@@ -174,12 +165,13 @@ const InfoValue = styled.p`
   font-family: "K2D", sans-serif;
   font-size: 1.2vw;    /* un peu plus gros */
   font-weight: 500;
+  font-style: normal;
   color: #B4B4B4;
  @media (max-width: 1000px) {
-   font-size: 2.5vw;
+   font-size: 3vw;
   }
     @media (max-width: 700px) {
-   font-size: 3vw;
+   font-size: 4vw;
   }
 `;
 
@@ -367,8 +359,8 @@ const Badge = styled.div`
 `;
 
 const Icon = styled.img.attrs({
-    alt: "icon",
-    loading: "lazy"
+  alt: "icon",
+  loading: "lazy"
 })`
   width: 0.9vw;
   height: 0.9vw;
@@ -445,176 +437,176 @@ const ButtonText = styled.span`
 
 
 export default function Project3() {
-    const HeroContainerRef = useRef(null);
-    const iconRef = useRef(null);
-    const containerIconRef = useRef(null);
-    const videoRef = useRef(null);
+  const HeroContainerRef = useRef(null);
+  const iconRef = useRef(null);
+  const containerIconRef = useRef(null);
+  const videoRef = useRef(null);
 
-    // on crée une ref-array pour les Content1
-    const contentRefs = useRef([])
-    contentRefs.current = []     // on vide à chaque rendu
-    const addToRefs = el => {
-        if (el && !contentRefs.current.includes(el)) {
-            contentRefs.current.push(el)
-        }
+  // on crée une ref-array pour les Content1
+  const contentRefs = useRef([])
+  contentRefs.current = []     // on vide à chaque rendu
+  const addToRefs = el => {
+    if (el && !contentRefs.current.includes(el)) {
+      contentRefs.current.push(el)
+    }
+  }
+
+  useEffect(() => {
+    const container = HeroContainerRef.current;
+    const videoEl = videoRef.current;
+    const icon = iconRef.current;
+    const hoverContainer = containerIconRef.current;
+    const isMobile = window.matchMedia('(max-width:1000px)').matches;
+
+    // 1️⃣ Toujours animer le Hero
+    if (container) {
+      gsap.to(container, {
+        rotationX: isMobile ? 0 : 4,
+        rotationY: isMobile ? 0 : -10,
+        rotationZ: isMobile ? 0 : -2,
+        transformPerspective: isMobile ? 0 : 600,
+        duration: 0,
+      });
     }
 
-    useEffect(() => {
-        const container = HeroContainerRef.current;
-        const videoEl = videoRef.current;
-        const icon = iconRef.current;
-        const hoverContainer = containerIconRef.current;
-        const isMobile = window.matchMedia('(max-width:1000px)').matches;
-
-        // 1️⃣ Toujours animer le Hero
-        if (container) {
-            gsap.to(container, {
-                rotationX: isMobile ? 0 : 4,
-                rotationY: isMobile ? 0 : -10,
-                rotationZ: isMobile ? 0 : -2,
-                transformPerspective: isMobile ? 0 : 600,
-                duration: 0,
-            });
+    gsap.utils.toArray('[data-animate]').forEach(el => {
+      gsap.fromTo(el,
+        { autoAlpha: 0, y: isMobile ? 50 : 100 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          ease: 'power2.out',
+          duration: 1,
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 100%',
+            end: 'top 0%',
+            scrub: true,
+          }
         }
+      );
+    });
 
-        gsap.utils.toArray('[data-animate]').forEach(el => {
-            gsap.fromTo(el,
-                { autoAlpha: 0, y: isMobile ? 50 : 100 },
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    ease: 'power2.out',
-                    duration: 1,
-                    scrollTrigger: {
-                        trigger: el,
-                        start: 'top 100%',
-                        end: 'top 0%',
-                        scrub: true,
-                    }
-                }
-            );
-        });
+    // 2️⃣ Toujours brancher l’IntersectionObserver sur la vidéo
+    let observer;
+    if (videoEl) {
+      observer = new IntersectionObserver(
+        ([{ isIntersecting }]) => {
+          isIntersecting ? videoEl.play() : videoEl.pause();
+        },
+        { threshold: 0.25 }
+      );
+      observer.observe(videoEl);
+    }
 
-        // 2️⃣ Toujours brancher l’IntersectionObserver sur la vidéo
-        let observer;
-        if (videoEl) {
-            observer = new IntersectionObserver(
-                ([{ isIntersecting }]) => {
-                    isIntersecting ? videoEl.play() : videoEl.pause();
-                },
-                { threshold: 0.25 }
-            );
-            observer.observe(videoEl);
-        }
+    // 3️⃣ Seulement en desktop, monter la timeline hover
+    let tl, onEnter, onLeave;
+    if (!isMobile && icon && hoverContainer) {
+      tl = gsap.timeline({ paused: true, repeat: -1 })
+        .to(icon, { x: 20, opacity: 0, duration: 0.8, ease: 'power1.inOut' })
+        .to(icon, { x: 0, opacity: 1, duration: 0.8, ease: 'power1.inOut' });
 
-        // 3️⃣ Seulement en desktop, monter la timeline hover
-        let tl, onEnter, onLeave;
-        if (!isMobile && icon && hoverContainer) {
-            tl = gsap.timeline({ paused: true, repeat: -1 })
-                .to(icon, { x: 20, opacity: 0, duration: 0.8, ease: 'power1.inOut' })
-                .to(icon, { x: 0, opacity: 1, duration: 0.8, ease: 'power1.inOut' });
+      onEnter = () => tl.play();
+      onLeave = () => tl.pause().seek(0);
 
-            onEnter = () => tl.play();
-            onLeave = () => tl.pause().seek(0);
+      hoverContainer.addEventListener('mouseenter', onEnter);
+      hoverContainer.addEventListener('mouseleave', onLeave);
+    }
 
-            hoverContainer.addEventListener('mouseenter', onEnter);
-            hoverContainer.addEventListener('mouseleave', onLeave);
-        }
+    // 🔚 unique cleanup
+    return () => {
+      if (observer && videoEl) observer.disconnect();
+      if (tl && hoverContainer) {
+        hoverContainer.removeEventListener('mouseenter', onEnter);
+        hoverContainer.removeEventListener('mouseleave', onLeave);
+      }
+    };
+  }, []);
 
-        // 🔚 unique cleanup
-        return () => {
-            if (observer && videoEl) observer.disconnect();
-            if (tl && hoverContainer) {
-                hoverContainer.removeEventListener('mouseenter', onEnter);
-                hoverContainer.removeEventListener('mouseleave', onLeave);
-            }
-        };
-    }, []);
+  return (
+    <>
+      <GradientHero>
+        <HeroContainer>
+          <DescriptionContainer ref={HeroContainerRef}>
+            <TitleContainer>
+              <Square></Square>
+              <Title>
+                WORDPRESS WEBSITE
+              </Title>
+            </TitleContainer>
+            <Description>
+              Design of new the Cliking website with wordpress
+            </Description>
+          </DescriptionContainer>
+        </HeroContainer>
+        <Project>
+          <Model>
+            <ModelImage src="/wordpress_site.png" alt="Aperçu du projet" />
+          </Model>
+          <Informations>
+            <InfoRow>
+              <InfoLabel>COMPANY</InfoLabel>
+              <InfoValue>Cliking</InfoValue>
+            </InfoRow>
+            <InfoRow>
+              <InfoLabel>ROLE</InfoLabel>
+              <InfoValue>UX/UI Designer</InfoValue>
+            </InfoRow>
+            <InfoRow>
+              <InfoLabel>TECH</InfoLabel>
+              <InfoValue>Wordpress, Figma</InfoValue>
+            </InfoRow>
+          </Informations>
+        </Project>
+      </GradientHero>
 
-    return (
-        <>
-            <GradientHero>
-                <HeroContainer>
-                    <DescriptionContainer ref={HeroContainerRef}>
-                        <TitleContainer>
-                            <Square></Square>
-                            <Title>
-                                <h1>WORDPRESS WEBSITE</h1>
-                            </Title>
-                        </TitleContainer>
-                        <Description>
-                            <h2>Design of new the Cliking website with wordpress</h2>
-                        </Description>
-                    </DescriptionContainer>
-                </HeroContainer>
-                <Project>
-                    <Model>
-                        <ModelImage src="/wordpress_site.png" alt="Aperçu du projet" />
-                    </Model>
-                    <Informations>
-                        <InfoRow>
-                            <InfoLabel>COMPANY</InfoLabel>
-                            <InfoValue>Cliking</InfoValue>
-                        </InfoRow>
-                        <InfoRow>
-                            <InfoLabel>ROLE</InfoLabel>
-                            <InfoValue>UX/UI Designer</InfoValue>
-                        </InfoRow>
-                        <InfoRow>
-                            <InfoLabel>TECH</InfoLabel>
-                            <InfoValue>Wordpress, Figma</InfoValue>
-                        </InfoRow>
-                    </Informations>
-                </Project>
-            </GradientHero>
-
-            <Content>
-                <Content1>
-                    <ContentImages data-animate>
-                        <Video
-                            ref={videoRef}
-                            src="/wordpress_video.mp4"     // chemin vers ton fichier .mp4
-                            muted
-                            loop
-                            playsInline
-                        />
-                        <SaasImage src="/wordpress1.jpg" alt="Aperçu du projet" data-animate />
-                        <SaasImage src="/wordpress2.jpg" alt="Aperçu du projet" data-animate />
-                        <SaasImage src="/wordpress3.jpg" alt="Aperçu du projet" data-animate />
-                        <SaasImage src="/wordpress4.png" alt="Aperçu du projet" data-animate />
-                    </ContentImages>
-                </Content1>
-            </Content>
-            <NextProject ref={containerIconRef}>
-                <NextProjectLink to="../Project4">
-                    <ContenerNextProject>
-                        <Model2>
-                            <ModelImage2 src="/ebook.png" alt="Aperçu du projet" />
-                        </Model2>
-                        <Description2>
-                            <Title2>LINKEDIN AD CAMPAIGN</Title2>
-                            <Container>
-                                <Badge>
-                                    <Icon src="/Photoshop.svg" alt="Aperçu du projet"></Icon>
-                                    <Text>Photoshop</Text>
-                                </Badge>
-                                <Badge>
-                                    <Icon src="/Aftereffects.svg" alt="Aperçu du projet"></Icon>
-                                    <Text>After Effects</Text>
-                                </Badge>
-                            </Container>
-                            <Button>
-                                <ButtonText>NEXT PROJECT</ButtonText>
-                                <ButtonIcon
-                                    ref={iconRef}
-                                    src="/ArrowRight.svg"
-                                    alt="Aperçu du projet">
-                                </ButtonIcon>
-                            </Button>
-                        </Description2>
-                    </ContenerNextProject>
-                </NextProjectLink>
-            </NextProject>
-        </>
-    );
+      <Content>
+        <Content1>
+          <ContentImages data-animate>
+            <Video
+              ref={videoRef}
+              src="/wordpress_video.mp4"     // chemin vers ton fichier .mp4
+              muted
+              loop
+              playsInline
+            />
+            <SaasImage src="/wordpress1.jpg" alt="Aperçu du projet" data-animate />
+            <SaasImage src="/wordpress2.jpg" alt="Aperçu du projet" data-animate />
+            <SaasImage src="/wordpress3.jpg" alt="Aperçu du projet" data-animate />
+            <SaasImage src="/wordpress4.png" alt="Aperçu du projet" data-animate />
+          </ContentImages>
+        </Content1>
+      </Content>
+      <NextProject ref={containerIconRef}>
+        <NextProjectLink to="../Project4">
+          <ContenerNextProject>
+            <Model2>
+              <ModelImage2 src="/ebook.png" alt="Aperçu du projet" />
+            </Model2>
+            <Description2>
+              <Title2>LINKEDIN AD CAMPAIGN</Title2>
+              <Container>
+                <Badge>
+                  <Icon src="/Photoshop.svg" alt="Aperçu du projet"></Icon>
+                  <Text>Photoshop</Text>
+                </Badge>
+                <Badge>
+                  <Icon src="/Aftereffects.svg" alt="Aperçu du projet"></Icon>
+                  <Text>After Effects</Text>
+                </Badge>
+              </Container>
+              <Button>
+                <ButtonText>NEXT PROJECT</ButtonText>
+                <ButtonIcon
+                  ref={iconRef}
+                  src="/ArrowRight.svg"
+                  alt="Aperçu du projet">
+                </ButtonIcon>
+              </Button>
+            </Description2>
+          </ContenerNextProject>
+        </NextProjectLink>
+      </NextProject>
+    </>
+  );
 }
