@@ -188,7 +188,8 @@ const Content = styled.section`
   }
     @media (max-width: 700px) {
     padding: 8dvw 0;
-    gap: 3dvw;
+    gap: 10dvw;
+    flex-direction: column;
   }
 `;
 
@@ -199,7 +200,8 @@ const Content1 = styled.div`
   @media (max-width: 1000px) {
   }
   @media (max-width: 700px) {
-  gap: 3dvw;
+  align-items: center;
+  gap: 10dvw;
   }
 `;
 
@@ -210,7 +212,8 @@ const Content2 = styled.div`
   @media (max-width: 1000px) {
   }
   @media (max-width: 700px) {
-  gap: 3dvw;
+  align-items: center;
+  gap: 10dvw;
   }
 `;
 
@@ -221,7 +224,8 @@ const Content3 = styled.div`
   @media (max-width: 1000px) {
   }
   @media (max-width: 700px) {
-  gap: 3dvw;
+  align-items: center;
+  gap: 10dvw;
   }
 `;
 
@@ -231,9 +235,11 @@ const SaasImage = styled.img`
   width: 20dvw;
   object-fit: cover;
   border-radius: 10px; /* si tu veux un arrondi */
-   @media (max-width: 1000px) {
-   width: 28dvw;
-   border-radius: 5px;
+     @media (max-width: 1000px) {
+   width: 27dvw;
+  }
+   @media (max-width: 700px) {
+   width: 80dvw;
   }
 `;
 
