@@ -41,7 +41,7 @@ display: flex;
 flex-direction: column;
 align-items: right;
 text-align: right;
-  @media (max-width: 11000px) {
+  @media (max-width: 1000px) {
   text-align: left;
   }
 `;
@@ -95,6 +95,7 @@ const Description = styled.h2`
   @media (max-width: 700px) {
     font-size: 2.5vw;
     margin: 0 0 0 4dvw;
+    font-weight: normal;
   }
 `;
 
