@@ -79,7 +79,7 @@ const Title = styled.h1`
    font-size: 5vw;
   }
   @media (max-width: 700px) {
-   font-size: 5vw;
+   font-size: 6.5vw;
   }
 `;
 
@@ -93,7 +93,7 @@ const Description = styled.h2`
    font-size: 1.5vw;
   }
   @media (max-width: 700px) {
-    font-size: 2.5vw;
+    font-size: 4vw;
     margin: 0 0 0 4dvw;
   }
 `;
