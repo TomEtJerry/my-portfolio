@@ -70,8 +70,8 @@ height: 100%;
 
 const Title = styled.h1`
   font-family: "K2D", sans-serif;
-  font-size: 3vw;
-  font-weight: 500;
+  font-size: 3.5vw;
+  font-weight: bold;
   font-style: normal;
   color: white;
   white-space: nowrap; 
@@ -85,7 +85,7 @@ const Title = styled.h1`
 
 const Description = styled.h2`
   font-family: "K2D", sans-serif;
-  font-size: 1vw;
+  font-size: 1.5vw;
   font-weight: 500;
   font-style: normal;
   color: #B4B4B4;
@@ -95,7 +95,6 @@ const Description = styled.h2`
   @media (max-width: 700px) {
     font-size: 2.5vw;
     margin: 0 0 0 4dvw;
-    font-weight: normal;
   }
 `;
 
@@ -626,11 +625,11 @@ export default function Project1() {
             <TitleContainer>
               <Square></Square>
               <Title>
-                <h1>CUSTOMER DATA PLATFORM</h1>
+                CUSTOMER DATA PLATFORM
               </Title>
             </TitleContainer>
             <Description>
-              <h2>Redesign of a SaaS platform which analyzes customer satisfaction</h2>
+              Redesign of a SaaS platform which analyzes customer satisfaction
             </Description>
           </DescriptionContainer>
         </HeroContainer>
