@@ -13,19 +13,19 @@ const AppContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0dvw 0 15dvw 0;
+  padding: 6dvw 0 15dvw 0;
   gap: 8dvw;
   background-color: #0B0E1A;
   @media (max-width: 1100px) {
-    padding: 0vw 0 30vw 0;
+    padding: 20vw 0 30vw 0;
     gap: 20dvw;
   }
   @media (max-width: 700px) {
-    padding: 0vw 0 40vw 0;
+    padding: 30vw 0 40vw 0;
     gap: 25dvw;
   }
   @media (max-width: 330px) {
-    padding: 10vw 0 40vw 0;
+    padding: 16vw 0 40vw 0;
     gap: 15dvw;
   }
 `;
@@ -58,26 +58,10 @@ const HeroSection = styled.div`
   flex-direction: column;
   width: 60dvw;
   z-index: 0;
-  @media (max-width: 1100px) {
+  @media (max-width: 700px) {
   width: 95dvw;
   }
 `;
-
-const FirstPrint = styled.div`
-  display : flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100dvh;
-      @media (max-width: 1100px) {
-  height: 85dvh;
-  }
-    @media (max-width: 700px) {
-  height: 85dvh;
-  }
-    @media (max-width: 330px) {
-   height: 80dvh
-  }
-`
 
 const NameContainer = styled.div`
 text-align: center;
@@ -203,15 +187,15 @@ align-items: center;
 
 const ExitContainer = styled.div`
 text-align: center;
-padding: 0dvw 0 0 0;
+padding: 6dvw 0 0 0;
   @media (max-width: 1100px) {
-  padding: 0vw 0 0 0;
+  padding: 12vw 0 0 0;
   }
   @media (max-width: 700px) {
-  padding: 0vw 0 0 0;
+  padding: 23vw 0 0 0;
   }
     @media (max-width: 330px) {
-  padding: 0vw 0 0 0;
+  padding: 16vw 0 0 0;
   }
 `;
 
@@ -577,20 +561,18 @@ export default function Home() {
     <AppContainer>
       <Background />
       <HeroSection>
-        <FirstPrint>
-          <NameContainer>
-            <NameText>TOM SANTONI</NameText>
-          </NameContainer>
-          <HeroContainer>
-            <HeroTitleContainer ref={heroContainerRef}>
-              <HeroShadow>UX-UI DESIGNER</HeroShadow>
-              <HeroTitle>UX-UI DESIGNER</HeroTitle>
-            </HeroTitleContainer>
-          </HeroContainer>
-          <DescriptionContainer>
-            <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
-          </DescriptionContainer>
-        </FirstPrint>
+        <NameContainer>
+          <NameText>TOM SANTONI</NameText>
+        </NameContainer>
+        <HeroContainer>
+          <HeroTitleContainer ref={heroContainerRef}>
+            <HeroShadow>UX-UI DESIGNER</HeroShadow>
+            <HeroTitle>UX-UI DESIGNER</HeroTitle>
+          </HeroTitleContainer>
+        </HeroContainer>
+        <DescriptionContainer>
+          <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
+        </DescriptionContainer>
         <ExitContainer>
           <ExitText>SELECTED WORK</ExitText>
         </ExitContainer>
