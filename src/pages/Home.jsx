@@ -247,6 +247,7 @@ gap: 8dvw;
 `
 
 const Projects = styled.div`
+  position: relative;
   width: 55dvw;
   height: 55dvh;
   display: grid;
