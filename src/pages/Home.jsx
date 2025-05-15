@@ -247,7 +247,6 @@ gap: 8dvw;
 `
 
 const Projects = styled.div`
-  position: relative;
   width: 55dvw;
   height: 55dvh;
   display: grid;
@@ -292,14 +291,6 @@ const Projects = styled.div`
     border-radius: 40px;
     box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
     justify-content: center;
-  }
-      &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('/noise.svg'); /* Ton image de bruit */
-    opacity: 0.05;
-    pointer-events: none;
   }
 `;
 
