@@ -258,7 +258,7 @@ const Projects = styled.div`
   opacity: 0;
   transform: translateY(100px);
   border-radius: 50px;
-  background: linear-gradient(90deg, rgba(0, 229, 255, 0.40) 0.09%, rgba(0, 48, 87, 0.80) 99.91%);
+  background: linear-gradient(90deg, rgb(12, 90, 99) 0.09%, rgb(0, 48, 87) 99.91%);
   box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.60);
   overflow-x: hidden;
   z-index: 2;
@@ -291,6 +291,14 @@ const Projects = styled.div`
     border-radius: 40px;
     box-shadow: 0px 0px 7px 1px rgba(96, 215, 255, 0.60);
     justify-content: center;
+  }
+      &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/noise.svg'); /* Ton image de bruit */
+    opacity: 0.05;
+    pointer-events: none;
   }
 `;
 
