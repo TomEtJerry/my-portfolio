@@ -89,10 +89,11 @@ const ModelViewer = memo(({ modelPath }) => {
                     camera={{ position: [0, 0, 1] }}
                     style={{ width: "100%", height: "100%" }}
                     dpr={dprValue}
+                    shadows={false}
                 >
                     <ambientLight intensity={0.5} />
                     <directionalLight position={[1, 2, 3]} intensity={2} />
-                    <pointLight position={[-2, -2, 2]} intensity={10} color="#97ADFF" />
+                    <pointLight position={[-2, -2, 2]} intensity={1} color="#97ADFF" />
                     <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
                 </Canvas>
             )}
