@@ -258,7 +258,7 @@ const Projects = styled.div`
   opacity: 0;
   transform: translateY(100px);
   border-radius: 50px;
-  background: linear-gradient(90deg, rgb(12, 90, 99) 0.09%, rgb(0, 48, 87) 99.91%);
+  background: rgb(0, 65, 87);
   box-shadow: 0px 0px 10px 1px rgba(96, 215, 255, 0.60);
   overflow-x: hidden;
   z-index: 2;
