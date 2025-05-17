@@ -249,7 +249,7 @@ const SaasImage = styled.img`
 const NextProject = styled.section`
   margin: 0;
   padding: 0;
-  background: linear-gradient(90deg, rgb(12, 90, 99) 0.09%, rgb(0, 48, 87) 99.91%);
+  background: rgb(0, 65, 87);
   display: flex;
 `;
 
