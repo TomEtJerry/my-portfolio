@@ -93,7 +93,6 @@ const ModelViewer = memo(({ modelPath }) => {
                 >
                     <ambientLight intensity={0.5} />
                     <directionalLight position={[1, 2, 3]} intensity={2} />
-                    <pointLight position={[-2, -2, 2]} intensity={1} color="#97ADFF" />
                     <RotatingModel modelPath={modelPath} speed={animate ? speed : 0} />
                 </Canvas>
             )}
