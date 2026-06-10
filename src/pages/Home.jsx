@@ -605,7 +605,7 @@ export default function Home() {
             </HeroTitleContainer>
           </HeroContainer>
           <DescriptionContainer>
-            <HeroDescription>LOOKING FOR A WORK-STUDY OPPORTUNITY</HeroDescription>
+            <HeroDescription>OPEN TO PRODUCT DESIGNER OPPORTUNITIES</HeroDescription>
           </DescriptionContainer>
         </FirstPrint>
         <ExitContainer>
