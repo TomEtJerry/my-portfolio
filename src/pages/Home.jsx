@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Stars from '../components/Stars';
 gsap.registerPlugin(ScrollTrigger);
 
 const ModelViewer = lazy(() => import("../components/ModelViewer"));
@@ -41,7 +42,7 @@ const Background = styled.div`
   background-repeat: no-repeat;
   background-size: 100% 100%;
   opacity: 1;
-  z-index: 1; /* Place en arrière-plan */
+  z-index: 0; /* Place en arrière-plan */
     @media (max-width: 1100px) {
     height: 30vh; /* Ajuste la hauteur selon tes besoins */
   }
@@ -591,6 +592,7 @@ export default function Home() {
   return (
     <AppContainer>
       <Background />
+      <Stars count={100} />
       <HeroSection>
         <FirstPrint>
           <NameContainer>
