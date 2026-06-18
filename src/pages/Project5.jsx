@@ -383,7 +383,7 @@ const TimelineStepText = styled.p`
 
 const Gallery = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto auto;
   gap: 1.4vw;
   margin-top: 3vw;
@@ -411,7 +411,7 @@ const GalleryItem = styled.div`
 
 const GalleryFrame = styled.div`
   width: 100%;
-  max-width: ${p => p.$hero ? '20vw' : '14vw'};
+  max-width: ${p => p.$hero ? '18vw' : '18vw'};
   margin: 0 auto;
   border-radius: 28px;
   overflow: hidden;
@@ -441,9 +441,11 @@ const GalleryImg = styled.img`
 
 const GalleryCaption = styled.p`
   font-family: "K2D", sans-serif;
-  font-size: 0.9vw;
+  font-size: 1vw;
   color: #6B7A99;
   margin: 0;
+  display: flex;
+  justify-content: center;
   @media (max-width: 1100px) {
     font-size: 3vw;
   }
@@ -780,21 +782,21 @@ export default function Project5() {
             <GalleryFrame $hero>
               {<GalleryImg src="paiements_modif_v1.jpg" alt="Contract overview" />}
             </GalleryFrame>
-            <GalleryCaption>Overview — contract status and next payment</GalleryCaption>
+            <GalleryCaption>Contract status and next payment</GalleryCaption>
           </GalleryItem>
 
           <GalleryItem>
             <GalleryFrame>
               {<GalleryImg src="/details_close.jpg" alt="Payment history" />}
             </GalleryFrame>
-            <GalleryCaption>Payment history</GalleryCaption>
+            <GalleryCaption>Payment history open</GalleryCaption>
           </GalleryItem>
 
           <GalleryItem>
             <GalleryFrame>
               {<GalleryImg src="/details_open.jpg" alt="Installment detail" />}
             </GalleryFrame>
-            <GalleryCaption>Installment detail</GalleryCaption>
+            <GalleryCaption>Payment history close</GalleryCaption>
           </GalleryItem>
         </Gallery>
       </Section>
