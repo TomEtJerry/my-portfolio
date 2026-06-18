@@ -90,7 +90,7 @@ const HeroTitle = styled.h1`
   line-height: 1.05;
   color: white;
   margin: 0;
-  letter-spacing: 0.1vw;
+  letter-spacing: 0.3vw;
   @media (max-width: 1100px) {
     font-size: 8vw;
   }
@@ -196,7 +196,7 @@ const SectionTitle = styled.h2`
   color: white;
   margin: 0 0 1.5vw 0;
   max-width: 40vw;
-  letter-spacing: 0.1vw;
+  letter-spacing: 0.2vw;
   @media (max-width: 1100px) {
     font-size: 6vw;
     max-width: 100%;
