@@ -13,7 +13,7 @@ const ModelViewer = lazy(() => import("../components/ModelViewer"));
 
 const Page = styled.div`
   background-color: #0B0E1A;
-  color: #0B0E1A;
+  color: white;
   overflow-x: hidden;
 `;
 
