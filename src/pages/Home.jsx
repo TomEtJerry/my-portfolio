@@ -317,6 +317,41 @@ const Description = styled.div`
   }
 `;
 
+const Logo = styled.img.attrs({
+  alt: "logo",
+  loading: "lazy"
+})`
+  display: none; /* caché en desktop, la grid à 2 colonnes ne doit pas être perturbée */
+  @media (max-width: 1100px) {
+    display: block;
+    height: 4.5vw;
+    width: auto;
+    margin: 4vw auto 1vw auto;
+    order: 0; /* ← passe avant Model (order:1) et Description (order:2) */
+  }
+  @media (max-width: 700px) {
+    height: 22px;
+    margin: 15px auto 5px auto;
+  }
+  @media (max-width: 330px) {
+    height: 18px;
+    margin: 10px auto 5px auto;
+  }
+`;
+
+const LogoDesktop = styled.img.attrs({
+  alt: "logo",
+  loading: "lazy"
+})`
+  height: 2vw;
+  width: auto;
+  margin: 0 0 2dvw 0;
+  display: block;
+  @media (max-width: 1100px) {
+    display: none; /* remplacé par <Logo> en mobile */
+  }
+`;
+
 const Title = styled.h2`
   font-family: "bueno", sans-serif;
   font-size: 3.3vw;
@@ -481,6 +516,16 @@ const ButtonText = styled.span`
 
 const projectsData = [
   {
+    title: "CUSTOMER\nPAYMENTS PORTAL",
+    logo: "/allianz.svg",
+    modelPath: "/smartphone.glb",
+    path: "/project5",
+    badges: [
+      { icon: "/Design.svg", text: "UX/UI Design" },
+      { icon: "/Figma.svg", text: "Figma" },
+    ],
+  },
+  {
     title: "CUSTOMER\nDATA PLATFORM",
     modelPath: "/saas.glb",
     path: "/project1",
@@ -531,11 +576,15 @@ export default function Home() {
     }, 200); // Laisse le temps à ScrollTrigger de finir l'init
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isLargeScreen = window.matchMedia("(min-width: 1600px)").matches;
     const perspectiveValue = isMobile ? 400 : 600;
 
+    const rotationX = isLargeScreen ? 6 : 10; // ← valeur appliquée uniquement au-dessus de 1600px
+    const rotationY = isLargeScreen ? 6 : 10; // ← valeur appliquée uniquement au-dessus de 1600px
+
     gsap.to(container, {
-      rotationX: 10,
-      rotationY: 10,
+      rotationX,
+      rotationY,
       transformPerspective: perspectiveValue,
       duration: 0
     });
@@ -623,12 +672,14 @@ export default function Home() {
               className="Projects"
               ref={(el) => (buttonContainerRefs.current[index] = el)}
             >
+              {project.logo && <Logo src={project.logo} />}
               <Model>
                 <Suspense fallback={null}>
                   <ModelViewer modelPath={project.modelPath} />
                 </Suspense>
               </Model>
               <Description>
+                {project.logo && <LogoDesktop src={project.logo} />}
                 <Title> {project.title.split('\n').map((line, i) => (
                   <span key={i}>
                     {line}

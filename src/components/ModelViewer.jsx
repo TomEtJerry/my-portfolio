@@ -7,15 +7,22 @@ useGLTF.preload("/saas.glb", "/gltf/");
 useGLTF.preload("/product_page.glb", "/gltf/");
 useGLTF.preload("/wordpress_site.glb", "/gltf/");
 useGLTF.preload("/ebook.glb", "/gltf/");
+useGLTF.preload("/smartphone.glb", "/gltf/"); // ← nouvelle ligne
 
-const RotatingModel = ({ modelPath, speed }) => {
+
+const RotatingModel = ({ modelPath }) => {
     const { scene } = useGLTF(modelPath, true);
     const modelRef = useRef();
 
-    useFrame((state, delta) => {
-        if (modelRef.current) {
-            modelRef.current.rotation.y += speed * delta * 60;
-        }
+    useFrame(({ clock }) => {
+        if (!modelRef.current) return;
+        const t = clock.elapsedTime;
+        // Flottement vertical doux
+        modelRef.current.position.y = Math.sin(t * 0.6) * 0.06;
+        // Léger balancement gauche/droite (max ~8°)
+        modelRef.current.rotation.y = Math.sin(t * 0.4) * 0.16;
+        // Très légère inclinaison avant/arrière
+        modelRef.current.rotation.x = Math.sin(t * 0.3) * 0.08;
     });
 
     return <primitive ref={modelRef} object={scene} scale={0.55} />;
