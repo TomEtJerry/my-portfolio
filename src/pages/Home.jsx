@@ -527,7 +527,8 @@ const projectsData = [
   },
   {
     title: "CUSTOMER\nDATA PLATFORM",
-    modelPath: "/saas.glb",
+    logo: "/cliking.svg",
+    modelPath: "/tablet.glb",
     path: "/project1",
     badges: [
       { icon: "/Design.svg", text: "UX/UI Design" },

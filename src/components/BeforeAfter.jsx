@@ -9,6 +9,7 @@ const SliderWrapper = styled.div`
   user-select: none;
   overflow: clip;
   border-radius: 15px;
+  cursor: ew-resize;
   @media (max-width: 1000px) {
     max-width: 100dvw;
     border-radius: 0;
@@ -36,76 +37,85 @@ const AfterImg = styled.img`
   pointer-events: none;
 `
 
-const Handle = styled.div`
+const DividerLine = styled.div`
   position: absolute;
-  display: flex;
   top: 0;
   left: ${({ pos }) => pos}%;
   transform: translateX(-50%);
-  width: 0.8vw;
+  width: 3px;
   height: 100%;
-  background: linear-gradient(90deg, rgb(12, 90, 99) 0.09%, rgb(0, 48, 87) 99.91%);
-  cursor: ew-resize;
+  background: rgb(0, 48, 87);
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.95),
+    0 0 0.8vw rgba(0, 0, 0, 0.35);
   z-index: 1;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-right: 0.1vw solid white;
-  border-left: 0.1vw solid white;
+  pointer-events: none;
   @media (max-width: 1000px) {
-    width: 1.1vw;
-  }
-  @media (max-width: 700px) {
-    width: 1.5vw;
+    width: 2.5px;
   }
 `
 
-const Cursor = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.7dvw;
+const Knob = styled.div`
   position: absolute;
-  width: 3.5dvw;
-  height: 25%;
-  background: linear-gradient(90deg, rgb(12, 90, 99) 0.09%, rgb(0, 48, 87) 99.91%);
-  z-index: 1;
-  border-radius: 1.5vw;
-  justify-content: center;
+  top: 50%;
+  left: ${({ pos }) => pos}%;
+  transform: translate(-50%, -50%);
+  display: flex;
   align-items: center;
-  text-align: center;
-  border-right: 0.1vw solid white;
-  border-left: 0.1vw solid white;
+  justify-content: center;
+  gap: 0.35vw;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgb(12, 90, 99) 0.09%, rgb(0, 48, 87) 99.91%);
+  border: 2px solid white;
+  box-shadow: 0 0.3vw 0.9vw rgba(0, 0, 0, 0.35), 0 0 0 0.4vw rgba(255, 255, 255, 0.08);
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.15s ease;
   @media (max-width: 1000px) {
-    width: 4.5dvw;
-    border-radius: 2vw;
-    gap: 1.1dvw;
+    width: 9vw;
+    height: 9vw;
   }
   @media (max-width: 700px) {
-    width: 5dvw;
-    border-radius: 2vw;
-    gap: 1.2dvw;
+    width: 44px;
+    height: 44px;
   }
 `
 
-const Line = styled.div`
-  display: flex;
-  width: 1.5dvw;
-  height: 2px;
-  background: white;
-  z-index: 1;
-  border-radius: 30px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+const ChevronLeft = styled.span`
+  width: 0;
+  height: 0;
+  border-top: 0.32vw solid transparent;
+  border-bottom: 0.32vw solid transparent;
+  border-right: 0.42vw solid white;
   @media (max-width: 1000px) {
-    height: 1.5px;
-    width: 15px;
-    border-radius: 10px;
+    border-top-width: 1.3vw;
+    border-bottom-width: 1.3vw;
+    border-right-width: 1.6vw;
   }
   @media (max-width: 700px) {
-    height: 0.5px;
-    width: 9px;
-    border-radius: 10px;
+    border-top-width: 6px;
+    border-bottom-width: 6px;
+    border-right-width: 7px;
+  }
+`
+
+const ChevronRight = styled.span`
+  width: 0;
+  height: 0;
+  border-top: 0.32vw solid transparent;
+  border-bottom: 0.32vw solid transparent;
+  border-left: 0.42vw solid white;
+  @media (max-width: 1000px) {
+    border-top-width: 1.3vw;
+    border-bottom-width: 1.3vw;
+    border-left-width: 1.6vw;
+  }
+  @media (max-width: 700px) {
+    border-top-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 7px;
   }
 `
 
@@ -147,8 +157,10 @@ export function BeforeAfter({ beforeSrc, afterSrc }) {
       const vh = window.innerHeight
 
       // on ne démarre qu'à 5% sous le bas et on termine 5% avant de sortir
-      const startOffset = vh * 0.50    // 40% de la hauteur d'écran
-      const endOffset = vh * 0.40    // 40% avant que l'élément quitte l'écran
+      const isMobile = window.innerWidth <= 700
+      const offsetRatio = isMobile ? 0.40 : 0.60
+      const startOffset = vh * offsetRatio    // % de la hauteur d'écran
+      const endOffset = vh * offsetRatio    // % avant que l'élément quitte l'écran
       // on décale top de startOffset et on réduit la plage de scroll par endOffset
       const raw = (vh - top - startOffset)
         / (vh + height - startOffset - endOffset)
@@ -178,11 +190,11 @@ export function BeforeAfter({ beforeSrc, afterSrc }) {
       />
 
       {/* le curseur */}
-      <Handle pos={pos}>
-        <Cursor>
-          <Line /><Line /><Line />
-        </Cursor>
-      </Handle>
+      <DividerLine pos={pos} />
+      <Knob pos={pos}>
+        <ChevronLeft />
+        <ChevronRight />
+      </Knob>
     </SliderWrapper>
   )
 }

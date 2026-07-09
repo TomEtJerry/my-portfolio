@@ -3,7 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
 // Préchargement des modèles
-useGLTF.preload("/saas.glb", "/gltf/");
+useGLTF.preload("/tablet.glb", "/gltf/");
 useGLTF.preload("/product_page.glb", "/gltf/");
 useGLTF.preload("/wordpress_site.glb", "/gltf/");
 useGLTF.preload("/ebook.glb", "/gltf/");

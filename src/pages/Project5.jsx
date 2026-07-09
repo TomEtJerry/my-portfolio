@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ModelViewer from "../components/ModelViewer";
 gsap.registerPlugin(ScrollTrigger);
-
-const ModelViewer = lazy(() => import("../components/ModelViewer"));
 
 /* ============================================
    PAGE WRAPPER
@@ -291,6 +290,7 @@ const QuoteSource = styled.span`
    ============================================ */
 
 const Timeline = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -298,6 +298,28 @@ const Timeline = styled.div`
   @media (max-width: 1100px) {
     margin-top: 6vw;
   }
+`;
+
+const TimelineTrack = styled.div`
+  position: absolute;
+  left: 1.2vw;
+  width: 2px;
+  transform: translateX(-50%);
+  background: #1A2E4F;
+  overflow: hidden;
+  @media (max-width: 1100px) {
+    left: 4vw;
+  }
+`;
+
+const TimelineTrackFill = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: #3ECFA0;
+  box-shadow: 0 0 8px 1px rgba(62, 207, 160, 0.5);
 `;
 
 const TimelineStep = styled.div`
@@ -312,30 +334,28 @@ const TimelineStep = styled.div`
 
 const TimelineMarker = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const TimelineDot = styled.div`
   width: 1.4vw;
   height: 1.4vw;
   border-radius: 50%;
-  background: ${p => p.$done ? '#3ECFA0' : '#0B1F4A'};
-  border: 2px solid ${p => p.$done ? '#3ECFA0' : '#48B4F5'};
+  background: #0B1F4A;
+  border: 2px solid #48B4F5;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  &.is-active {
+    background: #3ECFA0;
+    border-color: #3ECFA0;
+    box-shadow: 0 0 12px 2px rgba(62, 207, 160, 0.55);
+  }
   @media (max-width: 1100px) {
     width: 5vw;
     height: 5vw;
-  }
-`;
-
-const TimelineLine = styled.div`
-  width: 2px;
-  flex: 1;
-  background: #1A2E4F;
-  min-height: 4vw;
-  @media (max-width: 1100px) {
-    min-height: 10vw;
   }
 `;
 
@@ -459,14 +479,61 @@ const GalleryCaption = styled.p`
    ============================================ */
 
 const TestingGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vw;
   margin-top: 3vw;
   @media (max-width: 1100px) {
-    grid-template-columns: 1fr;
-    gap: 8vw;
+    gap: 10vw;
     margin-top: 8vw;
+  }
+`;
+
+const TestingPair = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 5vw 1fr;
+  align-items: center;
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const TestingArrow = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    width: 2px;
+    height: 7vw;
+    margin: 0 auto;
+  }
+`;
+
+const TestingArrowLine = styled.div`
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(72, 180, 245, 0.2), #48B4F5);
+  @media (max-width: 1100px) {
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(72, 180, 245, 0.2), #48B4F5);
+  }
+`;
+
+const TestingArrowHead = styled.div`
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  border-top: 0.42vw solid transparent;
+  border-bottom: 0.42vw solid transparent;
+  border-left: 0.6vw solid #48B4F5;
+  @media (max-width: 1100px) {
+    border-top: 0.6vw solid #48B4F5;
+    border-left: 1.6vw solid transparent;
+    border-right: 1.6vw solid transparent;
+    border-bottom: none;
   }
 `;
 
@@ -481,6 +548,44 @@ const TestingCard = styled.div`
   @media (max-width: 1100px) {
     border-radius: 20px;
     padding: 6vw;
+  }
+`;
+
+const TestingVisual = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+`;
+
+const TestingVisualImg = styled.img`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+`;
+
+const TestingVisualHint = styled.span`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1vw;
+  text-align: center;
+  font-family: "K2D", sans-serif;
+  font-size: 0.75vw;
+  line-height: 1.4;
+  color: #6B7A99;
+  @media (max-width: 1100px) {
+    font-size: 2.6vw;
   }
 `;
 
@@ -568,7 +673,6 @@ const InsightDesc = styled.p`
 
 const NextProject = styled.section`
   background: rgb(0, 65, 87);
-  padding: 4vw 6vw;
 `;
 
 const NextProjectLink = styled(Link)`
@@ -577,10 +681,18 @@ const NextProjectLink = styled(Link)`
   justify-content: space-between;
   text-decoration: none;
   color: white;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6vw 6vw;
+  transition: background 0.2s ease;
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
   @media (max-width: 1100px) {
     flex-direction: column;
-    gap: 4vw;
+    gap: 6vw;
     text-align: center;
+    padding: 14vw 6vw;
   }
 `;
 
@@ -591,7 +703,10 @@ const NextLabel = styled.span`
   text-transform: uppercase;
   color: #97ADFF;
   @media (max-width: 1100px) {
-    font-size: 3vw;
+    font-size: 3.6vw;
+  }
+  @media (max-width: 700px) {
+    font-size: 14px;
   }
 `;
 
@@ -601,7 +716,10 @@ const NextTitle = styled.h3`
   font-weight: 700;
   margin: 0.3vw 0 0 0;
   @media (max-width: 1100px) {
-    font-size: 6vw;
+    font-size: 8vw;
+  }
+  @media (max-width: 700px) {
+    font-size: 32px;
   }
 `;
 
@@ -609,13 +727,20 @@ const NextArrow = styled.img`
   width: 2vw;
   height: 2vw;
   @media (max-width: 1100px) {
-    width: 6vw;
-    height: 6vw;
+    width: 9vw;
+    height: 9vw;
+  }
+  @media (max-width: 700px) {
+    width: 36px;
+    height: 36px;
   }
 `;
 
 export default function Project5() {
   const heroModelRef = useRef(null);
+  const timelineRef = useRef(null);
+  const trackRef = useRef(null);
+  const trackFillRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -637,6 +762,63 @@ export default function Project5() {
         }
       );
     });
+
+    // Timeline interactive : une ligne unique se remplit au scroll,
+    // les points ne s'allument que lorsque le remplissage les atteint.
+    const timelineEl = timelineRef.current;
+    const trackEl = trackRef.current;
+    const trackFillEl = trackFillRef.current;
+    let dotEls = [];
+    let dotThresholds = [];
+
+    const measureTimeline = () => {
+      if (!timelineEl || !trackEl) return;
+      dotEls = gsap.utils.toArray('[data-timeline-dot]', timelineEl);
+      if (dotEls.length === 0) return;
+
+      const timelineRect = timelineEl.getBoundingClientRect();
+      const firstDotRect = dotEls[0].getBoundingClientRect();
+      const lastDotRect = dotEls[dotEls.length - 1].getBoundingClientRect();
+
+      const trackTop = (firstDotRect.top + firstDotRect.height / 2) - timelineRect.top;
+      const trackBottom = (lastDotRect.top + lastDotRect.height / 2) - timelineRect.top;
+      const trackHeight = Math.max(trackBottom - trackTop, 1);
+
+      trackEl.style.top = `${trackTop}px`;
+      trackEl.style.height = `${trackHeight}px`;
+
+      dotThresholds = dotEls.map((dot) => {
+        const dotRect = dot.getBoundingClientRect();
+        const dotCenter = (dotRect.top + dotRect.height / 2) - timelineRect.top;
+        return (dotCenter - trackTop) / trackHeight;
+      });
+    };
+
+    measureTimeline();
+
+    const timelineScrollTrigger = ScrollTrigger.create({
+      trigger: timelineEl,
+      start: 'top 65%',
+      end: 'bottom 65%',
+      scrub: true,
+      onUpdate: (self) => {
+        if (trackFillEl) trackFillEl.style.height = `${self.progress * 100}%`;
+        dotEls.forEach((dot, i) => {
+          dot.classList.toggle('is-active', self.progress >= dotThresholds[i] - 0.001);
+        });
+      },
+    });
+
+    const handleResize = () => {
+      measureTimeline();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      timelineScrollTrigger.kill();
+    };
   }, []);
 
   return (
@@ -707,11 +889,14 @@ export default function Project5() {
         <SectionLabel>The approach</SectionLabel>
         <SectionTitle>From wireframe to validated flow</SectionTitle>
 
-        <Timeline>
+        <Timeline ref={timelineRef}>
+          <TimelineTrack ref={trackRef}>
+            <TimelineTrackFill ref={trackFillRef} />
+          </TimelineTrack>
+
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
-              <TimelineLine />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Scoping the need</TimelineStepTitle>
@@ -725,8 +910,7 @@ export default function Project5() {
 
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
-              <TimelineLine />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Wireframing in Figma</TimelineStepTitle>
@@ -740,8 +924,7 @@ export default function Project5() {
 
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
-              <TimelineLine />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>User testing on UserTesting</TimelineStepTitle>
@@ -755,7 +938,7 @@ export default function Project5() {
 
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Refinements and final version</TimelineStepTitle>
@@ -811,35 +994,87 @@ export default function Project5() {
         </SectionText>
 
         <TestingGrid>
-          <TestingCard>
-            <TestingTag>Before testing</TestingTag>
-            <TestingFinding>
-              Users confused the payment due date with the premium issue
-              date, due to insufficiently explicit labeling.
-            </TestingFinding>
-          </TestingCard>
-          <TestingCard $after>
-            <TestingTag>After adjustment</TestingTag>
-            <TestingFinding>
-              Labels were reworded and a distinct visual status was added
-              for each installment, removing the ambiguity seen in testing.
-            </TestingFinding>
-          </TestingCard>
+          <TestingPair>
+            <TestingCard>
+              <TestingVisual>
+                <TestingVisualImg
+                  src="/testing-date-label-before.jpg"
+                  alt="Visuel avant : libellé de la date de prélèvement"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+                <TestingVisualHint>
+                  Dépose ton visuel ici :<br />public/testing-date-label-before.jpg
+                </TestingVisualHint>
+              </TestingVisual>
+              <TestingTag>Before testing</TestingTag>
+              <TestingFinding>
+                Users confused the payment due date with the premium issue
+                date, due to insufficiently explicit labeling.
+              </TestingFinding>
+            </TestingCard>
+            <TestingArrow>
+              <TestingArrowLine />
+              <TestingArrowHead />
+            </TestingArrow>
+            <TestingCard $after>
+              <TestingVisual>
+                <TestingVisualImg
+                  src="/testing-date-label-after.jpg"
+                  alt="Visuel après : statut visuel distinct par échéance"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+                <TestingVisualHint>
+                  Dépose ton visuel ici :<br />public/testing-date-label-after.jpg
+                </TestingVisualHint>
+              </TestingVisual>
+              <TestingTag>After adjustment</TestingTag>
+              <TestingFinding>
+                Labels were reworded and a distinct visual status was added
+                for each installment, removing the ambiguity seen in testing.
+              </TestingFinding>
+            </TestingCard>
+          </TestingPair>
 
-          <TestingCard>
-            <TestingTag>Before testing</TestingTag>
-            <TestingFinding>
-              Payment history required several clicks to reach, even though
-              it was the most sought-after information among testers.
-            </TestingFinding>
-          </TestingCard>
-          <TestingCard $after>
-            <TestingTag>After adjustment</TestingTag>
-            <TestingFinding>
-              History was promoted to direct access from the overview,
-              reducing the journey to a single action.
-            </TestingFinding>
-          </TestingCard>
+          <TestingPair>
+            <TestingCard>
+              <TestingVisual>
+                <TestingVisualImg
+                  src="/testing-history-access-before.jpg"
+                  alt="Visuel avant : accès à l'historique en plusieurs clics"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+                <TestingVisualHint>
+                  Dépose ton visuel ici :<br />public/testing-history-access-before.jpg
+                </TestingVisualHint>
+              </TestingVisual>
+              <TestingTag>Before testing</TestingTag>
+              <TestingFinding>
+                Payment history required several clicks to reach, even though
+                it was the most sought-after information among testers.
+              </TestingFinding>
+            </TestingCard>
+            <TestingArrow>
+              <TestingArrowLine />
+              <TestingArrowHead />
+            </TestingArrow>
+            <TestingCard $after>
+              <TestingVisual>
+                <TestingVisualImg
+                  src="/testing-history-access-after.jpg"
+                  alt="Visuel après : accès direct à l'historique"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+                <TestingVisualHint>
+                  Dépose ton visuel ici :<br />public/testing-history-access-after.jpg
+                </TestingVisualHint>
+              </TestingVisual>
+              <TestingTag>After adjustment</TestingTag>
+              <TestingFinding>
+                History was promoted to direct access from the overview,
+                reducing the journey to a single action.
+              </TestingFinding>
+            </TestingCard>
+          </TestingPair>
         </TestingGrid>
 
         <InsightList>
