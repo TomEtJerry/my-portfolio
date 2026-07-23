@@ -496,7 +496,7 @@ const TestingGrid = styled.div`
 
 const TestingPair = styled.div`
   display: grid;
-  grid-template-columns: 1fr 5vw 1fr;
+  grid-template-columns: 1fr 8vw 1fr;
   align-items: center;
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
@@ -506,23 +506,25 @@ const TestingPair = styled.div`
 const TestingArrow = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   @media (max-width: 1100px) {
     flex-direction: column;
-    width: 2px;
-    height: 7vw;
+    width: 100%;
+    height: 12vw;
     margin: 0 auto;
   }
 `;
 
 const TestingArrowLine = styled.div`
   flex: 1;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, rgba(72, 180, 245, 0.2), #48B4F5);
   @media (max-width: 1100px) {
-    width: 2px;
+    width: 3px;
     height: auto;
+    flex: 1;
     background: linear-gradient(180deg, rgba(72, 180, 245, 0.2), #48B4F5);
   }
 `;
@@ -531,13 +533,13 @@ const TestingArrowHead = styled.div`
   flex-shrink: 0;
   width: 0;
   height: 0;
-  border-top: 0.42vw solid transparent;
-  border-bottom: 0.42vw solid transparent;
-  border-left: 0.6vw solid #48B4F5;
+  border-top: 0.75vw solid transparent;
+  border-bottom: 0.75vw solid transparent;
+  border-left: 1.1vw solid #48B4F5;
   @media (max-width: 1100px) {
-    border-top: 0.6vw solid #48B4F5;
-    border-left: 1.6vw solid transparent;
-    border-right: 1.6vw solid transparent;
+    border-top: 1.6vw solid #48B4F5;
+    border-left: 3vw solid transparent;
+    border-right: 3vw solid transparent;
     border-bottom: none;
   }
 `;
