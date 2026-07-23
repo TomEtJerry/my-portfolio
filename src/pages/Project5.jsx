@@ -5,6 +5,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ModelViewer from "../components/ModelViewer";
 gsap.registerPlugin(ScrollTrigger);
+// Ignore les "resize" causés par l'affichage/masquage de la barre
+// d'adresse mobile pendant le scroll, pour éviter les recalculs intempestifs.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 /* ============================================
    PAGE WRAPPER
@@ -317,7 +320,9 @@ const TimelineTrackFill = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 0%;
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
   background: #3ECFA0;
   box-shadow: 0 0 8px 1px rgba(62, 207, 160, 0.5);
 `;
@@ -745,24 +750,6 @@ export default function Project5() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    gsap.utils.toArray('[data-reveal]').forEach((el) => {
-      gsap.fromTo(el,
-        { autoAlpha: 0, y: 60 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 90%',
-            end: 'top 50%',
-            scrub: true,
-          }
-        }
-      );
-    });
-
     // Timeline interactive : une ligne unique se remplit au scroll,
     // les points ne s'allument que lorsque le remplissage les atteint.
     const timelineEl = timelineRef.current;
@@ -794,22 +781,51 @@ export default function Project5() {
       });
     };
 
-    measureTimeline();
+    // Toutes les animations/ScrollTriggers créées ici sont suivies par ce
+    // contexte GSAP, pour être proprement détruites au nettoyage (évite les
+    // ScrollTriggers dupliqués/orphelins qui font saccader le scroll).
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('[data-reveal]').forEach((el) => {
+        gsap.fromTo(el,
+          { autoAlpha: 0, y: 60 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              end: 'top 50%',
+              scrub: true,
+            }
+          }
+        );
+      });
 
-    const timelineScrollTrigger = ScrollTrigger.create({
-      trigger: timelineEl,
-      start: 'top 65%',
-      end: 'bottom 65%',
-      scrub: true,
-      onUpdate: (self) => {
-        if (trackFillEl) trackFillEl.style.height = `${self.progress * 100}%`;
-        dotEls.forEach((dot, i) => {
-          dot.classList.toggle('is-active', self.progress >= dotThresholds[i] - 0.001);
-        });
-      },
+      measureTimeline();
+
+      ScrollTrigger.create({
+        trigger: timelineEl,
+        start: 'top 65%',
+        end: 'bottom 65%',
+        scrub: true,
+        onUpdate: (self) => {
+          if (trackFillEl) trackFillEl.style.transform = `scaleY(${self.progress})`;
+          dotEls.forEach((dot, i) => {
+            dot.classList.toggle('is-active', self.progress >= dotThresholds[i] - 0.001);
+          });
+        },
+      });
     });
 
+    // Sur mobile, l'apparition/disparition de la barre d'adresse déclenche
+    // un "resize" (hauteur seule) en pleine action de scroll : on l'ignore
+    // et ne réagit qu'à un vrai changement de largeur (rotation, fenêtre).
+    let lastWidth = window.innerWidth;
     const handleResize = () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
       measureTimeline();
       ScrollTrigger.refresh();
     };
@@ -817,7 +833,7 @@ export default function Project5() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      timelineScrollTrigger.kill();
+      ctx.revert();
     };
   }, []);
 

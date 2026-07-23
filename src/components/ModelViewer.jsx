@@ -64,7 +64,11 @@ const ModelViewer = memo(({ modelPath }) => {
         const dprAndAnimationObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setDprValue(window.devicePixelRatio || 1);
+                    // Plafonné à 1.5 : sur mobile, un devicePixelRatio natif
+                    // (souvent 2 à 3) fait rendre le canvas WebGL à pleine
+                    // résolution en continu, ce qui alourdit le thread
+                    // principal et rend le scroll tactile difficile.
+                    setDprValue(Math.min(window.devicePixelRatio || 1, 1.5));
                     setAnimate(true);
                 } else {
                     setDprValue(0.5);
