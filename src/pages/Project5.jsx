@@ -914,7 +914,7 @@ export default function Project5() {
               <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
-              <TimelineStepTitle>User testing on UserTesting</TimelineStepTitle>
+              <TimelineStepTitle>Remote testing sessions (UserTesting)</TimelineStepTitle>
               <TimelineStepText>
                 Confronting the wireframes with real clients to observe where
                 they looked for information, what they misunderstood, and
@@ -1061,16 +1061,16 @@ export default function Project5() {
 
         <InsightList>
           <InsightRow>
-            <InsightMetric>5</InsightMetric>
-            <InsightDesc>user testing sessions conducted on UserTesting to confront the wireframes with real clients.</InsightDesc>
+            <InsightMetric>16</InsightMetric>
+            <InsightDesc>testers took part in the UserTesting sessions to confront the wireframes with real clients.</InsightDesc>
           </InsightRow>
           <InsightRow>
-            <InsightMetric>3</InsightMetric>
-            <InsightDesc>Figma wireframe iterations between the first prototype and the validated version.</InsightDesc>
+            <InsightMetric>70%</InsightMetric>
+            <InsightDesc>overall task success rate across the payment tracking flow.</InsightDesc>
           </InsightRow>
           <InsightRow>
-            <InsightMetric>1 click</InsightMetric>
-            <InsightDesc>to access payment history, down from several steps in the first version.</InsightDesc>
+            <InsightMetric>4.4/5</InsightMetric>
+            <InsightDesc>average satisfaction rating given by testers for the flow.</InsightDesc>
           </InsightRow>
         </InsightList>
       </Section>

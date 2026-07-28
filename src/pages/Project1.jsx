@@ -318,6 +318,7 @@ const GoalsItem = styled.li`
    ============================================ */
 
 const Timeline = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -325,6 +326,30 @@ const Timeline = styled.div`
   @media (max-width: 1100px) {
     margin-top: 6vw;
   }
+`;
+
+const TimelineTrack = styled.div`
+  position: absolute;
+  left: 1.2vw;
+  width: 2px;
+  transform: translateX(-50%);
+  background: #1A2E4F;
+  overflow: hidden;
+  @media (max-width: 1100px) {
+    left: 4vw;
+  }
+`;
+
+const TimelineTrackFill = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+  background: #3ECFA0;
+  box-shadow: 0 0 8px 1px rgba(62, 207, 160, 0.5);
 `;
 
 const TimelineStep = styled.div`
@@ -339,30 +364,28 @@ const TimelineStep = styled.div`
 
 const TimelineMarker = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const TimelineDot = styled.div`
   width: 1.4vw;
   height: 1.4vw;
   border-radius: 50%;
-  background: ${p => p.$done ? '#3ECFA0' : '#0B1F4A'};
-  border: 2px solid ${p => p.$done ? '#3ECFA0' : '#48B4F5'};
+  background: #0B1F4A;
+  border: 2px solid #48B4F5;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  &.is-active {
+    background: #3ECFA0;
+    border-color: #3ECFA0;
+    box-shadow: 0 0 12px 2px rgba(62, 207, 160, 0.55);
+  }
   @media (max-width: 1100px) {
     width: 5vw;
     height: 5vw;
-  }
-`;
-
-const TimelineLine = styled.div`
-  width: 2px;
-  flex: 1;
-  background: #1A2E4F;
-  min-height: 4vw;
-  @media (max-width: 1100px) {
-    min-height: 10vw;
   }
 `;
 
@@ -654,26 +677,80 @@ const NextArrow = styled.img`
 
 export default function Project1() {
   const videoRef = useRef(null);
+  const timelineRef = useRef(null);
+  const trackRef = useRef(null);
+  const trackFillRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    gsap.utils.toArray('[data-reveal]').forEach((el) => {
-      gsap.fromTo(el,
-        { autoAlpha: 0, y: 60 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 90%',
-            end: 'top 50%',
-            scrub: true,
+    // Timeline interactive : une ligne unique se remplit au scroll,
+    // les points ne s'allument que lorsque le remplissage les atteint.
+    const timelineEl = timelineRef.current;
+    const trackEl = trackRef.current;
+    const trackFillEl = trackFillRef.current;
+    let dotEls = [];
+    let dotThresholds = [];
+
+    const measureTimeline = () => {
+      if (!timelineEl || !trackEl) return;
+      dotEls = gsap.utils.toArray('[data-timeline-dot]', timelineEl);
+      if (dotEls.length === 0) return;
+
+      const timelineRect = timelineEl.getBoundingClientRect();
+      const firstDotRect = dotEls[0].getBoundingClientRect();
+      const lastDotRect = dotEls[dotEls.length - 1].getBoundingClientRect();
+
+      const trackTop = (firstDotRect.top + firstDotRect.height / 2) - timelineRect.top;
+      const trackBottom = (lastDotRect.top + lastDotRect.height / 2) - timelineRect.top;
+      const trackHeight = Math.max(trackBottom - trackTop, 1);
+
+      trackEl.style.top = `${trackTop}px`;
+      trackEl.style.height = `${trackHeight}px`;
+
+      dotThresholds = dotEls.map((dot) => {
+        const dotRect = dot.getBoundingClientRect();
+        const dotCenter = (dotRect.top + dotRect.height / 2) - timelineRect.top;
+        return (dotCenter - trackTop) / trackHeight;
+      });
+    };
+
+    // Toutes les animations/ScrollTriggers créées ici sont suivies par ce
+    // contexte GSAP, pour être proprement détruites au nettoyage (évite les
+    // ScrollTriggers dupliqués/orphelins qui font saccader le scroll).
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('[data-reveal]').forEach((el) => {
+        gsap.fromTo(el,
+          { autoAlpha: 0, y: 60 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              end: 'top 50%',
+              scrub: true,
+            }
           }
-        }
-      );
+        );
+      });
+
+      measureTimeline();
+
+      ScrollTrigger.create({
+        trigger: timelineEl,
+        start: 'top 65%',
+        end: 'bottom 65%',
+        scrub: true,
+        onUpdate: (self) => {
+          if (trackFillEl) trackFillEl.style.transform = `scaleY(${self.progress})`;
+          dotEls.forEach((dot, i) => {
+            dot.classList.toggle('is-active', self.progress >= dotThresholds[i] - 0.001);
+          });
+        },
+      });
     });
 
     const videoEl = videoRef.current;
@@ -688,8 +765,22 @@ export default function Project1() {
       observer.observe(videoEl);
     }
 
+    // Sur mobile, l'apparition/disparition de la barre d'adresse déclenche
+    // un "resize" (hauteur seule) en pleine action de scroll : on l'ignore
+    // et ne réagit qu'à un vrai changement de largeur (rotation, fenêtre).
+    let lastWidth = window.innerWidth;
+    const handleResize = () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      measureTimeline();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('resize', handleResize);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       if (observer && videoEl) observer.disconnect();
+      ctx.revert();
     };
   }, []);
 
@@ -761,11 +852,14 @@ export default function Project1() {
         <SectionLabel>The approach</SectionLabel>
         <SectionTitle>From audit to a unified design system</SectionTitle>
 
-        <Timeline>
+        <Timeline ref={timelineRef}>
+          <TimelineTrack ref={trackRef}>
+            <TimelineTrackFill ref={trackFillRef} />
+          </TimelineTrack>
+
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
-              <TimelineLine />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Auditing the existing screens</TimelineStepTitle>
@@ -779,8 +873,7 @@ export default function Project1() {
 
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
-              <TimelineLine />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Defining a design system</TimelineStepTitle>
@@ -793,8 +886,7 @@ export default function Project1() {
 
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
-              <TimelineLine />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Redesigning the dashboard</TimelineStepTitle>
@@ -807,7 +899,7 @@ export default function Project1() {
 
           <TimelineStep>
             <TimelineMarker>
-              <TimelineDot $done />
+              <TimelineDot data-timeline-dot />
             </TimelineMarker>
             <TimelineContent>
               <TimelineStepTitle>Designing the social media module</TimelineStepTitle>
