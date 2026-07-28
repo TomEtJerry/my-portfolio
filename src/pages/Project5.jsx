@@ -520,7 +520,7 @@ const TestingCard = styled.div`
   @media (max-width: 1100px) {
     border-radius: 20px;
     padding: 6vw;
-    transform: rotate(${p => p.$after ? '2deg' : '-2deg'});
+    transform: rotate(${p => p.$after ? '1deg' : '-1deg'});
     ${p => p.$after ? 'margin-left: 0; margin-top: 0' : ''};
   }
 `;
