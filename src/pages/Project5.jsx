@@ -495,66 +495,33 @@ const TestingGrid = styled.div`
 `;
 
 const TestingPair = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 8vw 1fr;
-  align-items: center;
-  @media (max-width: 1100px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const TestingArrow = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  align-items: stretch;
+  padding: 1.5vw 3vw;
   @media (max-width: 1100px) {
     flex-direction: column;
-    width: 100%;
-    height: 12vw;
-    margin: 0 auto;
-  }
-`;
-
-const TestingArrowLine = styled.div`
-  flex: 1;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(72, 180, 245, 0.2), #48B4F5);
-  @media (max-width: 1100px) {
-    width: 3px;
-    height: auto;
-    flex: 1;
-    background: linear-gradient(180deg, rgba(72, 180, 245, 0.2), #48B4F5);
-  }
-`;
-
-const TestingArrowHead = styled.div`
-  flex-shrink: 0;
-  width: 0;
-  height: 0;
-  border-top: 0.75vw solid transparent;
-  border-bottom: 0.75vw solid transparent;
-  border-left: 1.1vw solid #48B4F5;
-  @media (max-width: 1100px) {
-    border-top: 1.6vw solid #48B4F5;
-    border-left: 3vw solid transparent;
-    border-right: 3vw solid transparent;
-    border-bottom: none;
+    padding: 6vw 4vw;
   }
 `;
 
 const TestingCard = styled.div`
-  background: ${p => p.$after ? 'rgba(62, 207, 160, 0.08)' : 'rgba(255, 107, 107, 0.06)'};
+  position: relative;
+  flex: 1;
+  background: ${p => p.$after ? 'rgba(16, 29, 37, 1)' : 'rgba(25, 20, 32, 1)'};
   border: 1px solid ${p => p.$after ? 'rgba(62, 207, 160, 0.4)' : 'rgba(255, 107, 107, 0.3)'};
   border-radius: 24px;
   padding: 2vw;
   display: flex;
   flex-direction: column;
   gap: 1vw;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  transform: rotate(${p => p.$after ? '3deg' : '-3deg'});
+  ${p => p.$after ? 'margin-left: -2vw; z-index: 2;' : 'z-index: 1;'}
   @media (max-width: 1100px) {
     border-radius: 20px;
     padding: 6vw;
+    transform: rotate(${p => p.$after ? '2deg' : '-2deg'});
+    ${p => p.$after ? 'margin-left: 0; margin-top: 0' : ''};
   }
 `;
 
@@ -616,9 +583,11 @@ const TestingFinding = styled.p`
   font-size: 1.05vw;
   line-height: 1.6;
   color: white;
-  margin: 0;
+  margin: 0 24px 0 0;
   @media (max-width: 1100px) {
     font-size: 3.6vw;
+      margin: 0 0px 0 0;
+
   }
   @media (max-width: 700px) {
     font-size: 15px;
@@ -1030,10 +999,6 @@ export default function Project5() {
                 date, due to insufficiently explicit labeling.
               </TestingFinding>
             </TestingCard>
-            <TestingArrow>
-              <TestingArrowLine />
-              <TestingArrowHead />
-            </TestingArrow>
             <TestingCard $after>
               <TestingVisual>
                 <TestingVisualImg
@@ -1045,7 +1010,7 @@ export default function Project5() {
                   Dépose ton visuel ici :<br />public/testing-date-label-after.jpg
                 </TestingVisualHint>
               </TestingVisual>
-              <TestingTag>After adjustment</TestingTag>
+              <TestingTag $after>After adjustment</TestingTag>
               <TestingFinding>
                 Labels were reworded and a distinct visual status was added
                 for each installment, removing the ambiguity seen in testing.
@@ -1071,10 +1036,6 @@ export default function Project5() {
                 it was the most sought-after information among testers.
               </TestingFinding>
             </TestingCard>
-            <TestingArrow>
-              <TestingArrowLine />
-              <TestingArrowHead />
-            </TestingArrow>
             <TestingCard $after>
               <TestingVisual>
                 <TestingVisualImg
@@ -1086,7 +1047,7 @@ export default function Project5() {
                   Dépose ton visuel ici :<br />public/testing-history-access-after.jpg
                 </TestingVisualHint>
               </TestingVisual>
-              <TestingTag>After adjustment</TestingTag>
+              <TestingTag $after>After adjustment</TestingTag>
               <TestingFinding>
                 History was promoted to direct access from the overview,
                 reducing the journey to a single action.
