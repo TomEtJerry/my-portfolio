@@ -438,7 +438,7 @@ const CompareTags = styled.div`
   margin: 3vw auto 1vw auto;
   @media (max-width: 1100px) {
     width: 100dvw;
-    margin: 0 -6dvw 4vw -6dvw;
+    margin: 8dvw -6dvw 4vw -6dvw;
     padding: 0 6dvw;
     box-sizing: border-box;
   }
