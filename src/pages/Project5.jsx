@@ -985,35 +985,37 @@ export default function Project5() {
             <TestingCard>
               <TestingVisual>
                 <TestingVisualImg
-                  src="/testing-date-label-before.jpg"
-                  alt="Visuel avant : libellé de la date de prélèvement"
+                  src="/testing-frequency-toggle-before.jpg"
+                  alt="Visuel avant : sélecteur mensuel/annuel en dropdown"
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 <TestingVisualHint>
-                  Dépose ton visuel ici :<br />public/testing-date-label-before.jpg
+                  Dépose ton visuel ici :<br />public/testing-frequency-toggle-before.jpg
                 </TestingVisualHint>
               </TestingVisual>
               <TestingTag>Before testing</TestingTag>
               <TestingFinding>
-                Users confused the payment due date with the premium issue
-                date, due to insufficiently explicit labeling.
+                The Monthly/Annual switch was a dropdown showing only one
+                option at a time, so users never realized the other view
+                was just one click away.
               </TestingFinding>
             </TestingCard>
             <TestingCard $after>
               <TestingVisual>
                 <TestingVisualImg
-                  src="/testing-date-label-after.jpg"
-                  alt="Visuel après : statut visuel distinct par échéance"
+                  src="/testing-frequency-toggle-after.jpg"
+                  alt="Visuel après : sélecteur mensuel/annuel en bouton à deux volets"
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 <TestingVisualHint>
-                  Dépose ton visuel ici :<br />public/testing-date-label-after.jpg
+                  Dépose ton visuel ici :<br />public/testing-frequency-toggle-after.jpg
                 </TestingVisualHint>
               </TestingVisual>
               <TestingTag $after>After adjustment</TestingTag>
               <TestingFinding>
-                Labels were reworded and a distinct visual status was added
-                for each installment, removing the ambiguity seen in testing.
+                The dropdown was replaced with a two-part toggle button
+                showing Monthly and Annual side by side, making the switch
+                visible and reachable in a single tap.
               </TestingFinding>
             </TestingCard>
           </TestingPair>
@@ -1022,35 +1024,36 @@ export default function Project5() {
             <TestingCard>
               <TestingVisual>
                 <TestingVisualImg
-                  src="/testing-history-access-before.jpg"
-                  alt="Visuel avant : accès à l'historique en plusieurs clics"
+                  src="/testing-progress-bar-before.jpg"
+                  alt="Visuel avant : barre de progression du contrat annuel"
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 <TestingVisualHint>
-                  Dépose ton visuel ici :<br />public/testing-history-access-before.jpg
+                  Dépose ton visuel ici :<br />public/testing-progress-bar-before.jpg
                 </TestingVisualHint>
               </TestingVisual>
               <TestingTag>Before testing</TestingTag>
               <TestingFinding>
-                Payment history required several clicks to reach, even though
-                it was the most sought-after information among testers.
+                A progress bar showed what percentage of the annual contract
+                had been paid, but testers found it confusing to read
+                alongside the payment list.
               </TestingFinding>
             </TestingCard>
             <TestingCard $after>
               <TestingVisual>
                 <TestingVisualImg
-                  src="/testing-history-access-after.jpg"
-                  alt="Visuel après : accès direct à l'historique"
+                  src="/testing-progress-bar-after.jpg"
+                  alt="Visuel après : page sans barre de progression"
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 <TestingVisualHint>
-                  Dépose ton visuel ici :<br />public/testing-history-access-after.jpg
+                  Dépose ton visuel ici :<br />public/testing-progress-bar-after.jpg
                 </TestingVisualHint>
               </TestingVisual>
               <TestingTag $after>After adjustment</TestingTag>
               <TestingFinding>
-                History was promoted to direct access from the overview,
-                reducing the journey to a single action.
+                The progress bar was removed entirely, letting the payment
+                list speak for itself for a clearer, less cluttered page.
               </TestingFinding>
             </TestingCard>
           </TestingPair>
