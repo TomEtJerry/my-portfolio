@@ -1023,16 +1023,16 @@ export default function Project1() {
 
         <InsightList>
           <InsightRow>
+            <InsightMetric>8</InsightMetric>
+            <InsightDesc>types of response charts and visualizers redesigned.</InsightDesc>
+          </InsightRow>
+          <InsightRow>
+            <InsightMetric>1</InsightMetric>
+            <InsightDesc>navbar entirely rethought.</InsightDesc>
+          </InsightRow>
+          <InsightRow>
             <InsightMetric>4</InsightMetric>
-            <InsightDesc>dashboard screens redesigned with one consistent visual language.</InsightDesc>
-          </InsightRow>
-          <InsightRow>
-            <InsightMetric>1</InsightMetric>
-            <InsightDesc>new social media module designed from scratch.</InsightDesc>
-          </InsightRow>
-          <InsightRow>
-            <InsightMetric>1</InsightMetric>
-            <InsightDesc>unified Figma design system applied platform-wide.</InsightDesc>
+            <InsightDesc>social networks brought into a brand new social media monitoring platform.</InsightDesc>
           </InsightRow>
         </InsightList>
       </Section>
