@@ -167,14 +167,22 @@ const MetaValue = styled.span`
    ============================================ */
 
 const Section = styled.section`
+  max-width: 1600px;
+  margin: 0 auto;
+  box-sizing: border-box;
   padding: 7dvw 6dvw;
+  @media (min-width: 1600px) {
+    padding: 7dvw 160px;
+  }
   @media (max-width: 1100px) {
     padding: 14dvw 6dvw;
   }
 `;
 
 const SectionLabel = styled.span`
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.8vw;
   font-family: "K2D", sans-serif;
   font-size: 0.85vw;
   font-weight: 600;
@@ -182,12 +190,27 @@ const SectionLabel = styled.span`
   text-transform: uppercase;
   color: #48B4F5;
   margin-bottom: 1.2vw;
+  &::before {
+    content: "";
+    width: 2vw;
+    height: 2px;
+    flex-shrink: 0;
+    background: #48B4F5;
+  }
   @media (max-width: 1100px) {
     font-size: 3vw;
     margin-bottom: 4vw;
+    gap: 2.5vw;
+    &::before {
+      width: 6vw;
+    }
   }
   @media (max-width: 700px) {
     font-size: 12px;
+    gap: 8px;
+    &::before {
+      width: 24px;
+    }
   }
 `;
 
@@ -658,11 +681,16 @@ const NextProjectLink = styled(Link)`
   text-decoration: none;
   color: white;
   width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   box-sizing: border-box;
   padding: 6vw 6vw;
   transition: background 0.2s ease;
   &:hover {
     background: rgba(255, 255, 255, 0.05);
+  }
+  @media (min-width: 1600px) {
+    padding: 6vw 192px;
   }
   @media (max-width: 1100px) {
     flex-direction: column;
