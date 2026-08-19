@@ -10,6 +10,12 @@ const HeaderContainer = styled.header`
   padding: 2dvw;
   position: fixed;
   z-index: 1000;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 14, 26, 1) 0%,
+    rgba(11, 14, 26, 0.70) 50%,
+    rgba(11, 14, 26, 0) 100%
+  );
       @media (max-width: 1000px) {
     padding: 5dvw;
   }
@@ -23,7 +29,7 @@ const Logo = styled.img`
   height: 3vw; /* Ajuste la taille du logo */
   width: auto;
   cursor: pointer;
-    @media (max-width: 1400px) {
+    @media (max-width: 1600px) {
     height: 4dvw;
     width: auto;
   }

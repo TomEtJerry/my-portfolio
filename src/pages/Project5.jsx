@@ -459,7 +459,7 @@ const GalleryItem = styled.div`
 
 const GalleryFrame = styled.div`
   width: 100%;
-  max-width: ${p => p.$hero ? '18vw' : '18vw'};
+  max-width: ${p => p.$hero ? '15vw' : '15vw'};
   margin: 0 auto;
   border-radius: 28px;
   overflow: hidden;
