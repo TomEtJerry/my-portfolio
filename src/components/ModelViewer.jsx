@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, memo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
 // Préchargement des modèles
@@ -13,6 +13,29 @@ useGLTF.preload("/smartphone.glb", "/gltf/"); // ← nouvelle ligne
 const RotatingModel = ({ modelPath }) => {
     const { scene } = useGLTF(modelPath, true);
     const modelRef = useRef();
+    const { gl } = useThree();
+
+    // Par défaut, three.js charge les textures avec anisotropy: 1, ce qui les
+    // rend plus floues dès que la texture (ex: capture d'écran sur le
+    // mockup) est vue avec un léger angle — ce qui arrive en permanence ici
+    // vu que le modèle oscille. On relève l'anisotropie au max supporté par
+    // le GPU.
+    useEffect(() => {
+        const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
+        scene.traverse((child) => {
+            if (!child.isMesh || !child.material) return;
+            const materials = Array.isArray(child.material) ? child.material : [child.material];
+            materials.forEach((material) => {
+                ["map", "normalMap", "roughnessMap", "metalnessMap"].forEach((key) => {
+                    const texture = material[key];
+                    if (texture) {
+                        texture.anisotropy = maxAnisotropy;
+                        texture.needsUpdate = true;
+                    }
+                });
+            });
+        });
+    }, [scene, gl]);
 
     useFrame(({ clock }) => {
         if (!modelRef.current) return;
@@ -32,7 +55,7 @@ const ModelViewer = memo(({ modelPath }) => {
     const containerRef = useRef();
 
     const [shouldRender, setShouldRender] = useState(false);
-    const [dprValue, setDprValue] = useState(0.5);
+    const [dprValue, setDprValue] = useState(1);
     const [animate, setAnimate] = useState(false);
     const [speed, setSpeed] = useState(0.005); // Même vitesse partout
 
@@ -64,14 +87,20 @@ const ModelViewer = memo(({ modelPath }) => {
         const dprAndAnimationObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    // Plafonné à 1.5 : sur mobile, un devicePixelRatio natif
-                    // (souvent 2 à 3) fait rendre le canvas WebGL à pleine
-                    // résolution en continu, ce qui alourdit le thread
-                    // principal et rend le scroll tactile difficile.
-                    setDprValue(Math.min(window.devicePixelRatio || 1, 1.5));
+                    // Fixé à 2 (et non dérivé de window.devicePixelRatio) :
+                    // sur un écran standard (dpr=1), Math.min(dpr, 2) valait 1
+                    // et ne suréchantillonnait donc jamais le rendu, ce qui
+                    // laissait les textures (ex: capture d'écran sur le
+                    // mockup) minifiées et floues. Une valeur fixe force le
+                    // suréchantillonnage quel que soit l'écran, sans changer
+                    // le cadrage/la taille apparente du modèle. Plafonné à 2
+                    // pour rester raisonnable sur mobile, où un dpr élevé
+                    // rendu en continu alourdit le thread principal et gêne
+                    // le scroll tactile.
+                    setDprValue(2);
                     setAnimate(true);
                 } else {
-                    setDprValue(0.5);
+                    setDprValue(1);
                     setAnimate(false);
                 }
             },

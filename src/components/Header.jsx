@@ -20,7 +20,7 @@ const LogoLink = styled(Link)`      /* ← styled Link */
 `;
 
 const Logo = styled.img`
-  height: 3.5vw; /* Ajuste la taille du logo */
+  height: 3vw; /* Ajuste la taille du logo */
   width: auto;
   cursor: pointer;
     @media (max-width: 1400px) {
