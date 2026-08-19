@@ -87,17 +87,17 @@ const ModelViewer = memo(({ modelPath }) => {
         const dprAndAnimationObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    // Fixé à 2 (et non dérivé de window.devicePixelRatio) :
+                    // Fixé à 3 (et non dérivé de window.devicePixelRatio) :
                     // sur un écran standard (dpr=1), Math.min(dpr, 2) valait 1
                     // et ne suréchantillonnait donc jamais le rendu, ce qui
                     // laissait les textures (ex: capture d'écran sur le
                     // mockup) minifiées et floues. Une valeur fixe force le
                     // suréchantillonnage quel que soit l'écran, sans changer
-                    // le cadrage/la taille apparente du modèle. Plafonné à 2
-                    // pour rester raisonnable sur mobile, où un dpr élevé
-                    // rendu en continu alourdit le thread principal et gêne
-                    // le scroll tactile.
-                    setDprValue(2);
+                    // le cadrage/la taille apparente du modèle. À surveiller
+                    // sur mobile bas de gamme : un dpr élevé rendu en continu
+                    // peut alourdir le thread principal et gêner le scroll
+                    // tactile — redescendre à 2 si besoin.
+                    setDprValue(3);
                     setAnimate(true);
                 } else {
                     setDprValue(1);
