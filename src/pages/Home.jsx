@@ -536,8 +536,9 @@ const projectsData = [
     ],
   },
   {
-    title: "E-COMMERCE\nPRODUCT PAGES",
-    modelPath: "/product_page.glb",
+    title: "PARTNER OFFERS\nPLATFORM",
+    logo: "/allianz.svg",
+    modelPath: "/laptop.glb",
     path: "/project2",
     badges: [
       { icon: "/Design.svg", text: "UI Design" },
