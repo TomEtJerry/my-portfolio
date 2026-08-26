@@ -526,16 +526,6 @@ const projectsData = [
     ],
   },
   {
-    title: "CUSTOMER\nDATA PLATFORM",
-    logo: "/cliking.svg",
-    modelPath: "/tablet.glb",
-    path: "/project1",
-    badges: [
-      { icon: "/Design.svg", text: "UX/UI Design" },
-      { icon: "/Figma.svg", text: "Figma" },
-    ],
-  },
-  {
     title: "PARTNER OFFERS\nPLATFORM",
     logo: "/allianz.svg",
     modelPath: "/laptop.glb",
@@ -546,21 +536,33 @@ const projectsData = [
     ],
   },
   {
+    title: "HEALTH EXPERIENCE\nEVOLUTION",
+    logo: "/allianz.svg",
+    modelPath: "/imac.glb",
+    path: "/project4",
+    badges: [
+      { icon: "/Design.svg", text: "UX/UI Design" },
+      { icon: "/Figma.svg", text: "Figma" },
+    ],
+  },
+  {
+    title: "CUSTOMER\nDATA PLATFORM",
+    logo: "/cliking.svg",
+    modelPath: "/tablet.glb",
+    path: "/project1",
+    badges: [
+      { icon: "/Design.svg", text: "UX/UI Design" },
+      { icon: "/Figma.svg", text: "Figma" },
+    ],
+  },
+  {
     title: "WORDPRESS WEBSITE",
-    modelPath: "/wordpress_site.glb",
+    logo: "/cliking.svg",
+    modelPath: "/desktop.glb",
     path: "/project3",
     badges: [
       { icon: "/Design.svg", text: "UX/UI Design" },
       { icon: "/Wordpress.svg", text: "Wordpress" },
-    ],
-  },
-  {
-    title: "LINKEDIN AD CAMPAIGN",
-    modelPath: "/ebook.glb",
-    path: "/project4",
-    badges: [
-      { icon: "/Photoshop.svg", text: "Photoshop" },
-      { icon: "/Aftereffects.svg", text: "After Effects" },
     ],
   },
 ];

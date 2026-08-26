@@ -5,8 +5,8 @@ import { useGLTF } from "@react-three/drei";
 // Préchargement des modèles
 useGLTF.preload("/tablet.glb", "/gltf/");
 useGLTF.preload("/laptop.glb", "/gltf/");
-useGLTF.preload("/wordpress_site.glb", "/gltf/");
-useGLTF.preload("/ebook.glb", "/gltf/");
+useGLTF.preload("/desktop.glb", "/gltf/");
+useGLTF.preload("/imac.glb", "/gltf/");
 useGLTF.preload("/smartphone.glb", "/gltf/"); // ← nouvelle ligne
 
 

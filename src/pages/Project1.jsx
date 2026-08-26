@@ -1067,10 +1067,10 @@ export default function Project1() {
 
       {/* ===== NEXT PROJECT ===== */}
       <NextProject>
-        <NextProjectLink to="/project2">
+        <NextProjectLink to="/project3">
           <div>
             <NextLabel>Next project</NextLabel>
-            <NextTitle>Partner offers platform</NextTitle>
+            <NextTitle>Wordpress website</NextTitle>
           </div>
           <NextArrow src="/ArrowRight.svg" alt="" />
         </NextProjectLink>

@@ -745,6 +745,7 @@ const NextTitle = styled.h3`
   font-size: 2.2vw;
   font-weight: 700;
   margin: 0.3vw 0 0 0;
+  letter-spacing: 0.1vw;
   @media (max-width: 1100px) {
     font-size: 8vw;
   }
@@ -1121,10 +1122,10 @@ export default function Project2() {
 
       {/* ===== NEXT PROJECT ===== */}
       <NextProject>
-        <NextProjectLink to="/project3">
+        <NextProjectLink to="/project4">
           <div>
             <NextLabel>Next project</NextLabel>
-            <NextTitle>Wordpress website</NextTitle>
+            <NextTitle>Health experience evolution</NextTitle>
           </div>
           <NextArrow src="/ArrowRight.svg" alt="" />
         </NextProjectLink>
