@@ -123,7 +123,8 @@ function Projects() {
                 className={`absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-[20px] will-change-transform md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
               >
                 {/* Text */}
-                <div className="flex min-h-0 flex-1 flex-col justify-between gap-3 p-4 md:p-8 wide:w-[45%] wide:flex-none wide:p-10 xl:wide:w-[42%] xl:wide:p-14">
+                {/* Stacked layout: the text takes only the height it needs; side-by-side: spread over the full height */}
+                <div className="flex flex-none flex-col gap-6 p-4 md:gap-8 md:p-8 wide:w-[45%] wide:justify-between wide:gap-3 wide:p-10 xl:wide:w-[42%] xl:wide:p-14">
                   <div className="flex items-baseline justify-between gap-4 text-[0.625rem] font-medium uppercase tracking-[0.2em] opacity-70 md:text-xs xl:text-sm">
                     <span className="shrink-0 whitespace-nowrap font-display tabular-nums">
                       {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
@@ -155,7 +156,8 @@ function Projects() {
 
                 {/* Image */}
                 {/* Smaller image on short phones so the text keeps enough room */}
-                <div className="relative order-first h-[44%] bg-sand shrink-0 md:h-[40%] wide:order-none wide:h-auto wide:flex-1 [@media(max-height:720px)]:h-[34%] wide:[@media(max-height:720px)]:h-auto">
+                {/* Stacked layout: the image fills all the space left above the text */}
+                <div className="relative order-first min-h-0 flex-1 bg-sand wide:order-none">
                   {/* Fills the whole area; anchored left, any extra height is cropped evenly top and bottom */}
                   <ResponsiveImage image={project.image} sizes="(min-width: 64rem) 50vw, 100vw" className="absolute inset-0 size-full object-cover object-left" />
                 </div>
