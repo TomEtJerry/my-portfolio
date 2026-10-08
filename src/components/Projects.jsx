@@ -15,6 +15,12 @@ const THEMES = [
 const HOLD_START = 0.6
 const HOLD_END = 0.35
 
+// Scroll needed per card, in screen heights. Phones are tall and swipes travel far,
+// so a full screen per card felt too long there.
+const SCROLL_PER_CARD = { mobile: 0.55, desktop: 1 }
+const scrollPerCard = () =>
+  window.innerHeight * (window.matchMedia('(min-width: 48rem)').matches ? SCROLL_PER_CARD.desktop : SCROLL_PER_CARD.mobile)
+
 function Projects() {
   const section = useRef(null)
   const pinned = useRef(null)
@@ -44,17 +50,18 @@ function Projects() {
           trigger: pinned.current,
           pin: pinned.current,
           start: 'top top',
-          // 1 screen height of scroll per card, plus the holds
-          end: () => `+=${(items.length - 1 + HOLD_START + HOLD_END) * window.innerHeight}`,
-          scrub: 0.8,
+          // A fixed scroll distance per card (see SCROLL_PER_CARD), plus the holds
+          end: () => `+=${(items.length - 1 + HOLD_START + HOLD_END) * scrollPerCard()}`,
+          // Smoothing between the scroll and the animation (shorter on touch screens: the swipe already eases)
+          scrub: window.matchMedia('(min-width: 48rem)').matches ? 0.8 : 0.4,
           invalidateOnRefresh: true,
           // Scrolling up: jump over the holds. Nothing moves during a hold,
           // so the jump is invisible — it just removes the extra scroll.
           onUpdate: (self) => {
             if (self.direction !== -1 || navigating) return
-            const vh = window.innerHeight
-            const startHoldEnd = self.start + HOLD_START * vh
-            const endHoldStart = self.end - HOLD_END * vh
+            const unit = scrollPerCard()
+            const startHoldEnd = self.start + HOLD_START * unit
+            const endHoldStart = self.end - HOLD_END * unit
             const y = self.scroll()
             // 'instant' bypasses the page's CSS smooth scrolling
             const jump = (top) => window.scrollTo({ top, behavior: 'instant' })
