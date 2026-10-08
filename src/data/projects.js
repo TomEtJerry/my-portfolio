@@ -3,12 +3,13 @@
 // The ones with a `slug` and a `caseStudy` get their own page at /projects/<slug>
 // (except while the case study is marked `draft: true`).
 // The card shows `company · year` (or `role · year` when no company is set).
-// Project images live in src/assets/projects
-import projectOne from '../assets/projects/project_one.jpg'
-import projectTwo from '../assets/projects/project_two.jpg'
-import projectThree from '../assets/projects/project_three.jpg'
-import projectFour from '../assets/projects/project_four.jpg'
-import projectFive from '../assets/projects/project_five.jpg'
+// Project images live in src/assets/projects — `?responsive` turns them into light WebP versions
+// (see vite.config.js); each `image` is { sources: { webp: srcset }, img: { src, w, h } }
+import projectOne from '../assets/projects/project_one.jpg?responsive'
+import projectTwo from '../assets/projects/project_two.jpg?responsive'
+import projectThree from '../assets/projects/project_three.jpg?responsive'
+import projectFour from '../assets/projects/project_four.jpg?responsive'
+import projectFive from '../assets/projects/project_five.jpg?responsive'
 
 export const projects = [
   {

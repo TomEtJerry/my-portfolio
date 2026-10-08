@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
+import ResponsiveImage from './ResponsiveImage'
 
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -76,7 +77,7 @@ function ProjectSlider({ projects, interval = 5000 }) {
   const project = projects[active]
 
   return (
-    <div ref={root} className="relative h-full w-full overflow-hidden bg-ink">
+    <div ref={root} className="relative h-full w-full overflow-hidden bg-sand">
       {projects.map((p, i) => (
         <div
           key={p.title}
@@ -84,7 +85,13 @@ function ProjectSlider({ projects, interval = 5000 }) {
           className="invisible absolute inset-0"
           aria-hidden={i !== active}
         >
-          <img src={p.image} alt={p.title} className="size-full object-cover object-left-top" />
+          <ResponsiveImage
+            image={p.image}
+            alt={p.title}
+            sizes="(min-width: 48rem) 60vw, 100vw"
+            priority={i === 0}
+            className="size-full object-cover object-left-top"
+          />
         </div>
       ))}
 

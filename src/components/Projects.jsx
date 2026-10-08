@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import { projects } from '../data/projects'
+import ResponsiveImage from './ResponsiveImage'
 
 // Card colors, in turn
 const THEMES = [
@@ -154,9 +155,9 @@ function Projects() {
 
                 {/* Image */}
                 {/* Smaller image on short phones so the text keeps enough room */}
-                <div className="relative order-first h-[44%] shrink-0 md:h-[40%] wide:order-none wide:h-auto wide:flex-1 [@media(max-height:720px)]:h-[34%] wide:[@media(max-height:720px)]:h-auto">
+                <div className="relative order-first h-[44%] bg-sand shrink-0 md:h-[40%] wide:order-none wide:h-auto wide:flex-1 [@media(max-height:720px)]:h-[34%] wide:[@media(max-height:720px)]:h-auto">
                   {/* Fills the whole area; anchored left, any extra height is cropped evenly top and bottom */}
-                  <img src={project.image} alt="" className="absolute inset-0 size-full object-cover object-left" />
+                  <ResponsiveImage image={project.image} sizes="(min-width: 64rem) 50vw, 100vw" className="absolute inset-0 size-full object-cover object-left" />
                 </div>
 
                 {/* Darkens the card once others are stacked on top of it */}

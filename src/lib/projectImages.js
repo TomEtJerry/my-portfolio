@@ -1,6 +1,6 @@
-// Every image placed in src/assets/projects/ (sub-folders included), found at build time.
+// Every image placed in a sub-folder of src/assets/projects/ (case-study visuals), found at build time.
 // Lets the project pages show a visual as soon as its file exists — no code change needed.
-const images = import.meta.glob('../assets/projects/**/*.{jpg,jpeg,png,webp,avif}', {
+const images = import.meta.glob('../assets/projects/*/**/*.{jpg,jpeg,png,webp,avif}', {
   eager: true,
   import: 'default',
 })

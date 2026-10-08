@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import Logo from '../components/Logo'
+import ResponsiveImage from '../components/ResponsiveImage'
 import Visual from '../components/Visual'
 import { projects } from '../data/projects'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
@@ -96,7 +97,7 @@ function ProjectPage({ project }) {
           </dl>
 
           <div className="reveal mt-12 aspect-[4/3] overflow-hidden rounded-2xl bg-sand md:mt-16 md:aspect-[16/9] md:rounded-3xl">
-            <img src={project.image} alt={project.title} className="size-full object-cover object-left-top" />
+            <ResponsiveImage image={project.image} alt={project.title} priority className="size-full object-cover object-left-top" />
           </div>
         </header>
 
