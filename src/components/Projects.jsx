@@ -17,7 +17,7 @@ const HOLD_END = 0.35
 
 // Scroll needed per card, in screen heights. Phones are tall and swipes travel far,
 // so a full screen per card felt too long there.
-const SCROLL_PER_CARD = { mobile: 0.4, desktop: 1 }
+const SCROLL_PER_CARD = { mobile: 0.48, desktop: 1 }
 const scrollPerCard = () =>
   window.innerHeight * (window.matchMedia('(min-width: 48rem)').matches ? SCROLL_PER_CARD.desktop : SCROLL_PER_CARD.mobile)
 
