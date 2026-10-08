@@ -33,10 +33,13 @@
 /* Wide landscape screens (laptops, desktops, landscape tablets): side-by-side layouts */
 @custom-variant wide (@media (min-width: 64rem) and (orientation: landscape));
 
-/* iOS only (Safari / WebKit on iPhone & iPad): keep the status bar cover detectable */
+/* iOS only (Safari / WebKit on iPhone & iPad): Safari draws the page's overflow in the area
+   above the page (behind the time and battery). The cover reaches up into that area to hide it,
+   and keeps a few pixels inside the page so Safari detects it and uses its color. */
 @supports (-webkit-touch-callout: none) {
   .status-bar-cover {
-    min-height: 4px;
+    top: -8rem;
+    height: calc(8rem + max(var(--safe-top), 4px));
   }
 }
 

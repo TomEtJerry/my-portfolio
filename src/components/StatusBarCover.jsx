@@ -2,7 +2,7 @@
 // Recent iOS Safari lets the page scroll visibly under that area and picks its color from a
 // fixed, full-width, colored element touching the top edge — this is that element.
 // - Height = the status bar height when the browser reports it (home screen apps)
-// - iOS Safari doesn't report it, so on iOS the strip keeps a minimal height to be detected
+// - iOS Safari doesn't report it: there, the strip extends above the page (see index.css)
 function StatusBarCover() {
   return (
     <div
