@@ -39,8 +39,13 @@
     --page-offset: max(0px, calc((100vw - var(--container-page)) / 2));
   }
 
+  html,
+  body {
+    @apply bg-paper;
+  }
+
   html {
-    @apply bg-paper text-ink antialiased;
+    @apply text-ink antialiased;
   }
 
   @media (prefers-reduced-motion: no-preference) {
