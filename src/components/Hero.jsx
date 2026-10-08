@@ -73,7 +73,7 @@ function Hero() {
       id="home"
       ref={container}
       // Fills the screen, but stops growing on very tall screens (> 1024px)
-      className="relative h-screen max-h-[64rem] overflow-hidden supports-[height:100dvh]:h-dvh"
+      className="relative h-screen max-h-[64rem] overflow-hidden pt-[var(--safe-top)] supports-[height:100dvh]:h-dvh"
     >
       {/* Content is capped at the page width and centered */}
       <div className="relative mx-auto flex h-full max-w-page flex-col md:flex-row">

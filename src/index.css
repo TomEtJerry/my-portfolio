@@ -37,6 +37,8 @@
   :root {
     /* Distance between the screen edge and the content once the page is wider than the container */
     --page-offset: max(0px, calc((100vw - var(--container-page)) / 2));
+    /* Height of the phone's status bar area (time, battery) — 0 on computers */
+    --safe-top: env(safe-area-inset-top, 0px);
   }
 
   html,

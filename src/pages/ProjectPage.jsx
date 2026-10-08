@@ -65,14 +65,14 @@ function ProjectPage({ project }) {
       {/* Back link (top right, where the navbar sits on the home page) */}
       <a
         href="/#projects"
-        className="fixed right-[var(--page-offset)] top-0 z-50 m-5 rounded-full bg-paper/80 px-4 py-2 font-display text-base font-bold tracking-tight text-ink/60 backdrop-blur-md transition-colors hover:text-accent md:m-12 md:text-xl"
+        className="fixed right-[var(--page-offset)] top-[var(--safe-top)] z-50 m-5 rounded-full bg-paper/80 px-4 py-2 font-display text-base font-bold tracking-tight text-ink/60 backdrop-blur-md transition-colors hover:text-accent md:m-12 md:text-xl"
       >
         ← All projects
       </a>
 
       <main ref={page} className="mx-auto max-w-page px-5 pb-10 font-sans md:px-12">
         {/* Header */}
-        <header data-reveal className="pt-32 md:pt-48">
+        <header data-reveal className="pt-[calc(8rem+var(--safe-top))] md:pt-48">
           <p className="reveal text-xs font-medium uppercase tracking-[0.2em] text-accent md:text-sm">
             {project.category}
           </p>

@@ -45,7 +45,7 @@ function Logo({ href = '#home' }) {
   })
 
   return (
-    <a href={href} aria-label={href === '#home' ? 'Back to top' : 'Home'} className="fixed left-[var(--page-offset)] top-0 z-50 p-5 md:p-12">
+    <a href={href} aria-label={href === '#home' ? 'Back to top' : 'Home'} className="fixed left-[var(--page-offset)] top-[var(--safe-top)] z-50 p-5 md:p-12">
       {/* Soft fade so the logo stays readable over images — reaches the screen edge.
           On mobile it only shows once scrolled, so it doesn't tint the projects block. */}
       <span

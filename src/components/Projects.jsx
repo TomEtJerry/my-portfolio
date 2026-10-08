@@ -103,7 +103,7 @@ function Projects() {
         ref={pinned}
         className="h-screen overflow-hidden supports-[height:100dvh]:h-dvh"
       >
-        <div className="mx-auto flex h-full max-w-page flex-col px-4 pb-4 pt-[6rem] md:px-12 md:pb-10 md:pt-44">
+        <div className="mx-auto flex h-full max-w-page flex-col px-4 pb-4 pt-[calc(6rem+var(--safe-top))] md:px-12 md:pb-10 md:pt-44">
           <header className="px-1 md:px-0">
             <h2 className="font-display text-4xl font-bold tracking-tight md:text-6xl">
               Projects<span className="text-accent">.</span>

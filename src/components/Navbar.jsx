@@ -27,7 +27,7 @@ function Navbar() {
   })
 
   return (
-    <nav aria-label="Sections" className="fixed right-[var(--page-offset)] top-0 z-50 p-5 md:p-12">
+    <nav aria-label="Sections" className="fixed right-[var(--page-offset)] top-[var(--safe-top)] z-50 p-5 md:p-12">
       {/* Frosted, fading backdrop so the links stay readable over content.
           It always reaches the screen edge, even when the content is narrower than the screen.
           Hidden at the top of the page, where the hero leaves room for the nav. */}
