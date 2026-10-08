@@ -33,6 +33,13 @@
 /* Wide landscape screens (laptops, desktops, landscape tablets): side-by-side layouts */
 @custom-variant wide (@media (min-width: 64rem) and (orientation: landscape));
 
+/* iOS only (Safari / WebKit on iPhone & iPad): keep the status bar cover detectable */
+@supports (-webkit-touch-callout: none) {
+  .status-bar-cover {
+    min-height: 4px;
+  }
+}
+
 @layer base {
   :root {
     /* Distance between the screen edge and the content once the page is wider than the container */
