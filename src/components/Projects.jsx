@@ -140,7 +140,7 @@ function Projects() {
                   cards.current[i] = el
                 }}
                 style={{ top: `calc(${i} * var(--card-step))` }}
-                className={`absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-[20px] will-change-transform md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
+                className={`absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-[20px] md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
               >
                 {/* Text */}
                 {/* Stacked layout: the text takes only the height it needs; side-by-side: spread over the full height */}
@@ -179,7 +179,7 @@ function Projects() {
                 {/* Stacked layout: the image fills all the space left above the text */}
                 <div className="relative order-first min-h-0 flex-1 bg-sand wide:order-none">
                   {/* Fills the whole area; anchored left, any extra height is cropped evenly top and bottom */}
-                  <ResponsiveImage image={project.image} sizes="(min-width: 64rem) 50vw, 100vw" className="absolute inset-0 size-full object-cover object-left" />
+                  <ResponsiveImage image={project.image} eager sizes="(min-width: 64rem) 50vw, 100vw" className="absolute inset-0 size-full object-cover object-left" />
                 </div>
 
                 {/* Darkens the card once others are stacked on top of it */}
