@@ -71,7 +71,7 @@ gsap.matchMedia().add(PHONE, () => {
     target: window,
     type: 'touch,wheel',
     wheelSpeed: -1,
-    tolerance: 12,
+    tolerance: 8, // finger travel (px) needed before a swipe counts
     preventDefault: true, // no native scrolling
     // Don't hijack swipes inside the message field (it scrolls its own text)
     ignore: 'textarea',
