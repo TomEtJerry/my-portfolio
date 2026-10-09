@@ -9,22 +9,24 @@ import { gsap } from './gsap'
 // `first` and `second` must share the same place in the layout (e.g. the same grid cell).
 // Call inside a gsap.matchMedia() handler; returns a cleanup function.
 
-// Total scroll while the section is pinned, in screen heights. It includes a hold before the
-// swap and a hold after it, so it takes a bit more than one swipe to move from one part (or
-// section) to the next — like the project cards.
-const PIN_DISTANCE = 1.5
-// Timeline positions (0 → 1 over the pinned scroll)
-const SWAP_START = 0.28 // first part stays until here
-const SWAP_END = 0.62 // second part fully shown from here (then stays until the section leaves)
+// Default settings (each section can override them):
+// - distance: total scroll while the section is pinned, in screen heights. It includes a hold
+//   before the swap and a hold after it, so it takes a bit more than one swipe to move from
+//   one part (or section) to the next — like the project cards.
+// - swapStart / swapEnd: when the swap happens, as a fraction of that scroll (0 → 1). The first
+//   part stays until swapStart; the second part is fully shown from swapEnd until the end.
+const DEFAULTS = { distance: 1.5, swapStart: 0.28, swapEnd: 0.62 }
 
-export function setupMobileSteps({ pin, first, second }) {
+export function setupMobileSteps({ pin, first, second, ...options }) {
+  const { distance, swapStart: SWAP_START, swapEnd: SWAP_END } = { ...DEFAULTS, ...options }
+
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: pin,
       pin,
       start: 'top top',
-      end: () => `+=${window.innerHeight * PIN_DISTANCE}`,
+      end: () => `+=${window.innerHeight * distance}`,
       scrub: 0.3,
       invalidateOnRefresh: true,
       // Stopped in the middle of the swap: settle on the first or the second part.
@@ -47,7 +49,7 @@ export function setupMobileSteps({ pin, first, second }) {
   const half = (SWAP_END - SWAP_START) / 2
   tl.fromTo(first, { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -24, duration: half }, SWAP_START)
   tl.fromTo(second, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: half }, SWAP_START + half)
-  tl.to({}, { duration: 1 - SWAP_END }, SWAP_END)
+  if (SWAP_END < 1) tl.to({}, { duration: 1 - SWAP_END }, SWAP_END)
 
   return () => {
     tl.scrollTrigger?.kill()

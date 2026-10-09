@@ -28,6 +28,10 @@ function Contact() {
           pin: pinned.current,
           first: section.current.querySelector('.contact-intro'),
           second: section.current.querySelector('.contact-form'),
+          // The form is the end of the page: no hold after it, the swap ends at the very bottom
+          distance: 1.1,
+          swapStart: 0.35,
+          swapEnd: 1,
         }),
       )
 
