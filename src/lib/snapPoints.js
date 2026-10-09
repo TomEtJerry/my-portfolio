@@ -9,7 +9,7 @@ import { gsap, Observer, ScrollTrigger } from './gsap'
 // from its ScrollTrigger); they're re-read every time ScrollTrigger re-measures the page.
 
 const PHONE = '(max-width: 47.999rem)'
-const MIN_DURATION = 0.55 // s, for short moves (between two project cards)
+const MIN_DURATION = 0.45 // s, for short moves (between two project cards)
 const MAX_DURATION = 0.95 // s, for long moves (hero → projects)
 const COOLDOWN = 250 // ms after each move before the next swipe is taken into account
 
