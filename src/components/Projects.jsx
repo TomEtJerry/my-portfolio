@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
+import { registerSnapPoints } from '../lib/snapPoints'
 import { projects } from '../data/projects'
 import ResponsiveImage from './ResponsiveImage'
 
@@ -20,6 +21,8 @@ const HOLD_END = 0.35
 const SCROLL_PER_CARD = { mobile: 0.48, desktop: 1 }
 const scrollPerCard = () =>
   window.innerHeight * (window.matchMedia('(min-width: 48rem)').matches ? SCROLL_PER_CARD.desktop : SCROLL_PER_CARD.mobile)
+
+const isPhone = () => !window.matchMedia('(min-width: 48rem)').matches
 
 function Projects() {
   const section = useRef(null)
@@ -58,7 +61,7 @@ function Projects() {
           // Scrolling up: jump over the holds. Nothing moves during a hold,
           // so the jump is invisible — it just removes the extra scroll.
           onUpdate: (self) => {
-            if (self.direction !== -1 || navigating) return
+            if (self.direction !== -1 || navigating || isPhone()) return
             const unit = scrollPerCard()
             const startHoldEnd = self.start + HOLD_START * unit
             const endHoldStart = self.end - HOLD_END * unit
@@ -94,7 +97,16 @@ function Projects() {
       tl.to({}, { duration: HOLD_START }, 0)
       tl.to({}, { duration: HOLD_END }, HOLD_START + items.length - 1)
 
+      // Phones: one stop per card (each card fully in place)
+      const unregister = registerSnapPoints(() => {
+        if (!isPhone()) return []
+        const st = tl.scrollTrigger
+        const unit = scrollPerCard()
+        return items.map((_, i) => (i === 0 ? st.start : st.start + (HOLD_START + i) * unit))
+      })
+
       return () => {
+        unregister()
         document.removeEventListener('click', onAnchorClick)
         clearTimeout(navTimer)
       }

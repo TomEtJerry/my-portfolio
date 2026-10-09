@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
+import { gsap, useGSAP } from '../lib/gsap'
 import { setupMobileSteps } from '../lib/mobileSteps'
 import { contact, FORM_ENDPOINT } from '../data/contact'
 
@@ -23,23 +23,8 @@ function Contact() {
       const mm = gsap.matchMedia()
 
       // Mobile only: step-by-step scroll into the section (intro + LinkedIn, then the form)
-      mm.add('(max-width: 47.999rem)', () => {
-        // As soon as Contact starts coming up, settle directly on it (full screen, footer at the
-        // bottom); scrolling back up settles on the end of About instead
-        ScrollTrigger.create({
-          trigger: pinned.current,
-          start: 'top bottom',
-          end: 'top top',
-          snap: {
-            snapTo: [0, 1],
-            directional: true,
-            duration: { min: 0.3, max: 0.6 },
-            delay: 0.05,
-            ease: 'power2.inOut',
-          },
-        })
-
-        return setupMobileSteps({
+      mm.add('(max-width: 47.999rem)', () =>
+        setupMobileSteps({
           pin: pinned.current,
           first: section.current.querySelector('.contact-intro'),
           second: section.current.querySelector('.contact-form'),
@@ -47,8 +32,8 @@ function Contact() {
           distance: 1.1,
           swapStart: 0.35,
           swapEnd: 1,
-        })
-      })
+        }),
+      )
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.from('.contact-reveal', {

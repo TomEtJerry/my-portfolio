@@ -1,11 +1,11 @@
 import { gsap } from './gsap'
+import { registerSnapPoints } from './snapPoints'
 
 // Phones: a section shows its content in two parts, one after the other, at the same spot
 // under the title. When the section reaches the top of the screen it stays in place (pinned)
 // for a short scroll, during which the first part fades out and the second fades in,
-// following the finger. If the scroll stops in between, it settles on one of the two parts.
-// Uses the browser's own scrolling only (no swipe interception), so it behaves like normal
-// scrolling in both directions.
+// following the finger. The page always rests on the first or the second part (snap stops,
+// see snapPoints.js).
 // `first` and `second` must share the same place in the layout (e.g. the same grid cell).
 // Call inside a gsap.matchMedia() handler; returns a cleanup function.
 
@@ -29,19 +29,6 @@ export function setupMobileSteps({ pin, first, second, ...options }) {
       end: () => `+=${window.innerHeight * distance}`,
       scrub: 0.3,
       invalidateOnRefresh: true,
-      // Stopped in the middle of the swap: settle on the first or the second part.
-      // Elsewhere (during the holds) leave the scroll where it is.
-      snap: {
-        snapTo: (value) =>
-          value > SWAP_START && value < SWAP_END
-            ? value < (SWAP_START + SWAP_END) / 2
-              ? SWAP_START
-              : SWAP_END
-            : value,
-        duration: { min: 0.2, max: 0.5 },
-        delay: 0.08,
-        ease: 'power1.inOut',
-      },
     },
   })
 
@@ -51,7 +38,12 @@ export function setupMobileSteps({ pin, first, second, ...options }) {
   tl.fromTo(second, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: half }, SWAP_START + half)
   if (SWAP_END < 1) tl.to({}, { duration: 1 - SWAP_END }, SWAP_END)
 
+  // Stops: the first part (section just pinned) and the second part (swap done)
+  const st = tl.scrollTrigger
+  const unregister = registerSnapPoints(() => [st.start, st.start + (st.end - st.start) * SWAP_END])
+
   return () => {
+    unregister()
     tl.scrollTrigger?.kill()
     tl.kill()
     gsap.set([first, second], { clearProps: 'opacity,visibility,transform' })
