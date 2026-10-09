@@ -13,7 +13,7 @@ const MIN_DURATION = 0.45 // s, for short moves (between two project cards)
 const MAX_DURATION = 0.95 // s, for long moves (hero → projects)
 // Short wait after each move before the next swipe is taken into account, so steps (e.g. the
 // project cards) don't follow each other too quickly. Swipes made during it are ignored.
-const COOLDOWN = 400 // ms
+const COOLDOWN = 250 // ms
 
 const providers = new Set()
 let stops = [0]
@@ -59,7 +59,8 @@ function scrollToStop(y) {
   glide = gsap.to(window, {
     scrollTo: { y, autoKill: false },
     duration: gsap.utils.clamp(MIN_DURATION, MAX_DURATION, 0.4 + distance / 1800),
-    ease: 'power2.inOut',
+    // Starts at full speed right after the swipe, slows down only on arrival
+    ease: 'power3.out',
     overwrite: true,
     onComplete: () => {
       html.style.scrollBehavior = ''
