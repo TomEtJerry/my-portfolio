@@ -59,10 +59,10 @@ function About() {
           pin: pinned.current,
           first: section.current.querySelector('.about-intro'),
           second: section.current.querySelector('.about-facts'),
-          // Longer hold on the key facts, so leaving for Contact takes a bit more scrolling
-          distance: 1.7,
-          swapStart: 0.25,
-          swapEnd: 0.56,
+          // The swap fills the whole step between the two parts (no dead time)
+          distance: 0.8,
+          swapStart: 0,
+          swapEnd: 1,
         }),
       )
 

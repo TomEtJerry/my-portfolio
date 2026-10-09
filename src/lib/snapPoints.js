@@ -9,8 +9,8 @@ import { gsap, Observer, ScrollTrigger } from './gsap'
 // from its ScrollTrigger); they're re-read every time ScrollTrigger re-measures the page.
 
 const PHONE = '(max-width: 47.999rem)'
-const MIN_DURATION = 0.7 // s, for short moves (between two project cards)
-const MAX_DURATION = 1.1 // s, for long moves (hero → projects)
+const MIN_DURATION = 0.55 // s, for short moves (between two project cards)
+const MAX_DURATION = 0.95 // s, for long moves (hero → projects)
 const COOLDOWN = 250 // ms after each move before the next swipe is taken into account
 
 const providers = new Set()
@@ -51,7 +51,7 @@ function scrollToStop(y) {
   const distance = Math.abs(y - window.scrollY)
   gsap.to(window, {
     scrollTo: { y, autoKill: false },
-    duration: gsap.utils.clamp(MIN_DURATION, MAX_DURATION, 0.45 + distance / 1600),
+    duration: gsap.utils.clamp(MIN_DURATION, MAX_DURATION, 0.4 + distance / 1800),
     ease: 'power2.inOut',
     overwrite: true,
     onComplete: () => {

@@ -13,8 +13,8 @@ const THEMES = [
 
 // Extra scroll (in screen heights) before the 2nd card arrives and after the last one lands.
 // Only applies when scrolling down — scrolling up skips them.
-const HOLD_START = 0.6
-const HOLD_END = 0.35
+// Phones (step-by-step navigation): no holds, each step goes straight to the next card.
+const HOLDS = { desktop: [0.6, 0.35], phone: [0, 0] }
 
 // Scroll needed per card, in screen heights. Phones are tall and swipes travel far,
 // so a full screen per card felt too long there.
@@ -33,6 +33,7 @@ function Projects() {
   useGSAP(
     () => {
       const items = cards.current
+      const [HOLD_START, HOLD_END] = isPhone() ? HOLDS.phone : HOLDS.desktop
       gsap.set(items, { transformOrigin: '50% 0%' })
 
       // Anchor links (navbar) scroll smoothly through the section: don't interfere with them
@@ -94,8 +95,8 @@ function Projects() {
       })
 
       // Empty tweens so the timeline also spans the holds at the start and the end
-      tl.to({}, { duration: HOLD_START }, 0)
-      tl.to({}, { duration: HOLD_END }, HOLD_START + items.length - 1)
+      if (HOLD_START) tl.to({}, { duration: HOLD_START }, 0)
+      if (HOLD_END) tl.to({}, { duration: HOLD_END }, HOLD_START + items.length - 1)
 
       // Phones: one stop per card (each card fully in place)
       const unregister = registerSnapPoints(() => {
