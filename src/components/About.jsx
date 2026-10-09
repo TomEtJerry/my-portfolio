@@ -60,9 +60,9 @@ function About() {
           first: section.current.querySelector('.about-intro'),
           second: section.current.querySelector('.about-facts'),
           // Longer hold on the key facts, so leaving for Contact takes a bit more scrolling
-          distance: 1.9,
-          swapStart: 0.22,
-          swapEnd: 0.5,
+          distance: 1.7,
+          swapStart: 0.25,
+          swapEnd: 0.56,
         }),
       )
 
