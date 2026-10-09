@@ -11,7 +11,9 @@ import { gsap, Observer, ScrollTrigger } from './gsap'
 const PHONE = '(max-width: 47.999rem)'
 const MIN_DURATION = 0.45 // s, for short moves (between two project cards)
 const MAX_DURATION = 0.95 // s, for long moves (hero → projects)
-const COOLDOWN = 250 // ms after each move before the next swipe is taken into account
+// Short wait after each move before the next swipe is taken into account, so steps (e.g. the
+// project cards) don't follow each other too quickly. Swipes made during it are ignored.
+const COOLDOWN = 400 // ms
 
 const providers = new Set()
 let stops = [0]
@@ -67,6 +69,19 @@ const previousStop = () => [...stops].reverse().find((y) => y < window.scrollY -
 gsap.matchMedia().add(PHONE, () => {
   document.documentElement.classList.add('stepped-scroll')
 
+  // One swipe = one step: a gesture counts once, as soon as the finger starts moving, however
+  // long it drags. A new gesture starts when the finger touches the screen again (or after a
+  // pause in wheel/trackpad input).
+  let gestureUsed = false
+  const onSwipe = (getStop) => {
+    if (gestureUsed) return
+    // Also "uses up" a gesture started during a move or the wait, so it can't fire later
+    gestureUsed = true
+    if (moving) return
+    const y = getStop()
+    if (y !== undefined) scrollToStop(y)
+  }
+
   const swipes = Observer.create({
     target: window,
     type: 'touch,wheel',
@@ -75,14 +90,11 @@ gsap.matchMedia().add(PHONE, () => {
     preventDefault: true, // no native scrolling
     // Don't hijack swipes inside the message field (it scrolls its own text)
     ignore: 'textarea',
-    onUp: () => {
-      const y = nextStop()
-      if (y !== undefined) scrollToStop(y)
-    },
-    onDown: () => {
-      const y = previousStop()
-      if (y !== undefined) scrollToStop(y)
-    },
+    onPress: () => (gestureUsed = false),
+    onStop: () => (gestureUsed = false),
+    stopDelay: 0.15,
+    onUp: () => onSwipe(nextStop),
+    onDown: () => onSwipe(previousStop),
   })
 
   // Navbar / logo / "Back to top" links: glide to the section's first stop
