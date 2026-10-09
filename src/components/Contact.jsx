@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
+import { setupMobileSteps } from '../lib/mobileSteps'
 import { contact, FORM_ENDPOINT } from '../data/contact'
 
 const FIELDS = [
@@ -19,6 +20,17 @@ function Contact() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia()
+
+      // Mobile only: step-by-step scroll into the section (intro + LinkedIn, then the form)
+      mm.add('(max-width: 47.999rem)', () =>
+        setupMobileSteps({
+          title: section.current.querySelector('h2'),
+          first: section.current.querySelector('.contact-intro'),
+          second: section.current.querySelector('.contact-form'),
+          hash: '#contact',
+        }),
+      )
+
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.from('.contact-reveal', {
           y: 40,
@@ -60,16 +72,17 @@ function Contact() {
     <section
       id="contact"
       ref={section}
-      className="mx-auto flex max-w-page flex-col px-5 pb-6 pt-12 md:px-12 md:pb-8 md:pt-24 lg:-mt-16 lg:pt-[7.5rem]"
+      className="mx-auto flex max-w-page flex-col px-5 pb-6 pt-12 max-md:min-h-[100svh] max-md:pt-[13.5rem] md:px-12 md:pb-8 md:pt-24 lg:-mt-16 lg:pt-[7.5rem]"
     >
-      <div>
+      <div className="max-md:mb-16">
         <h2 className="contact-reveal font-display text-4xl font-bold tracking-tight md:text-6xl">
           Contact<span className="text-accent">.</span>
         </h2>
 
         <div className="mt-7 grid gap-14 md:mt-12 lg:grid-cols-12 lg:gap-16">
           {/* Intro + direct links */}
-          <div className="lg:col-span-5">
+          {/* Intro + LinkedIn. Phones: shares the same spot as the form, shown one after the other */}
+          <div className="contact-intro col-start-1 row-start-1 md:row-start-auto lg:col-span-5">
             <p className="contact-reveal font-display text-2xl font-medium leading-snug tracking-tight md:text-4xl md:leading-tight">
               Let’s build something <span className="text-accent">great together.</span>
             </p>
@@ -96,7 +109,10 @@ function Contact() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="contact-reveal lg:col-span-6 lg:col-start-7">
+          <form
+            onSubmit={handleSubmit}
+            className="contact-reveal contact-form col-start-1 row-start-1 md:row-start-auto lg:col-span-6 lg:col-start-7"
+          >
             <div className="grid gap-8 md:grid-cols-2">
               {FIELDS.map((field) => (
                 <label key={field.name} className="block">
@@ -170,7 +186,7 @@ function Contact() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-16 flex md:mt-20 items-center justify-between gap-4 border-t border-ink/10 pt-6 text-sm text-ink/50">
+      <footer className="mt-16 flex max-md:mt-auto md:mt-20 items-center justify-between gap-4 border-t border-ink/10 pt-6 text-sm text-ink/50">
         <span>© {YEAR} Tom Santoni</span>
         <a href="#home" className="transition-colors hover:text-accent">
           Back to top ↑

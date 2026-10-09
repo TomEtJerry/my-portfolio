@@ -1,5 +1,6 @@
 import { Fragment, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
+import { setupMobileSteps } from '../lib/mobileSteps'
 import { about, EXPERIENCE_URL } from '../data/about'
 
 // Scroll distance (in screen heights) during which the section stays in place (desktop only).
@@ -52,6 +53,16 @@ function About() {
         })
       })
 
+      // Mobile only: step-by-step scroll into the section (intro, then key facts + CTA)
+      mm.add('(max-width: 47.999rem)', () =>
+        setupMobileSteps({
+          title: section.current.querySelector('h2'),
+          first: section.current.querySelector('.about-intro'),
+          second: section.current.querySelector('.about-facts'),
+          hash: '#about',
+        }),
+      )
+
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.from('.about-reveal', {
           y: 40,
@@ -73,15 +84,15 @@ function About() {
     <section id="about" ref={section} className="lg:-mt-12">
       <div
         ref={pinned}
-        className="mx-auto flex max-w-page flex-col px-5 pb-12 pt-24 md:px-12 md:pb-20 md:pt-28 lg:min-h-screen lg:justify-center lg:pb-16 lg:pt-[7.5rem]"
+        className="mx-auto flex max-w-page flex-col px-5 pb-12 pt-24 max-md:min-h-[100svh] max-md:pt-[13.5rem] md:px-12 md:pb-20 md:pt-28 lg:min-h-screen lg:justify-center lg:pb-16 lg:pt-[7.5rem]"
       >
         <h2 className="about-reveal font-display text-4xl font-bold tracking-tight md:text-6xl">
           About<span className="text-accent">.</span>
         </h2>
 
         <div className="mt-10 grid gap-12 md:mt-14 lg:mt-16 lg:grid-cols-12 lg:gap-16 md:short:mt-10 md:tiny:mt-8">
-          {/* Intro + CTA */}
-          <div className="lg:col-span-7">
+          {/* Intro + CTA. Phones: shares the same spot as the key facts, shown one after the other */}
+          <div className="about-intro col-start-1 row-start-1 md:row-start-auto lg:col-span-7">
             <p className="about-reveal font-display text-2xl font-medium leading-snug tracking-tight md:text-4xl md:leading-tight md:short:text-[2rem] md:tiny:text-[1.75rem]">
               {about.intro.text} <span className="text-accent">{about.intro.highlight}</span>
             </p>
@@ -95,8 +106,8 @@ function About() {
             <ExperienceLink className="hidden lg:inline-flex" />
           </div>
 
-          {/* Key facts + skills */}
-          <div className="lg:col-span-5">
+          {/* Key facts + skills (+ CTA on phones and tablets) */}
+          <div className="about-facts col-start-1 row-start-1 md:row-start-auto lg:col-span-5 lg:col-start-auto">
             <dl className="about-reveal border-t border-ink/10">
               {about.facts.map((fact) => (
                 <div
@@ -146,11 +157,11 @@ function About() {
                 ))}
               </ul>
             </div>
+
+            {/* Phones and tablets: the CTA closes the section, after the key facts */}
+            <ExperienceLink className="inline-flex lg:hidden" />
           </div>
         </div>
-
-        {/* On mobile the CTA closes the section, after the key facts */}
-        <ExperienceLink className="inline-flex self-start lg:hidden" />
       </div>
     </section>
   )
