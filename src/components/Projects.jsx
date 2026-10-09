@@ -82,15 +82,28 @@ function Projects() {
         },
       })
 
+      // Each step has explicit start AND end values. When the page is re-measured while the
+      // stack is mid-animation (e.g. the first visit, when images finish loading late), no
+      // in-between state can be recorded as a new starting point — that used to leave cards
+      // darkened (black) until the next card came in.
+      const scaleAt = (depth) => 1 - 0.04 * depth
+      const shadeAt = (depth) => Math.min(0.5, 0.2 * depth)
+      const step = { immediateRender: false }
+
       items.slice(1).forEach((card, k) => {
         const i = k + 1
         const at = HOLD_START + k
-        tl.to(card, { yPercent: 0 }, at)
+        tl.fromTo(card, { yPercent: 115 }, { yPercent: 0, ...step }, at)
         // Cards already in the pile shrink slightly and darken
         items.slice(0, i).forEach((prev, j) => {
           const depth = i - j
-          tl.to(prev, { scale: 1 - 0.04 * depth }, at)
-          tl.to(prev.querySelector('.card-shade'), { opacity: Math.min(0.5, 0.2 * depth) }, at)
+          tl.fromTo(prev, { scale: scaleAt(depth - 1) }, { scale: scaleAt(depth), ...step }, at)
+          tl.fromTo(
+            prev.querySelector('.card-shade'),
+            { opacity: shadeAt(depth - 1) },
+            { opacity: shadeAt(depth), ...step },
+            at,
+          )
         })
       })
 
