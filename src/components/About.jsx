@@ -56,10 +56,9 @@ function About() {
       // Mobile only: step-by-step scroll into the section (intro, then key facts + CTA)
       mm.add('(max-width: 47.999rem)', () =>
         setupMobileSteps({
-          title: section.current.querySelector('h2'),
+          pin: pinned.current,
           first: section.current.querySelector('.about-intro'),
           second: section.current.querySelector('.about-facts'),
-          hash: '#about',
         }),
       )
 
@@ -84,7 +83,7 @@ function About() {
     <section id="about" ref={section} className="lg:-mt-12">
       <div
         ref={pinned}
-        className="mx-auto flex max-w-page flex-col px-5 pb-12 pt-24 max-md:min-h-[100svh] max-md:pt-[13.5rem] md:px-12 md:pb-20 md:pt-28 lg:min-h-screen lg:justify-center lg:pb-16 lg:pt-[7.5rem]"
+        className="mx-auto flex max-w-page flex-col px-5 pb-12 pt-24 max-md:h-[100svh] max-md:pt-[clamp(6.5rem,calc(100svh-34rem),13.5rem)] md:px-12 md:pb-20 md:pt-28 lg:min-h-screen lg:justify-center lg:pb-16 lg:pt-[7.5rem]"
       >
         <h2 className="about-reveal font-display text-4xl font-bold tracking-tight md:text-6xl">
           About<span className="text-accent">.</span>

@@ -1,141 +1,39 @@
-import { gsap, Observer, ScrollTrigger } from './gsap'
+import { gsap } from './gsap'
 
-// Phones: scrolling down into a section happens in two steps.
-//  1. The page glides so the section title sits near the top, showing only the `first` part.
-//  2. The next swipe fades the `first` part out and the `second` part in, at the same spot
-//     (the title stays). Then normal scrolling resumes.
+// Phones: a section shows its content in two parts, one after the other, at the same spot
+// under the title. When the section reaches the top of the screen it stays in place (pinned)
+// for a short scroll, during which the first part fades out and the second fades in,
+// following the finger. If the scroll stops in between, it settles on one of the two parts.
+// Uses the browser's own scrolling only (no swipe interception), so it behaves like normal
+// scrolling in both directions.
 // `first` and `second` must share the same place in the layout (e.g. the same grid cell).
 // Call inside a gsap.matchMedia() handler; returns a cleanup function.
 
-const STEP_DURATION = 0.7 // seconds of the automatic scroll
-const STEP_PAUSE = 450 // ms during which the page stays still after each step
-export const TITLE_TOP = 200 // px between the top of the screen and the title during the steps
-// Height needed below the title for the tallest part (the contact form with its button):
-// on short phones the title goes up so nothing gets cut
-const CONTENT_BELOW_TITLE = 540
-const MIN_TITLE_TOP = 100 // stays clear of the logo
+const SWAP_DISTANCE = 0.7 // scroll needed to go from the first to the second part, in screen heights
 
-export function setupMobileSteps({ title, first, second, hash }) {
-  const showFirst = () => {
-    gsap.set(first, { autoAlpha: 1, y: 0 })
-    gsap.set(second, { autoAlpha: 0, y: 0 })
-  }
-  const showSecondNow = () => {
-    gsap.set(first, { autoAlpha: 0, y: 0 })
-    gsap.set(second, { autoAlpha: 1, y: 0 })
-  }
-  const showSecond = () =>
-    gsap
-      .timeline()
-      .to(first, { autoAlpha: 0, y: -24, duration: 0.4, ease: 'power2.in' })
-      .fromTo(second, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' })
-  showFirst()
-
-  // Where the title sits on screen during the steps (+ the status bar strip on iPhone)
-  const offset = () =>
-    Math.max(MIN_TITLE_TOP, Math.min(TITLE_TOP, window.innerHeight - CONTENT_BELOW_TITLE)) +
-    (document.querySelector('.status-bar-cover')?.offsetHeight ?? 0)
-  const titleY = () => title.getBoundingClientRect().top + window.scrollY
-
-  let step = 0 // 0 = normal scroll, 1 = showing the first part
-  let busy = false
-
-  const goTo = (y, done) => {
-    busy = true
-    const html = document.documentElement
-    html.style.scrollBehavior = 'auto' // the page's CSS smooth scrolling would fight the animation
-    // Stops the finger's momentum (iPhone keeps scrolling after a quick swipe) during the step
-    html.style.overflow = 'hidden'
-    gsap.to(window, {
-      scrollTo: { y, autoKill: false },
-      duration: STEP_DURATION,
-      ease: 'power2.inOut',
-      overwrite: true,
-      onComplete: () => {
-        html.style.scrollBehavior = ''
-        setTimeout(() => {
-          html.style.overflow = ''
-          busy = false
-          done?.()
-        }, STEP_PAUSE)
-      },
-    })
-  }
-
-  // While enabled, swipes don't scroll the page: each one moves to the next step
-  const steps = Observer.create({
-    type: 'wheel,touch',
-    wheelSpeed: -1,
-    tolerance: 12,
-    preventDefault: true,
-    onUp: () => {
-      // Swipe up (= scroll down): second part in place of the first, then normal scrolling
-      if (busy || step !== 1) return
-      step = 0
-      busy = true
-      showSecond().eventCallback('onComplete', () =>
-        setTimeout(() => {
-          busy = false
-          steps.disable()
-        }, STEP_PAUSE),
-      )
-    },
-    onDown: () => {
-      // Swipe down (= scroll up): step back above the section, then normal scrolling
-      if (busy || step !== 1) return
-      step = 0
-      goTo(titleY() - window.innerHeight * 0.95, () => steps.disable())
+export function setupMobileSteps({ pin, first, second }) {
+  const tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: pin,
+      pin,
+      start: 'top top',
+      end: () => `+=${window.innerHeight * SWAP_DISTANCE}`,
+      scrub: 0.3,
+      invalidateOnRefresh: true,
+      // Settle on the first or the second part, never in between
+      snap: { snapTo: [0, 1], duration: { min: 0.2, max: 0.5 }, delay: 0.08, ease: 'power1.inOut' },
     },
   })
-  steps.disable()
 
-  // Clicking a navbar link scrolls through the page: don't hijack that.
-  // When the link targets this section, start the steps once the page has arrived.
-  let navigating = false
-  let navTimer
-  const onAnchorClick = (event) => {
-    const link = event.target.closest('a[href^="#"]')
-    if (!link) return
-    navigating = true
-    clearTimeout(navTimer)
-    navTimer = setTimeout(() => {
-      navigating = false
-      if (hash && link.getAttribute('href') === hash) {
-        showFirst()
-        step = 1
-        steps.enable()
-      }
-    }, 1200)
-  }
-  document.addEventListener('click', onAnchorClick)
-
-  const trigger = ScrollTrigger.create({
-    trigger: title,
-    start: 'top 85%',
-    // Scrolling down, as soon as the title comes up from the bottom of the screen
-    onEnter: () => {
-      if (navigating) return
-      showFirst()
-      step = 1
-      steps.enable()
-      goTo(titleY() - offset())
-    },
-    // Coming back up from below: show the second part directly (the one closest to below)
-    onEnterBack: () => {
-      if (step === 0) showSecondNow()
-    },
-    // Back above the section: reset to the first part for the next time
-    onLeaveBack: () => {
-      if (step === 0 && !busy) showFirst()
-    },
-  })
+  // First part stays a moment, crossfade in the middle, second part stays a moment
+  tl.fromTo(first, { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -24, duration: 0.35 }, 0.15)
+  tl.fromTo(second, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.35 }, 0.45)
+  tl.to({}, { duration: 0.2 }, 0.8)
 
   return () => {
-    steps.kill()
-    trigger.kill()
-    document.removeEventListener('click', onAnchorClick)
-    clearTimeout(navTimer)
-    document.documentElement.style.overflow = ''
-    document.documentElement.style.scrollBehavior = ''
+    tl.scrollTrigger?.kill()
+    tl.kill()
+    gsap.set([first, second], { clearProps: 'opacity,visibility,transform' })
   }
 }
