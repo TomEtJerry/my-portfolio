@@ -11,9 +11,12 @@ import { gsap, Observer, ScrollTrigger } from './gsap'
 const PHONE = '(max-width: 47.999rem)'
 const MIN_DURATION = 0.45 // s, for short moves (between two project cards)
 const MAX_DURATION = 0.95 // s, for long moves (hero → projects)
-// Short wait after each move before the next swipe is taken into account, so steps (e.g. the
-// project cards) don't follow each other too quickly. Swipes made during it are ignored.
-const COOLDOWN = 250 // ms
+// Minimum time between the start of two steps, so steps (e.g. the project cards) don't follow
+// each other too quickly. A swipe made sooner is played as soon as this time is up.
+const MIN_INTERVAL = 550 // ms
+// Share of a move before which a new swipe is ignored (it's most likely the same gesture going
+// on); after it, the swipe is kept and played as soon as possible
+const IGNORE_UNTIL = 0.35
 
 const providers = new Set()
 let stops = [0]
@@ -43,43 +46,48 @@ const anchorStop = (hash) => {
   return stops.find((y) => y >= top - 4) ?? stops[stops.length - 1]
 }
 
-let moving = false
 let glide = null // the current move
-let queued = null // a swipe kept for later: () => stop position
-// Share of the move after which a new swipe is kept (and played after the wait) rather than
-// ignored: at the end of a move the card already looks in place, so the user swipes again
-const QUEUE_FROM = 0.5
+let target = null // where the current move is going
+let lastStart = -Infinity // when the last move started (ms)
+let pending = null // timer of a swipe waiting for MIN_INTERVAL
 
-function scrollToStop(y) {
-  if (moving) return
-  moving = true
+function glideTo(y) {
   const html = document.documentElement
   html.style.scrollBehavior = 'auto' // the page's CSS smooth scrolling would fight the tween
+  target = y
+  lastStart = performance.now()
   const distance = Math.abs(y - window.scrollY)
+  // Starts at full speed right after the swipe, slows down only on arrival. A new step can
+  // interrupt the end of that slow-down and continue straight from where the page is.
   glide = gsap.to(window, {
     scrollTo: { y, autoKill: false },
     duration: gsap.utils.clamp(MIN_DURATION, MAX_DURATION, 0.4 + distance / 1800),
-    // Starts at full speed right after the swipe, slows down only on arrival
-    ease: 'power3.out',
+    ease: 'power2.out',
     overwrite: true,
     onComplete: () => {
       html.style.scrollBehavior = ''
       glide = null
-      setTimeout(() => {
-        moving = false
-        if (queued) {
-          const getStop = queued
-          queued = null
-          const next = getStop()
-          if (next !== undefined) scrollToStop(next)
-        }
-      }, COOLDOWN)
+      target = null
     },
   })
 }
 
-const nextStop = () => stops.find((y) => y > window.scrollY + 2)
-const previousStop = () => [...stops].reverse().find((y) => y < window.scrollY - 2)
+// Next / previous stop, counted from where the page is going (not where it is mid-move)
+const stopAfter = (from) => stops.find((y) => y > from + 2)
+const stopBefore = (from) => [...stops].reverse().find((y) => y < from - 2)
+
+function step(direction) {
+  if (glide && glide.progress() < IGNORE_UNTIL) return
+  clearTimeout(pending)
+  const go = () => {
+    const from = target ?? window.scrollY
+    const y = direction > 0 ? stopAfter(from) : stopBefore(from)
+    if (y !== undefined) glideTo(y)
+  }
+  const wait = lastStart + MIN_INTERVAL - performance.now()
+  if (wait > 0) pending = setTimeout(go, wait)
+  else go()
+}
 
 gsap.matchMedia().add(PHONE, () => {
   document.documentElement.classList.add('stepped-scroll')
@@ -88,17 +96,10 @@ gsap.matchMedia().add(PHONE, () => {
   // long it drags. A new gesture starts when the finger touches the screen again (or after a
   // pause in wheel/trackpad input).
   let gestureUsed = false
-  const onSwipe = (getStop) => {
+  const onSwipe = (direction) => {
     if (gestureUsed) return
     gestureUsed = true
-    if (moving) {
-      // Early in a move: ignored (keeps steps from following each other too fast).
-      // Near the end of the move or during the wait: kept and played right after the wait.
-      if (!glide || glide.progress() >= QUEUE_FROM) queued = getStop
-      return
-    }
-    const y = getStop()
-    if (y !== undefined) scrollToStop(y)
+    step(direction)
   }
 
   const swipes = Observer.create({
@@ -111,8 +112,8 @@ gsap.matchMedia().add(PHONE, () => {
     ignore: 'textarea',
     onStop: () => (gestureUsed = false),
     stopDelay: 0.15,
-    onUp: () => onSwipe(nextStop),
-    onDown: () => onSwipe(previousStop),
+    onUp: () => onSwipe(1),
+    onDown: () => onSwipe(-1),
   })
 
   // A new gesture starts each time a finger touches the screen
@@ -126,14 +127,14 @@ gsap.matchMedia().add(PHONE, () => {
     const y = link.getAttribute('href') === '#' ? 0 : anchorStop(link.getAttribute('href'))
     if (y === null) return
     event.preventDefault()
-    queued = null
-    moving = false
-    scrollToStop(y)
+    clearTimeout(pending)
+    glideTo(y)
   }
   document.addEventListener('click', onAnchorClick, true)
 
   return () => {
     swipes.kill()
+    clearTimeout(pending)
     window.removeEventListener('touchstart', onTouchStart)
     document.removeEventListener('click', onAnchorClick, true)
     document.documentElement.classList.remove('stepped-scroll')
