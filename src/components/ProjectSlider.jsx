@@ -58,12 +58,12 @@ function ProjectSlider({ projects, interval = 5000 }) {
       .fromTo(
         nextSlide,
         { autoAlpha: 0 },
-        { autoAlpha: 1, duration: reduce ? 0 : 1.4, ease: 'power1.inOut' },
+        { autoAlpha: 1, duration: reduce ? 0 : 0.6, ease: 'power2.out' },
       )
       .fromTo(
         `${nextSlide} img`,
         { scale: 1.04 },
-        { scale: 1, duration: reduce ? 0 : 2.4, ease: 'power2.out' },
+        { scale: 1, duration: reduce ? 0 : 1.2, ease: 'power2.out' },
         0,
       )
   })
