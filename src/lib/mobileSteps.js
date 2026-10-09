@@ -27,7 +27,7 @@ export function setupMobileSteps({ pin, first, second, ...options }) {
       pin,
       start: 'top top',
       end: () => `+=${window.innerHeight * distance}`,
-      scrub: 0.3,
+      scrub: true, // follows the scripted scroll exactly (snapPoints.js)
       invalidateOnRefresh: true,
     },
   })

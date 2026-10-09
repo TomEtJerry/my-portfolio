@@ -56,7 +56,7 @@ function Projects() {
           // A fixed scroll distance per card (see SCROLL_PER_CARD), plus the holds
           end: () => `+=${(items.length - 1 + HOLD_START + HOLD_END) * scrollPerCard()}`,
           // Smoothing between the scroll and the animation (shorter on touch screens: the swipe already eases)
-          scrub: window.matchMedia('(min-width: 48rem)').matches ? 0.8 : 0.4,
+          scrub: isPhone() ? true : 0.8,
           invalidateOnRefresh: true,
           // Scrolling up: jump over the holds. Nothing moves during a hold,
           // so the jump is invisible — it just removes the extra scroll.

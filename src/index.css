@@ -43,27 +43,14 @@
   }
 }
 
-/* Phones: the page always rests on a stop (see src/lib/snapPoints.js) */
-.snap-points {
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 1px;
-  pointer-events: none;
+/* Phones: the page moves from stop to stop, driven by script (see src/lib/snapPoints.js) */
+html.stepped-scroll,
+html.stepped-scroll body {
+  overscroll-behavior: none;
+  touch-action: none;
 }
-.snap-point {
-  position: absolute;
-  left: 0;
-  width: 1px;
-  height: 1px;
-}
-@media (max-width: 47.999rem) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
-  .snap-point {
-    scroll-snap-align: start;
-    scroll-snap-stop: always; /* a quick swipe can't skip a stop */
-  }
+html.stepped-scroll textarea {
+  touch-action: pan-y;
 }
 
 @layer base {
