@@ -44,6 +44,11 @@ const anchorStop = (hash) => {
 }
 
 let moving = false
+let glide = null // the current move
+let queued = null // a swipe kept for later: () => stop position
+// Share of the move after which a new swipe is kept (and played after the wait) rather than
+// ignored: at the end of a move the card already looks in place, so the user swipes again
+const QUEUE_FROM = 0.5
 
 function scrollToStop(y) {
   if (moving) return
@@ -51,14 +56,23 @@ function scrollToStop(y) {
   const html = document.documentElement
   html.style.scrollBehavior = 'auto' // the page's CSS smooth scrolling would fight the tween
   const distance = Math.abs(y - window.scrollY)
-  gsap.to(window, {
+  glide = gsap.to(window, {
     scrollTo: { y, autoKill: false },
     duration: gsap.utils.clamp(MIN_DURATION, MAX_DURATION, 0.4 + distance / 1800),
     ease: 'power2.inOut',
     overwrite: true,
     onComplete: () => {
       html.style.scrollBehavior = ''
-      setTimeout(() => (moving = false), COOLDOWN)
+      glide = null
+      setTimeout(() => {
+        moving = false
+        if (queued) {
+          const getStop = queued
+          queued = null
+          const next = getStop()
+          if (next !== undefined) scrollToStop(next)
+        }
+      }, COOLDOWN)
     },
   })
 }
@@ -75,9 +89,13 @@ gsap.matchMedia().add(PHONE, () => {
   let gestureUsed = false
   const onSwipe = (getStop) => {
     if (gestureUsed) return
-    // Also "uses up" a gesture started during a move or the wait, so it can't fire later
     gestureUsed = true
-    if (moving) return
+    if (moving) {
+      // Early in a move: ignored (keeps steps from following each other too fast).
+      // Near the end of the move or during the wait: kept and played right after the wait.
+      if (!glide || glide.progress() >= QUEUE_FROM) queued = getStop
+      return
+    }
     const y = getStop()
     if (y !== undefined) scrollToStop(y)
   }
@@ -90,12 +108,15 @@ gsap.matchMedia().add(PHONE, () => {
     preventDefault: true, // no native scrolling
     // Don't hijack swipes inside the message field (it scrolls its own text)
     ignore: 'textarea',
-    onPress: () => (gestureUsed = false),
     onStop: () => (gestureUsed = false),
     stopDelay: 0.15,
     onUp: () => onSwipe(nextStop),
     onDown: () => onSwipe(previousStop),
   })
+
+  // A new gesture starts each time a finger touches the screen
+  const onTouchStart = () => (gestureUsed = false)
+  window.addEventListener('touchstart', onTouchStart, { passive: true })
 
   // Navbar / logo / "Back to top" links: glide to the section's first stop
   const onAnchorClick = (event) => {
@@ -104,6 +125,7 @@ gsap.matchMedia().add(PHONE, () => {
     const y = link.getAttribute('href') === '#' ? 0 : anchorStop(link.getAttribute('href'))
     if (y === null) return
     event.preventDefault()
+    queued = null
     moving = false
     scrollToStop(y)
   }
@@ -111,6 +133,7 @@ gsap.matchMedia().add(PHONE, () => {
 
   return () => {
     swipes.kill()
+    window.removeEventListener('touchstart', onTouchStart)
     document.removeEventListener('click', onAnchorClick, true)
     document.documentElement.classList.remove('stepped-scroll')
   }
