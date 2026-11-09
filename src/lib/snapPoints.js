@@ -93,7 +93,10 @@ function step(direction) {
   else go()
 }
 
-gsap.matchMedia().add(PHONE, () => {
+// Turned on by the home page only (project pages scroll normally). Returns a cleanup function.
+export function enableSteppedScroll() {
+  const mm = gsap.matchMedia()
+  mm.add(PHONE, () => {
   document.documentElement.classList.add('stepped-scroll')
 
   // One swipe = one step: a gesture counts once, as soon as the finger starts moving, however
@@ -144,3 +147,5 @@ gsap.matchMedia().add(PHONE, () => {
     document.documentElement.classList.remove('stepped-scroll')
   }
 })
+  return () => mm.revert()
+}

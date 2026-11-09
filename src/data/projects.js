@@ -23,9 +23,8 @@ export const projects = [
     company: 'Allianz',
     role: 'UX/UI Designer',
     image: projectOne,
-    // Content of the project's own page (/projects/<slug>) — `draft: true`: page not published yet
+    // Content of the project's own page (/projects/<slug>)
     caseStudy: {
-      draft: true,
       intro:
         'Redesign of Allianz’s partner offers platform — turning a dedicated but very limited space into an accessible experience where policyholders can easily find and claim the discounts and services negotiated with Allianz’s partner brands.',
       meta: [
@@ -68,18 +67,18 @@ export const projects = [
         title: 'Browsing partner offers on desktop',
         text: 'An overview of the desktop mockups, from the offers homepage to a single offer’s detail page.',
         visuals: [
-          { file: 'partner-offers/desktop-1.jpg', caption: 'Offers homepage, browsable by category' },
-          { file: 'partner-offers/desktop-2.jpg', caption: 'Detail page of a single partner offer' },
-          { file: 'partner-offers/desktop-3.jpg', caption: 'Filtering offers by category' },
+          { file: 'partner-offers/partner-offers-desktop-1.jpg', caption: 'Offers homepage, browsable by category' },
+          { file: 'partner-offers/partner-offers-desktop-2.jpg', caption: 'Detail page of a single partner offer' },
+          { file: 'partner-offers/partner-offers-desktop-3.jpg', caption: 'Filtering offers by category' },
         ],
       },
       mobile: {
         title: 'The same offers, adapted for mobile',
         text: 'The mobile version of the client area, reworked so partner offers stay just as easy to browse on a smaller screen.',
         visuals: [
-          { file: 'partner-offers/mobile-1.jpg', caption: 'Offers homepage on mobile' },
-          { file: 'partner-offers/mobile-2.jpg', caption: 'Offer detail on mobile' },
-          { file: 'partner-offers/mobile-3.jpg', caption: 'Category filtering on mobile' },
+          { file: 'partner-offers/partner-offers-mobile-1.jpg', caption: 'Offers homepage on mobile' },
+          { file: 'partner-offers/partner-offers-mobile-2.jpg', caption: 'Offer detail on mobile' },
+          { file: 'partner-offers/partner-offers-mobile-3.jpg', caption: 'Category filtering on mobile' },
         ],
       },
       results: [

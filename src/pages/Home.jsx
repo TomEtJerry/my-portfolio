@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar'
 import OpenToWorkBanner from '../components/OpenToWorkBanner'
 import Projects from '../components/Projects'
 import { ScrollTrigger } from '../lib/gsap'
+import { enableSteppedScroll } from '../lib/snapPoints'
 
 // Scrolls to the section named in the URL (e.g. /#projects when coming back from a project page)
 const scrollToHash = () => {
@@ -18,6 +19,9 @@ function Home() {
   // Scroll animations measure the page when they're created. Pinned sections and late-loading
   // fonts/images change the page height afterwards, so measure everything again once the page
   // is complete (this effect runs after all the sections have set up their own animations).
+  // Phones: step-by-step navigation between the sections (home page only)
+  useEffect(() => enableSteppedScroll(), [])
+
   useEffect(() => {
     document.title = 'Tom Santoni — Product Designer'
     const refresh = () => ScrollTrigger.refresh()
