@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { registerSnapPoints } from '../lib/snapPoints'
-import { projects } from '../data/projects'
+import { projects, projectUrl } from '../data/projects'
 import ResponsiveImage from './ResponsiveImage'
 
 // Card colors, in turn
@@ -214,9 +214,13 @@ function Projects() {
                     <p className="mt-5 text-[0.625rem] uppercase tracking-[0.15em] opacity-60 md:mt-5 md:text-sm">
                       {project.company ?? project.role} · {project.year}
                     </p>
+                    {/* With a page: the link stretches over the whole card (after:inset-0), so
+                        clicking anywhere on the card opens the project */}
                     <a
-                      href={project.caseStudy && !project.caseStudy.draft ? `/projects/${project.slug}` : '#'}
-                      className="mt-6 inline-flex items-center gap-2 rounded-full border border-current/25 px-4 py-2 text-xs font-medium transition-colors hover:bg-current/10 md:mt-6 md:px-5 md:py-2.5 md:text-sm xl:mt-8"
+                      href={projectUrl(project) ?? '#'}
+                      className={`mt-6 inline-flex items-center gap-2 rounded-full border border-current/25 px-4 py-2 text-xs font-medium transition-colors hover:bg-current/10 md:mt-6 md:px-5 md:py-2.5 md:text-sm xl:mt-8 ${
+                        projectUrl(project) ? 'after:absolute after:inset-0 after:z-10 after:content-[""]' : ''
+                      }`}
                     >
                       View case study
                       <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

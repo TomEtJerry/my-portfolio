@@ -7,6 +7,10 @@ import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 
 const YEAR = new Date().getFullYear()
 
+// Desktop: scroll distance (in screen heights) during which the approach section stays in place
+// while its timeline fills
+const PIN_SCROLL = 1.2
+
 // Small orange label with a dash, above each section title
 function Eyebrow({ children }) {
   return (
@@ -20,7 +24,7 @@ function Eyebrow({ children }) {
 function SectionTitle({ children, className = '' }) {
   return (
     <h2
-      className={`mt-4 max-w-3xl font-display text-3xl font-bold leading-tight tracking-tight md:mt-5 md:text-5xl ${className}`}
+      className={`mt-4 max-w-3xl font-display lg:max-w-5xl text-3xl font-bold leading-tight tracking-tight md:mt-5 md:text-5xl ${className}`}
     >
       {children}
     </h2>
@@ -28,12 +32,13 @@ function SectionTitle({ children, className = '' }) {
 }
 
 const Lead = ({ children }) => (
-  <p className="mt-5 max-w-2xl text-base text-ink/70 md:mt-6 md:text-lg">{children}</p>
+  <p className="mt-5 max-w-2xl text-base text-ink/70 md:mt-6 md:text-lg lg:max-w-4xl">{children}</p>
 )
 
 function ProjectPage({ project }) {
   const page = useRef(null)
   const timeline = useRef(null)
+  const approach = useRef(null)
   const study = project.caseStudy
   const meta = [...study.meta, { label: 'Year', value: project.year }]
 
@@ -75,40 +80,80 @@ function ProjectPage({ project }) {
         })
       })
 
-      // Approach timeline: an orange line fills down with the scroll and lights each step's dot
-      // as it reaches it
+      // Approach timeline: an orange line fills with the scroll and lights each step's dot as it
+      // reaches it. Vertical on phones and tablets, horizontal (steps side by side) on desktop.
       const steps = gsap.utils.toArray('[data-step]', timeline.current)
       const dots = steps.map((step) => step.querySelector('[data-dot]'))
       const track = timeline.current.querySelector('[data-track]')
       const fill = timeline.current.querySelector('[data-fill]')
-      // The track runs from the center of the first dot to the center of the last one
-      const placeTrack = () => {
-        const box = timeline.current.getBoundingClientRect()
-        const center = (dot) => {
-          const r = dot.getBoundingClientRect()
-          return r.top + r.height / 2 - box.top
+
+      const setupTimeline = (horizontal) => {
+        // The track runs from the center of the first dot to the center of the last one
+        const placeTrack = () => {
+          const box = timeline.current.getBoundingClientRect()
+          const center = (dot) => {
+            const r = dot.getBoundingClientRect()
+            return { x: r.left + r.width / 2 - box.left, y: r.top + r.height / 2 - box.top }
+          }
+          const first = center(dots[0])
+          const last = center(dots[dots.length - 1])
+          Object.assign(track.style, {
+            left: `${horizontal ? first.x : first.x - 1}px`,
+            top: `${horizontal ? first.y - 1 : first.y}px`,
+            width: horizontal ? `${Math.max(last.x - first.x, 1)}px` : '2px',
+            height: horizontal ? '2px' : `${Math.max(last.y - first.y, 1)}px`,
+          })
         }
-        const top = center(dots[0])
-        track.style.top = `${top}px`
-        track.style.height = `${Math.max(center(dots[dots.length - 1]) - top, 1)}px`
-      }
-      placeTrack()
-      ScrollTrigger.addEventListener('refreshInit', placeTrack)
-      ScrollTrigger.create({
-        trigger: timeline.current,
-        start: 'top 65%',
-        end: 'bottom 65%',
-        scrub: true,
-        onUpdate: (self) => {
-          gsap.set(fill, { scaleY: self.progress })
+        gsap.set(fill, horizontal
+          ? { scaleX: 0, scaleY: 1, transformOrigin: 'left center' }
+          : { scaleY: 0, scaleX: 1, transformOrigin: 'center top' })
+        placeTrack()
+        ScrollTrigger.addEventListener('refreshInit', placeTrack)
+
+        // Fill the line and light the dots for a given progress (0 → 1)
+        const render = (progress) => {
+          gsap.set(fill, horizontal ? { scaleX: progress } : { scaleY: progress })
           steps.forEach((step, i) => {
-            const reached = self.progress >= i / Math.max(steps.length - 1, 1) - 0.001
+            const reached = progress >= i / Math.max(steps.length - 1, 1) - 0.001
             step.classList.toggle('is-active', reached)
           })
-        },
-      })
+        }
 
-      return () => ScrollTrigger.removeEventListener('refreshInit', placeTrack)
+        if (horizontal) {
+          // Desktop: the section stays in place (pinned) while the line fills, so the scroll
+          // goes into the timeline instead of moving the page. The line is complete at 85% of
+          // the pinned scroll; the rest is a short pause on the finished timeline.
+          ScrollTrigger.create({
+            trigger: approach.current,
+            pin: approach.current,
+            // Centered on screen, or from its top if it's taller than the screen
+            start: () =>
+              approach.current.offsetHeight > window.innerHeight ? 'top top' : 'center center',
+            end: () => `+=${window.innerHeight * PIN_SCROLL}`,
+            scrub: true,
+            // Starts pinning a hair early when scrolling fast, so it doesn't land with a jolt
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            // Measured first: the sections below are pushed down by the pinned scroll, and their
+            // own scroll animations must take that into account
+            refreshPriority: 1,
+            onUpdate: (self) => render(Math.min(self.progress / 0.85, 1)),
+          })
+        } else {
+          ScrollTrigger.create({
+            trigger: timeline.current,
+            start: 'top 65%',
+            end: 'bottom 65%',
+            scrub: true,
+            onUpdate: (self) => render(self.progress),
+          })
+        }
+
+        return () => ScrollTrigger.removeEventListener('refreshInit', placeTrack)
+      }
+
+      mm.add('(min-width: 64rem)', () => setupTimeline(true))
+      mm.add('(max-width: 63.999rem)', () => setupTimeline(false))
     },
     { scope: page },
   )
@@ -175,70 +220,50 @@ function ProjectPage({ project }) {
           </div>
         </section>
 
-        {/* ===== CONTEXT + GOALS ===== */}
-        <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
-          <Eyebrow>The context</Eyebrow>
-          <div className="mt-4 grid gap-10 md:mt-5 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-7">
-              <SectionTitle className="!mt-0">{study.context.title}</SectionTitle>
-              <p className="mt-6 text-base text-ink/70 md:text-lg md:leading-relaxed">
-                {study.context.text}
-              </p>
-            </div>
-            {/* Goals card */}
-            <div className="self-start rounded-[24px] bg-ink p-7 text-paper shadow-[0_30px_60px_-30px_rgba(26,20,16,0.5)] md:rounded-[32px] md:p-10 lg:col-span-5">
-              <p className="font-display text-xl font-bold text-accent md:text-2xl">
-                {study.context.goalsTitle ?? 'Project goals'}
-              </p>
-              <ul className="mt-6 space-y-5">
-                {study.context.goals.map((goal, i) => (
-                  <li key={goal} className="flex gap-4">
-                    <span className="mt-0.5 font-display text-sm tabular-nums text-accent">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-base text-paper/85 md:text-lg">{goal}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
         {/* ===== APPROACH: scroll-filled timeline ===== */}
-        <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
-          <Eyebrow>The approach</Eyebrow>
-          <SectionTitle>{study.approach.title}</SectionTitle>
+        <section
+          ref={approach}
+          className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28"
+        >
+          {/* The fade-in moves this inner block, not the section: the section gets pinned on
+              desktop, and moving it at the same time made the page jump when the pin started */}
+          <div data-reveal>
+            <Eyebrow>The approach</Eyebrow>
+            <SectionTitle>{study.approach.title}</SectionTitle>
+            {/* Short context, so the steps can be understood on their own */}
+            {study.approach.intro && <Lead>{study.approach.intro}</Lead>}
 
-          <ol ref={timeline} className="relative mt-12 md:mt-16">
-            {/* Track (between the first and the last dot) and its orange fill */}
-            <span
-              aria-hidden="true"
-              data-track
-              className="absolute left-3 w-[2px] -translate-x-1/2 overflow-hidden rounded-full bg-ink/10 md:left-4"
-            >
-              <span data-fill className="absolute inset-0 origin-top scale-y-0 bg-accent" />
-            </span>
-
-            {study.approach.steps.map((step, i) => (
-              <li
-                key={step.title}
-                data-step
-                className="group relative grid grid-cols-[1.5rem_1fr] gap-5 pb-12 last:pb-0 md:grid-cols-[2rem_1fr] md:gap-8 md:pb-16"
+            <ol ref={timeline} className="relative mt-12 md:mt-16 lg:grid lg:grid-cols-4 lg:gap-10 xl:gap-14">
+              {/* Track (between the first and the last dot) and its orange fill */}
+              <span
+                aria-hidden="true"
+                data-track
+                className="absolute overflow-hidden rounded-full bg-ink/10"
               >
-                {/* Dot: outlined, filled orange once the line reaches it */}
-                <span data-dot className="relative z-10 mt-0.5 size-6 rounded-full border-2 border-accent bg-paper transition-all duration-500 group-[.is-active]:bg-accent group-[.is-active]:shadow-[0_0_0_6px_color-mix(in_srgb,var(--color-accent)_18%,transparent)] md:size-8" />
-                <div>
-                  <span className="font-display text-sm tabular-nums text-ink/40 transition-colors duration-500 group-[.is-active]:text-accent">
-                    Step {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="mt-1 font-display text-xl font-bold tracking-tight md:text-3xl">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 max-w-2xl text-ink/70 md:text-lg">{step.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+                <span data-fill className="absolute inset-0 bg-accent" />
+              </span>
+
+              {study.approach.steps.map((step, i) => (
+                <li
+                  key={step.title}
+                  data-step
+                  className="group relative grid grid-cols-[1.5rem_1fr] gap-5 pb-12 last:pb-0 md:grid-cols-[2rem_1fr] md:gap-8 md:pb-16 lg:grid-cols-1 lg:content-start lg:gap-7 lg:pb-0"
+                >
+                  {/* Dot: outlined, filled orange once the line reaches it */}
+                  <span data-dot className="relative z-10 mt-0.5 size-6 rounded-full border-2 border-accent bg-paper transition-all duration-500 group-[.is-active]:bg-accent group-[.is-active]:shadow-[0_0_0_6px_color-mix(in_srgb,var(--color-accent)_18%,transparent)] md:size-8" />
+                  <div>
+                    <span className="font-display text-sm tabular-nums text-ink/40 transition-colors duration-500 group-[.is-active]:text-accent">
+                      Step {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="mt-1 font-display text-xl font-bold tracking-tight md:text-3xl lg:text-2xl xl:text-3xl">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 max-w-2xl text-ink/70 md:text-lg lg:text-base xl:text-lg">{step.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
 
         {/* ===== MOBILE SHOWCASE: the main screen large in the middle, the two others around ===== */}
@@ -246,7 +271,7 @@ function ProjectPage({ project }) {
           <Eyebrow>The mobile experience</Eyebrow>
           <SectionTitle>{study.mobile.title}</SectionTitle>
           <Lead>{study.mobile.text}</Lead>
-          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 items-center gap-6 md:mt-16 md:grid-cols-3 md:gap-10 lg:gap-14">
+          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 items-start gap-6 md:mt-16 md:grid-cols-3 md:gap-10 lg:gap-14">
             {study.mobile.visuals.map((visual, i) => (
               <div
                 key={visual.file}
@@ -260,6 +285,7 @@ function ProjectPage({ project }) {
               >
                 <Visual
                   {...visual}
+                  fitWidth
                   className="aspect-[9/19.5] !rounded-[28px] border-[6px] border-ink shadow-[0_30px_60px_-30px_rgba(26,20,16,0.45)] md:!rounded-[36px]"
                 />
               </div>

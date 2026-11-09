@@ -1,14 +1,26 @@
 import { projectImage } from '../lib/projectImages'
 
 // A project visual. Until its file exists in src/assets/projects/, shows a placeholder.
-function Visual({ file, caption, className = '' }) {
+// - fitWidth: the whole image is shown at the frame's width, and the frame takes the image's
+//   height — for phone screens, where cutting the sides would hide content
+function Visual({ file, caption, className = '', fitWidth = false }) {
   const src = projectImage(file)
 
   return (
     <figure>
-      <div className={`relative overflow-hidden rounded-2xl bg-sand md:rounded-3xl ${className}`}>
+      {/* fitWidth + an image: the frame takes the image's own height (no empty band) */}
+      <div
+        className={`relative overflow-hidden rounded-2xl bg-sand md:rounded-3xl ${className} ${
+          fitWidth && src ? '!aspect-auto' : ''
+        }`}
+      >
         {src ? (
-          <img src={src} alt={caption} loading="lazy" className="size-full object-cover object-left-top" />
+          <img
+            src={src}
+            alt={caption}
+            loading="lazy"
+            className={fitWidth ? 'block h-auto w-full' : 'size-full object-cover object-left-top'}
+          />
         ) : (
           <div className="flex size-full flex-col items-center justify-center gap-2 border-2 border-dashed border-ink/15 p-6 text-center text-ink/40 md:rounded-3xl">
             <svg viewBox="0 0 24 24" aria-hidden="true" className="size-8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

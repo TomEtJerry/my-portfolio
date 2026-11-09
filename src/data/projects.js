@@ -43,6 +43,9 @@ export const projects = [
       },
       approach: {
         title: 'From platform audit to final mockups',
+        // Shown under the title: sums up the context (the context section isn't displayed)
+        intro:
+          'Allianz’s client area already had a space listing the discounts negotiated with partner brands, but it was very limited: offers were hard to find, poorly structured and unclear to navigate. The brief was to overhaul it so every policyholder can easily find, understand and claim an offer, on desktop as on mobile.',
         steps: [
           {
             title: 'Auditing the existing platform',
@@ -82,9 +85,18 @@ export const projects = [
         ],
       },
       results: [
-        { value: '1', text: 'full competitor and market benchmark conducted before the redesign.' },
-        { value: '2', text: 'versions of the experience redesigned end‑to‑end, desktop and mobile.' },
-        { value: '1', text: 'existing offers platform reworked for accessibility and simpler offer retrieval.' },
+        {
+          value: '1.5M',
+          text: 'policyholders who can now find their partner discounts straight from their Allianz client area.',
+        },
+        {
+          value: '4',
+          text: 'offer universes — On the road, At home, Family, Health — to browse deals by need instead of hunting brand by brand.',
+        },
+        {
+          value: '2',
+          text: 'screens, one design system: every page designed for desktop and mobile from the same components.',
+        },
       ],
     },
   },
@@ -432,3 +444,7 @@ export const projects = [
     },
   },
 ]
+
+// Link to a project's own page, or null while it has no published page
+export const projectUrl = (project) =>
+  project.caseStudy && !project.caseStudy.draft ? `/projects/${project.slug}` : null

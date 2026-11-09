@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import ResponsiveImage from './ResponsiveImage'
+import { projectUrl } from '../data/projects'
 
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -75,6 +76,7 @@ function ProjectSlider({ projects, interval = 5000 }) {
   }, [active, interval, projects.length, goTo])
 
   const project = projects[active]
+  const url = projectUrl(project)
 
   return (
     <div ref={root} className="relative h-full w-full overflow-hidden bg-sand">
@@ -97,7 +99,14 @@ function ProjectSlider({ projects, interval = 5000 }) {
 
       {/* Bottom gradient + caption */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-3/4 bg-gradient-to-t from-ink/95 via-ink/50 to-transparent" />
-      <div className="absolute bottom-0 right-0 z-20 flex flex-col items-end gap-3 p-5 text-right text-paper md:gap-5 md:p-12">
+
+      {/* When the project shown has its own page, the whole block opens it */}
+      {url && (
+        <a href={url} aria-label={`View case study: ${project.title}`} className="peer absolute inset-0 z-[15]" />
+      )}
+
+      {/* Caption: lets clicks through to the link above, except on the navigation dots */}
+      <div className="pointer-events-none absolute bottom-0 right-0 z-20 flex flex-col items-end gap-3 p-5 text-right text-paper peer-hover:[&_[data-cta]]:bg-paper/15 md:gap-5 md:p-12">
         <span className="font-display text-sm tabular-nums text-paper/70">
           {String(active + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
         </span>
@@ -108,10 +117,16 @@ function ProjectSlider({ projects, interval = 5000 }) {
           <h3 className="caption-line font-display text-2xl font-bold md:text-5xl">
             {project.title}
           </h3>
+          {/* Shows that the block opens the project */}
+          {url && (
+            <span data-cta className="caption-line mt-3 inline-flex items-center gap-2 rounded-full border border-paper/30 px-4 py-1.5 text-xs font-medium transition-colors md:mt-4 md:text-sm">
+              View case study ↗
+            </span>
+          )}
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-2">
+        <div className="pointer-events-auto flex gap-2">
           {projects.map((p, i) => (
             <button
               key={p.title}
