@@ -38,10 +38,11 @@ function Projects() {
       const items = cards.current
       const shades = items.map((card) => card.querySelector('.card-shade'))
       const [HOLD_START, HOLD_END] = isPhone() ? HOLDS.phone : HOLDS.desktop
-      // force3D: each card keeps the same GPU layer for good. Letting the browser create and drop
-      // layers around each animation is what makes iOS (Safari and Chrome) sometimes show a card
-      // as a black block until something else repaints it.
-      gsap.set(items, { transformOrigin: '50% 0%', force3D: true, scale: 1 })
+      // force3D: false — the cards never get a GPU layer of their own: they're drawn with the rest
+      // of the section and redrawn on every frame while they move. With their own layer, a card
+      // waiting off-screen was never drawn by iOS (Safari and Chrome), then slid in undrawn and
+      // showed as a black block.
+      gsap.set(items, { transformOrigin: '50% 0%', force3D: false, scale: 1 })
       // The darkening is a semi-transparent COLOR (its opacity stays 1). With a black layer faded by
       // `opacity`, iOS could occasionally show that layer at full opacity → the card turned black and
       // its content disappeared. Here the transparency is part of the color: it can never exceed 50%.
@@ -60,8 +61,8 @@ function Projects() {
       gsap.set(items.slice(1), { yPercent: 115 })
 
       const tl = gsap.timeline({
-        // force3D: the cards keep their GPU layer during and after every step too (see above)
-        defaults: { ease: 'none', force3D: true },
+        // force3D: false — no GPU layer for the cards, during or after a step (see above)
+        defaults: { ease: 'none', force3D: false },
         scrollTrigger: {
           trigger: pinned.current,
           pin: pinned.current,
@@ -191,8 +192,7 @@ function Projects() {
                   cards.current[i] = el
                 }}
                 style={{ top: `calc(${i} * var(--card-step))` }}
-                // backface-hidden + isolate: keeps each card on its own stable layer (see force3D above)
-                className={`absolute inset-x-0 bottom-0 isolate flex flex-col overflow-hidden rounded-[20px] [backface-visibility:hidden] md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
+                className={`absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-[20px] md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
               >
                 {/* Text */}
                 {/* Stacked layout: the text takes only the height it needs; side-by-side: spread over the full height */}
