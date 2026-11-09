@@ -53,6 +53,11 @@ html.stepped-scroll textarea {
   touch-action: pan-y;
 }
 
+/* Forces the browser to redraw an element without any visible change (see Projects.jsx) */
+.repaint-nudge {
+  outline: 1px solid transparent;
+}
+
 @layer base {
   :root {
     /* Distance between the screen edge and the content once the page is wider than the container */

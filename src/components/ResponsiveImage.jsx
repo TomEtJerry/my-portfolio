@@ -28,7 +28,11 @@ function ResponsiveImage({ image, alt = '', sizes = '100vw', priority = false, e
       loading={priority || eager ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'high' : 'low'}
       decoding="async"
-      onLoad={() => setLoaded(true)}
+      onLoad={(event) => {
+        setLoaded(true)
+        // Lets animated parents refresh their rendering (see Projects.jsx)
+        event.currentTarget.dispatchEvent(new Event('imageready', { bubbles: true }))
+      }}
       className={`transition-opacity duration-700 ease-out ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`}
     />
   )

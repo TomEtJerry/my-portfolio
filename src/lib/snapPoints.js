@@ -57,6 +57,8 @@ function glideTo(y) {
   target = y
   lastStart = performance.now()
   const distance = Math.abs(y - window.scrollY)
+  // Lets animated elements refresh their rendering as a step begins (Projects.jsx)
+  window.dispatchEvent(new Event('stepstart'))
   // Starts at full speed right after the swipe, slows down only on arrival. A new step can
   // interrupt the end of that slow-down and continue straight from where the page is.
   glide = gsap.to(window, {
@@ -68,6 +70,8 @@ function glideTo(y) {
       html.style.scrollBehavior = ''
       glide = null
       target = null
+      // Lets animated elements refresh their rendering once the page is still (Projects.jsx)
+      window.dispatchEvent(new Event('stepsettled'))
     },
   })
 }

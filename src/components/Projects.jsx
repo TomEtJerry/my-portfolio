@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, useGSAP } from '../lib/gsap'
+import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { registerSnapPoints } from '../lib/snapPoints'
 import { projects } from '../data/projects'
 import ResponsiveImage from './ResponsiveImage'
@@ -24,6 +24,9 @@ const scrollPerCard = () =>
 
 const isPhone = () => !window.matchMedia('(min-width: 48rem)').matches
 
+// Darkening of the cards under the pile: ink color with a given transparency (max 0.5)
+const shadeColor = (alpha) => `rgba(26, 20, 16, ${alpha})`
+
 function Projects() {
   const section = useRef(null)
   const pinned = useRef(null)
@@ -33,8 +36,16 @@ function Projects() {
   useGSAP(
     () => {
       const items = cards.current
+      const shades = items.map((card) => card.querySelector('.card-shade'))
       const [HOLD_START, HOLD_END] = isPhone() ? HOLDS.phone : HOLDS.desktop
-      gsap.set(items, { transformOrigin: '50% 0%' })
+      // force3D: each card keeps the same GPU layer for good. Letting the browser create and drop
+      // layers around each animation is what makes iOS (Safari and Chrome) sometimes show a card
+      // as a black block until something else repaints it.
+      gsap.set(items, { transformOrigin: '50% 0%', force3D: true, scale: 1 })
+      // The darkening is a semi-transparent COLOR (its opacity stays 1). With a black layer faded by
+      // `opacity`, iOS could occasionally show that layer at full opacity → the card turned black and
+      // its content disappeared. Here the transparency is part of the color: it can never exceed 50%.
+      gsap.set(shades, { backgroundColor: shadeColor(0) })
 
       // Anchor links (navbar) scroll smoothly through the section: don't interfere with them
       let navigating = false
@@ -49,7 +60,8 @@ function Projects() {
       gsap.set(items.slice(1), { yPercent: 115 })
 
       const tl = gsap.timeline({
-        defaults: { ease: 'none' },
+        // force3D: the cards keep their GPU layer during and after every step too (see above)
+        defaults: { ease: 'none', force3D: true },
         scrollTrigger: {
           trigger: pinned.current,
           pin: pinned.current,
@@ -99,9 +111,9 @@ function Projects() {
           const depth = i - j
           tl.fromTo(prev, { scale: scaleAt(depth - 1) }, { scale: scaleAt(depth), ...step }, at)
           tl.fromTo(
-            prev.querySelector('.card-shade'),
-            { opacity: shadeAt(depth - 1) },
-            { opacity: shadeAt(depth), ...step },
+            shades[j],
+            { backgroundColor: shadeColor(shadeAt(depth - 1)) },
+            { backgroundColor: shadeColor(shadeAt(depth)), ...step },
             at,
           )
         })
@@ -119,10 +131,34 @@ function Projects() {
         return items.map((_, i) => (i === 0 ? st.start : st.start + (HOLD_START + i) * unit))
       })
 
+      // Safety net: when a step starts and ends, when the page comes to rest (end of a resize) or a
+      // card image finishes loading, make the browser redraw the stack (the pinned block and every
+      // card). If iOS ever skipped drawing them, it's fixed right away instead of staying black.
+      const layers = [pinned.current, ...items]
+      let repaintFrame
+      const repaintCards = () => {
+        cancelAnimationFrame(repaintFrame)
+        layers.forEach((layer) => layer.classList.add('repaint-nudge'))
+        repaintFrame = requestAnimationFrame(() =>
+          layers.forEach((layer) => layer.classList.remove('repaint-nudge')),
+        )
+      }
+      window.addEventListener('stepstart', repaintCards)
+      window.addEventListener('stepsettled', repaintCards)
+      ScrollTrigger.addEventListener('scrollEnd', repaintCards)
+      ScrollTrigger.addEventListener('refresh', repaintCards)
+      pinned.current.addEventListener('imageready', repaintCards)
+
       return () => {
         unregister()
         document.removeEventListener('click', onAnchorClick)
         clearTimeout(navTimer)
+        cancelAnimationFrame(repaintFrame)
+        window.removeEventListener('stepstart', repaintCards)
+        window.removeEventListener('stepsettled', repaintCards)
+        ScrollTrigger.removeEventListener('scrollEnd', repaintCards)
+        ScrollTrigger.removeEventListener('refresh', repaintCards)
+        pinned.current?.removeEventListener('imageready', repaintCards)
       }
     },
     { scope: section },
@@ -134,7 +170,9 @@ function Projects() {
     <section id="projects" ref={section} className="-mt-6 md:-mt-12">
       <div
         ref={pinned}
-        className="h-screen overflow-hidden supports-[height:100dvh]:h-dvh"
+        // Its own stable GPU layer (translateZ + backface-hidden): this block stays on screen while
+        // the cards stack; if iOS ever skipped drawing it, all the cards would look black at once
+        className="h-screen overflow-hidden [backface-visibility:hidden] [transform:translateZ(0)] supports-[height:100dvh]:h-dvh"
       >
         <div className="mx-auto flex h-full max-w-page flex-col px-4 pb-4 pt-[calc(6rem+var(--safe-top))] md:px-12 md:pb-10 md:pt-44">
           <header className="px-1 md:px-0">
@@ -153,7 +191,8 @@ function Projects() {
                   cards.current[i] = el
                 }}
                 style={{ top: `calc(${i} * var(--card-step))` }}
-                className={`absolute inset-x-0 bottom-0 flex flex-col overflow-hidden rounded-[20px] md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
+                // backface-hidden + isolate: keeps each card on its own stable layer (see force3D above)
+                className={`absolute inset-x-0 bottom-0 isolate flex flex-col overflow-hidden rounded-[20px] [backface-visibility:hidden] md:rounded-[28px] wide:flex-row ${THEMES[i % THEMES.length]}`}
               >
                 {/* Text */}
                 {/* Stacked layout: the text takes only the height it needs; side-by-side: spread over the full height */}
@@ -196,7 +235,7 @@ function Projects() {
                 </div>
 
                 {/* Darkens the card once others are stacked on top of it */}
-                <div className="card-shade pointer-events-none absolute inset-0 bg-ink opacity-0" />
+                <div className="card-shade pointer-events-none absolute inset-0" />
               </article>
             ))}
           </div>
