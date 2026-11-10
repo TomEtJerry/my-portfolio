@@ -35,6 +35,74 @@ const Lead = ({ children }) => (
   <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-ink/70 md:mt-6 md:text-lg lg:max-w-4xl">{children}</p>
 )
 
+// Phone screens: thin dark bezel and rounded corners
+const PHONE_FRAME =
+  'aspect-[9/19.5] !rounded-[28px] border-[6px] border-ink shadow-[0_30px_60px_-30px_rgba(26,20,16,0.45)] md:!rounded-[36px]'
+// Desktop screens
+const SCREEN_FRAME = 'aspect-[16/9] shadow-[0_40px_80px_-40px_rgba(26,20,16,0.4)] ring-1 ring-ink/10'
+
+const Phone = ({ visual }) => <Visual {...visual} fitWidth className={PHONE_FRAME} />
+
+// Phone screens: one alone in the middle, or the first one large in the middle with the others around
+function PhoneGallery({ visuals }) {
+  if (visuals.length === 1)
+    return (
+      <div className="mx-auto w-3/5 max-w-xs">
+        <Phone visual={visuals[0]} />
+      </div>
+    )
+  return (
+    <div className="mx-auto grid max-w-5xl grid-cols-2 items-start gap-6 md:grid-cols-3 md:gap-10 lg:gap-14">
+      {visuals.map((visual, i) => (
+        <div
+          key={visual.file}
+          className={
+            i === 0
+              ? 'col-span-2 mx-auto w-3/5 md:order-2 md:col-span-1 md:w-full md:scale-110'
+              : i === 1
+                ? 'md:order-1'
+                : 'md:order-3'
+          }
+        >
+          <Phone visual={visual} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function DesktopGallery({ visuals }) {
+  return (
+    <div className="mx-auto grid max-w-5xl gap-14 md:gap-20">
+      {visuals.map((visual) => (
+        <Visual key={visual.file} {...visual} className={SCREEN_FRAME} />
+      ))}
+    </div>
+  )
+}
+
+// One desktop screen and one phone screen. Large screens: the phone overlaps the right edge of
+// the desktop screen. Smaller screens: the phone first, then the desktop screen.
+function DeviceDuo({ phone, screen }) {
+  return (
+    <div className="mx-auto flex max-w-6xl flex-col gap-14 lg:relative lg:block">
+      <div className="mx-auto w-3/5 max-w-xs lg:absolute lg:right-0 lg:top-1/2 lg:z-10 lg:w-[21%] lg:max-w-none lg:-translate-y-1/2">
+        <Phone visual={phone} />
+      </div>
+      <div className="lg:w-[82%]">
+        <Visual {...screen} className={SCREEN_FRAME} />
+      </div>
+    </div>
+  )
+}
+
+// Small "Mobile" / "Desktop" label above a group of screens
+const DeviceLabel = ({ children }) => (
+  <p className="mb-8 mt-14 font-display text-sm font-bold uppercase tracking-[0.2em] text-ink/40 md:mb-10 md:mt-20">
+    {children}
+  </p>
+)
+
 // One side of a before / after comparison: beige and tilted left before the tests,
 // dark and tilted right after (it overlaps the "before" card)
 function TestingCard({ file, text, after = false }) {
@@ -302,25 +370,8 @@ function ProjectPage({ project }) {
           <Eyebrow>{study.mobile.eyebrow ?? 'The mobile experience'}</Eyebrow>
           <SectionTitle>{study.mobile.title}</SectionTitle>
           <Lead>{study.mobile.text}</Lead>
-          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 items-start gap-6 md:mt-16 md:grid-cols-3 md:gap-10 lg:gap-14">
-            {study.mobile.visuals.map((visual, i) => (
-              <div
-                key={visual.file}
-                className={
-                  i === 0
-                    ? 'col-span-2 mx-auto w-3/5 md:order-2 md:col-span-1 md:w-full md:scale-110'
-                    : i === 1
-                      ? 'md:order-1'
-                      : 'md:order-3'
-                }
-              >
-                <Visual
-                  {...visual}
-                  fitWidth
-                  className="aspect-[9/19.5] !rounded-[28px] border-[6px] border-ink shadow-[0_30px_60px_-30px_rgba(26,20,16,0.45)] md:!rounded-[36px]"
-                />
-              </div>
-            ))}
+          <div className="mt-12 md:mt-16">
+            <PhoneGallery visuals={study.mobile.visuals} />
           </div>
         </section>
         )}
@@ -331,17 +382,32 @@ function ProjectPage({ project }) {
           <Eyebrow>The desktop experience</Eyebrow>
           <SectionTitle>{study.desktop.title}</SectionTitle>
           <Lead>{study.desktop.text}</Lead>
-          <div className="mx-auto mt-12 grid max-w-5xl gap-14 md:mt-16 md:gap-20">
-            {study.desktop.visuals.map((visual) => (
-              <Visual
-                key={visual.file}
-                {...visual}
-                className="aspect-[16/9] shadow-[0_40px_80px_-40px_rgba(26,20,16,0.4)] ring-1 ring-ink/10"
-              />
-            ))}
+          <div className="mt-12 md:mt-16">
+            <DesktopGallery visuals={study.desktop.visuals} />
           </div>
         </section>
         )}
+
+        {/* ===== SHOWCASES: one section per part of the project, each with its mobile and desktop screens ===== */}
+        {study.showcases?.map((showcase) => (
+          <section key={showcase.title} data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
+            <Eyebrow>{showcase.eyebrow}</Eyebrow>
+            <SectionTitle>{showcase.title}</SectionTitle>
+            <Lead>{showcase.text}</Lead>
+            {showcase.mobile.length === 1 && showcase.desktop.length === 1 ? (
+              <div className="mt-12 md:mt-16">
+                <DeviceDuo phone={showcase.mobile[0]} screen={showcase.desktop[0]} />
+              </div>
+            ) : (
+              <>
+                <DeviceLabel>Mobile</DeviceLabel>
+                <PhoneGallery visuals={showcase.mobile} />
+                <DeviceLabel>Desktop</DeviceLabel>
+                <DesktopGallery visuals={showcase.desktop} />
+              </>
+            )}
+          </section>
+        ))}
 
         {/* ===== USER TESTING: what changed after the tests, as before / after cards ===== */}
         {study.testing && (

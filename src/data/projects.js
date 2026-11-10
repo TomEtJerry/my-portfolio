@@ -208,9 +208,8 @@ export const projects = [
     company: 'Allianz',
     role: 'UX/UI Designer',
     image: projectThree,
-    // Content of the project's page — `draft: true`: the page isn't created yet
+    // Content of the project's own page (/projects/<slug>)
     caseStudy: {
-      draft: true,
       intro:
         'Redesign of the health insurance hub in Allianz’s client area — a more dynamic homepage with money-for-value content, health tips and clearer quick access, plus a full rework of how policyholders view their guarantees and benefit usage.',
       meta: [
@@ -229,6 +228,9 @@ export const projects = [
       },
       approach: {
         title: 'From competitor benchmark to two connected redesigns',
+        // Shown under the title: sums up the context (the context section isn't displayed)
+        intro:
+          'Allianz’s health insurance hub had grown flat and static: key actions were hard to find, and policyholders could only check their guarantees by downloading a PDF. The brief covered two connected pieces of work — making the hub more dynamic and useful, and turning the guarantees PDF into a native page showing benefit usage in real time.',
         steps: [
           {
             title: 'Benchmarking competitor health platforms',
@@ -248,17 +250,18 @@ export const projects = [
           },
         ],
       },
-      // Two showcase sections, each with desktop and mobile visuals
+      // Two showcase sections, each with mobile and desktop visuals.
+      // `scroll: true`: a full-page screenshot, shown in a frame the visitor can scroll inside
       showcases: [
         {
           eyebrow: 'The health hub',
           title: 'A hub that surfaces what matters',
           text: 'The hub’s homepage was redesigned around money‑for‑value content, personalized health tips and a clearer hierarchy for quick access shortcuts.',
           desktop: [
-            { file: 'health-experience/hub-desktop-1.jpg', caption: 'Desktop view of the redesigned health hub' },
+            { file: 'health-experience/hub-desktop-1.jpg', caption: 'Desktop view of the redesigned health hub', scroll: true },
           ],
           mobile: [
-            { file: 'health-experience/hub-mobile-1.jpg', caption: 'Mobile view of the redesigned health hub' },
+            { file: 'health-experience/hub-mobile-1.jpg', caption: 'Mobile view of the redesigned health hub', scroll: true },
           ],
         },
         {
@@ -266,12 +269,12 @@ export const projects = [
           title: 'From a static PDF to a live, native page',
           text: 'The guarantees a policyholder subscribed to used to live in a PDF. They now live in a native, dynamic page showing benefit usage updated in real time.',
           desktop: [
-            { file: 'health-experience/guarantees-desktop-1.jpg', caption: 'Desktop view of the new native guarantees page' },
+            { file: 'health-experience/guarantees-desktop-1.jpg', caption: 'Desktop view of the new native guarantees page', scroll: true },
           ],
           mobile: [
             { file: 'health-experience/guarantees-mobile-1.jpg', caption: 'Guarantee detail with real‑time benefit usage' },
-            { file: 'health-experience/guarantees-mobile-2.jpg', caption: 'Overview of subscribed guarantees' },
-            { file: 'health-experience/guarantees-mobile-3.jpg', caption: 'Benefit usage breakdown' },
+            { file: 'health-experience/guarantees-mobile-2.jpg', caption: 'Overview of the contract and subscribed guarantees', scroll: true },
+            { file: 'health-experience/guarantees-mobile-3.jpg', caption: 'Guarantees grouped by care category' },
           ],
         },
       ],

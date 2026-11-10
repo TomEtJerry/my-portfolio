@@ -1,21 +1,44 @@
+import { useState } from 'react'
 import { projectImage } from '../lib/projectImages'
 
 // A project visual. Until its file exists in src/assets/projects/, shows a placeholder.
 // - alt: description of the image (defaults to the caption)
 // - fitWidth: the whole image is shown at the frame's width, and the frame takes the image's
 //   height — for phone screens, where cutting the sides would hide content
-function Visual({ file, caption, alt = caption, className = '', fitWidth = false }) {
+// - scroll: a full-page screenshot (much taller than the frame) — the frame keeps its shape and
+//   the visitor scrolls inside it; a small hint shows until they do
+function Visual({ file, caption, alt = caption, className = '', fitWidth = false, scroll = false }) {
   const src = projectImage(file)
+  const [scrolled, setScrolled] = useState(false)
 
   return (
     <figure>
       {/* fitWidth + an image: the frame takes the image's own height (no empty band) */}
       <div
         className={`relative overflow-hidden rounded-2xl bg-sand md:rounded-3xl ${className} ${
-          fitWidth && src ? '!aspect-auto' : ''
+          fitWidth && src && !scroll ? '!aspect-auto' : ''
         }`}
       >
-        {src ? (
+        {src && scroll ? (
+          <>
+            <div
+              tabIndex={0}
+              aria-label={`${alt} (scrollable)`}
+              onScroll={() => setScrolled(true)}
+              className="absolute inset-0 overflow-y-auto [scrollbar-width:thin]"
+            >
+              <img src={src} alt={alt} loading="lazy" className="block h-auto w-full" />
+            </div>
+            <span
+              aria-hidden="true"
+              className={`pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink/80 px-3 py-1.5 text-[0.625rem] font-medium text-paper backdrop-blur transition-opacity duration-500 md:bottom-4 md:text-xs ${
+                scrolled ? 'opacity-0' : ''
+              }`}
+            >
+              Scroll to explore ↓
+            </span>
+          </>
+        ) : src ? (
           <img
             src={src}
             alt={alt}
