@@ -14,7 +14,7 @@ const PIN_SCROLL = 1.2
 // Small orange label with a dash, above each section title
 function Eyebrow({ children }) {
   return (
-    <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-accent md:text-sm">
+    <p className="flex items-center gap-3 text-[0.625rem] font-medium uppercase tracking-[0.2em] text-accent md:text-sm">
       <span aria-hidden="true" className="h-[2px] w-8 bg-accent" />
       {children}
     </p>
@@ -32,7 +32,7 @@ function SectionTitle({ children, className = '' }) {
 }
 
 const Lead = ({ children }) => (
-  <p className="mt-5 max-w-2xl text-base text-ink/70 md:mt-6 md:text-lg lg:max-w-4xl">{children}</p>
+  <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-ink/70 md:mt-6 md:text-lg lg:max-w-4xl">{children}</p>
 )
 
 function ProjectPage({ project }) {
@@ -174,14 +174,14 @@ function ProjectPage({ project }) {
 
       <main>
         {/* ===== HERO: visual + project info ===== */}
-        <section className="mx-auto grid max-w-page items-center gap-10 px-5 pb-16 pt-[calc(7rem+var(--safe-top))] md:px-12 md:pb-24 md:pt-40 lg:min-h-screen lg:grid-cols-2 lg:gap-16 lg:pb-20 lg:pt-32">
+        <section className="mx-auto grid max-w-page items-center gap-7 px-5 pb-10 pt-[calc(5.5rem+var(--safe-top))] max-md:[@media(max-height:720px)]:pt-[calc(5rem+var(--safe-top))] md:gap-10 md:px-12 md:pb-24 md:pt-40 lg:min-h-screen lg:grid-cols-2 lg:gap-16 lg:pb-20 lg:pt-32">
           {/* Visual with a soft orange glow behind it */}
           <div className="relative lg:order-2">
             <div
               aria-hidden="true"
               className="absolute -inset-8 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent)_28%,transparent),transparent)] blur-2xl md:-inset-14"
             />
-            <div className="hero-visual relative aspect-[4/3] overflow-hidden rounded-[24px] bg-sand shadow-[0_40px_80px_-40px_rgba(26,20,16,0.45)] ring-1 ring-ink/10 md:rounded-[32px]">
+            <div className="hero-visual relative aspect-[16/10] overflow-hidden rounded-[20px] md:aspect-[4/3] max-md:[@media(max-height:720px)]:aspect-[2/1] bg-sand shadow-[0_40px_80px_-40px_rgba(26,20,16,0.45)] ring-1 ring-ink/10 md:rounded-[32px]">
               <ResponsiveImage
                 image={project.image}
                 alt={project.title}
@@ -191,7 +191,7 @@ function ProjectPage({ project }) {
               />
             </div>
             {/* Floating chip */}
-            <span className="hero-in absolute -bottom-4 left-5 rounded-full bg-ink px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-paper shadow-lg md:-bottom-5 md:left-8 md:text-sm">
+            <span className="hero-in absolute -bottom-3 left-4 rounded-full bg-ink px-3 py-1.5 text-[0.625rem] font-medium uppercase tracking-[0.2em] md:px-4 md:py-2 md:text-xs text-paper shadow-lg md:-bottom-5 md:left-8 md:text-sm">
               {project.company} · {project.year}
             </span>
           </div>
@@ -201,19 +201,19 @@ function ProjectPage({ project }) {
             <div className="hero-in">
               <Eyebrow>{project.category}</Eyebrow>
             </div>
-            <h1 className="hero-in mt-5 font-display text-5xl font-bold leading-[0.95] tracking-tight md:text-7xl xl:text-8xl">
+            <h1 className="hero-in mt-3 font-display text-4xl font-bold leading-[0.95] tracking-tight md:mt-5 md:text-7xl xl:text-8xl">
               {project.title}
             </h1>
-            <p className="hero-in mt-6 max-w-xl text-lg text-ink/70 md:mt-8 md:text-xl md:leading-relaxed">
+            <p className="hero-in mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-ink/70 md:mt-8 md:text-xl">
               {study.intro}
             </p>
-            <dl className="hero-in mt-10 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-ink/10 pt-6 sm:grid-cols-4 md:mt-12">
+            <dl className="hero-in mt-6 grid grid-cols-4 gap-x-3 border-t border-ink/10 pt-4 md:mt-12 md:gap-x-6 md:pt-6">
               {meta.map((item) => (
                 <div key={item.label}>
-                  <dt className="text-xs font-medium uppercase tracking-[0.2em] text-ink/50">
+                  <dt className="text-[0.625rem] font-medium uppercase tracking-[0.15em] text-ink/50 md:text-xs md:tracking-[0.2em]">
                     {item.label}
                   </dt>
-                  <dd className="mt-2 font-display text-lg font-medium md:text-xl">{item.value}</dd>
+                  <dd className="mt-1 font-display text-sm font-medium leading-tight md:mt-2 md:text-xl">{item.value}</dd>
                 </div>
               ))}
             </dl>
@@ -255,10 +255,10 @@ function ProjectPage({ project }) {
                     <span className="font-display text-sm tabular-nums text-ink/40 transition-colors duration-500 group-[.is-active]:text-accent">
                       Step {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="mt-1 font-display text-xl font-bold tracking-tight md:text-3xl lg:text-2xl xl:text-3xl">
+                    <h3 className="mt-1 font-display text-lg font-bold tracking-tight md:text-3xl lg:text-2xl xl:text-3xl">
                       {step.title}
                     </h3>
-                    <p className="mt-3 max-w-2xl text-ink/70 md:text-lg lg:text-base xl:text-lg">{step.text}</p>
+                    <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-ink/70 md:mt-3 md:text-lg lg:text-base xl:text-lg">{step.text}</p>
                   </div>
                 </li>
               ))}
@@ -318,10 +318,10 @@ function ProjectPage({ project }) {
                 key={result.text}
                 className="grid items-center gap-2 border-b border-ink/10 py-6 md:grid-cols-[14rem_1fr] md:gap-10 md:py-8"
               >
-                <span className="font-display text-5xl font-bold text-accent md:text-7xl">
+                <span className="font-display text-4xl font-bold text-accent md:text-7xl">
                   {result.value}
                 </span>
-                <p className="text-base text-ink/70 md:text-xl">{result.text}</p>
+                <p className="text-[0.9375rem] leading-relaxed text-ink/70 md:text-xl">{result.text}</p>
               </div>
             ))}
           </div>
