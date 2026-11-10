@@ -1,6 +1,6 @@
 // Content of the About section — based on the resume (CV Tom Santoni).
 
-// Link of the "full experience" page (resume) — page to be created later
+// Link of the "full experience" page (resume) — see src/pages/ExperiencePage.jsx
 export const EXPERIENCE_URL = '/experience'
 
 export const about = {

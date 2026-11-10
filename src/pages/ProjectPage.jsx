@@ -1,39 +1,16 @@
 import { useEffect, useRef } from 'react'
 import Logo from '../components/Logo'
+import { EndBand, Eyebrow, Lead, SectionTitle } from '../components/PageParts'
 import ResponsiveImage from '../components/ResponsiveImage'
 import Visual from '../components/Visual'
+import BeforeAfter from '../components/BeforeAfter'
+import { projectVideo } from '../lib/projectImages'
 import { projects } from '../data/projects'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
-
-const YEAR = new Date().getFullYear()
 
 // Desktop: scroll distance (in screen heights) during which the approach section stays in place
 // while its timeline fills
 const PIN_SCROLL = 1.2
-
-// Small orange label with a dash, above each section title
-function Eyebrow({ children }) {
-  return (
-    <p className="flex items-center gap-3 text-[0.625rem] font-medium uppercase tracking-[0.2em] text-accent md:text-sm">
-      <span aria-hidden="true" className="h-[2px] w-8 bg-accent" />
-      {children}
-    </p>
-  )
-}
-
-function SectionTitle({ children, className = '' }) {
-  return (
-    <h2
-      className={`mt-4 max-w-3xl font-display lg:max-w-5xl text-3xl font-bold leading-tight tracking-tight md:mt-5 md:text-5xl ${className}`}
-    >
-      {children}
-    </h2>
-  )
-}
-
-const Lead = ({ children }) => (
-  <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-ink/70 md:mt-6 md:text-lg lg:max-w-4xl">{children}</p>
-)
 
 // Phone screens: thin dark bezel and rounded corners
 const PHONE_FRAME =
@@ -73,9 +50,10 @@ function PhoneGallery({ visuals }) {
 
 function DesktopGallery({ visuals }) {
   return (
-    <div className="mx-auto grid max-w-5xl gap-14 md:gap-20">
+    // w-full: scrollable frames have no width of their own, they must stretch to the column
+    <div className="mx-auto grid w-full max-w-5xl gap-14 md:gap-20">
       {visuals.map((visual) => (
-        <Visual key={visual.file} {...visual} className={SCREEN_FRAME} />
+        <Visual key={visual.file} {...visual} fitWidth className={SCREEN_FRAME} />
       ))}
     </div>
   )
@@ -93,6 +71,34 @@ function DeviceDuo({ phone, screen }) {
         <Visual {...screen} className={SCREEN_FRAME} />
       </div>
     </div>
+  )
+}
+
+// A screen recording: plays (muted, looping) only while it's on screen
+function ShowcaseVideo({ file, caption }) {
+  const video = useRef(null)
+  const src = projectVideo(file)
+
+  useEffect(() => {
+    const el = video.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? el.play().catch(() => {}) : el.pause()),
+      { threshold: 0.25 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [src])
+
+  if (!src) return <Visual file={file} caption={caption} className={SCREEN_FRAME} />
+  return (
+    <figure>
+      <div className={`overflow-hidden rounded-2xl bg-sand md:rounded-3xl ${SCREEN_FRAME} !aspect-auto`}>
+        {/* #t=0.001: makes iOS show the first frame instead of an empty box before it plays */}
+        <video ref={video} src={`${src}#t=0.001`} muted loop playsInline autoPlay preload="metadata" aria-label={caption} className="block h-auto w-full" />
+      </div>
+      {caption && <figcaption className="mt-3 text-sm text-ink/60 md:mt-4">{caption}</figcaption>}
+    </figure>
   )
 }
 
@@ -364,6 +370,19 @@ function ProjectPage({ project }) {
           </div>
         </section>
 
+        {/* ===== BEFORE / AFTER: slider between the old and the new version ===== */}
+        {study.comparison && (
+          <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
+            <Eyebrow>Before / after</Eyebrow>
+            <SectionTitle>{study.comparison.title}</SectionTitle>
+            <Lead>{study.comparison.text}</Lead>
+            <div className="mx-auto mt-12 max-w-5xl md:mt-16">
+              <BeforeAfter before={study.comparison.before} after={study.comparison.after} />
+              <p className="mt-3 text-sm text-ink/60 md:mt-4">Drag the handle, or keep scrolling, to compare</p>
+            </div>
+          </section>
+        )}
+
         {/* ===== MOBILE SHOWCASE: the main screen large in the middle, the two others around ===== */}
         {study.mobile && (
         <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
@@ -394,7 +413,13 @@ function ProjectPage({ project }) {
             <Eyebrow>{showcase.eyebrow}</Eyebrow>
             <SectionTitle>{showcase.title}</SectionTitle>
             <Lead>{showcase.text}</Lead>
-            {showcase.mobile.length === 1 && showcase.desktop.length === 1 ? (
+            {showcase.visuals ? (
+              // Desktop screens only, with an optional recording first
+              <div className="mx-auto mt-12 grid max-w-5xl gap-14 md:mt-16 md:gap-20">
+                {showcase.video && <ShowcaseVideo {...showcase.video} />}
+                <DesktopGallery visuals={showcase.visuals} />
+              </div>
+            ) : showcase.mobile.length === 1 && showcase.desktop.length === 1 ? (
               <div className="mt-12 md:mt-16">
                 <DeviceDuo phone={showcase.mobile[0]} screen={showcase.desktop[0]} />
               </div>
@@ -447,30 +472,11 @@ function ProjectPage({ project }) {
       </main>
 
       {/* ===== NEXT PROJECT (or back to all projects) ===== */}
-      <section className="mt-10 bg-ink text-paper">
-        <a
-          href={hasNext ? `/projects/${next.slug}` : '/#projects'}
-          className="group mx-auto flex max-w-page items-center justify-between gap-8 px-5 py-14 md:px-12 md:py-24"
-        >
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-accent-light md:text-sm">
-              {hasNext ? 'Next project' : 'Keep exploring'}
-            </p>
-            <p className="mt-3 font-display text-3xl font-bold tracking-tight transition-colors group-hover:text-accent-light md:text-6xl">
-              {hasNext ? next.title : 'All projects'}
-            </p>
-          </div>
-          <span className="grid size-14 shrink-0 place-items-center rounded-full bg-accent text-2xl transition-transform duration-300 group-hover:translate-x-2 md:size-20 md:text-3xl">
-            →
-          </span>
-        </a>
-        <footer className="mx-auto flex max-w-page items-center justify-between gap-4 border-t border-paper/10 px-5 py-6 text-sm text-paper/50 md:px-12">
-          <span>© {YEAR} Tom Santoni</span>
-          <a href="#" className="transition-colors hover:text-accent-light">
-            Back to top ↑
-          </a>
-        </footer>
-      </section>
+      <EndBand
+        href={hasNext ? `/projects/${next.slug}` : '/#projects'}
+        label={hasNext ? 'Next project' : 'Keep exploring'}
+        title={hasNext ? next.title : 'All projects'}
+      />
     </div>
   )
 }

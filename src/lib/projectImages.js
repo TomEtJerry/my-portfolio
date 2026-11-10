@@ -9,3 +9,13 @@ const images = import.meta.glob('../assets/projects/*/**/*.{jpg,jpeg,png,webp,av
 export function projectImage(file) {
   return images[`../assets/projects/${file}`] ?? null
 }
+
+// Same for videos (e.g. a walkthrough recording)
+const videos = import.meta.glob('../assets/projects/*/**/*.{mp4,webm}', {
+  eager: true,
+  import: 'default',
+})
+
+export function projectVideo(file) {
+  return videos[`../assets/projects/${file}`] ?? null
+}

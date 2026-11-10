@@ -295,9 +295,8 @@ export const projects = [
     company: 'Cliking',
     role: 'UX/UI Designer',
     image: projectFour,
-    // Content of the project's page — `draft: true`: the page isn't created yet
+    // Content of the project's own page (/projects/<slug>)
     caseStudy: {
-      draft: true,
       intro:
         'Visual redesign of Cliking’s customer satisfaction platform — turning a dense, inconsistent dashboard into a clear, branded interface, and extending it with a brand new social media module.',
       meta: [
@@ -317,6 +316,9 @@ export const projects = [
       },
       approach: {
         title: 'From audit to a unified design system',
+        // Shown under the title: sums up the context (the context section isn't displayed)
+        intro:
+          'Cliking’s platform lets businesses track customer satisfaction across surveys, reviews and client data. As the product grew, its interface piled up inconsistent components, dense tables and a look that no longer reflected the brand. The brief focused on visual and interaction design: give every screen one consistent language, make satisfaction data easy to scan, and add a brand new social media module.',
         steps: [
           {
             title: 'Auditing the existing screens',
@@ -336,13 +338,14 @@ export const projects = [
           },
         ],
       },
-      // Before / after slider comparing the old and new dashboard
+      // Before / after slider comparing the old and new dashboard (it follows the scroll, or can be dragged)
       comparison: {
         title: 'A new visual identity for the dashboard',
-        text: 'Drag the slider to compare the previous dashboard with the redesigned version.',
+        text: 'From the previous dashboard to the redesigned one: a single, consistent visual language, lighter screens and satisfaction data that reads at a glance.',
         before: 'customer-data-platform/before.png',
         after: 'customer-data-platform/after.png',
       },
+      // Showcases with `visuals`: desktop screens only (plus an optional video on top)
       showcases: [
         {
           eyebrow: 'The dashboard',
@@ -387,9 +390,8 @@ export const projects = [
     company: 'Cliking',
     role: 'UX/UI Designer',
     image: projectFive,
-    // Content of the project's page — `draft: true`: the page isn't created yet
+    // Content of the project's own page (/projects/<slug>)
     caseStudy: {
-      draft: true,
       intro:
         'Design and build, from scratch, of Cliking’s new showcase website on WordPress — following a funding round and a full rebrand from Goodmeal to Cliking, then kept alive ever since with a monthly blog.',
       meta: [
@@ -408,6 +410,9 @@ export const projects = [
       },
       approach: {
         title: 'From new identity to a live, evolving site',
+        // Shown under the title: sums up the context (the context section isn't displayed)
+        intro:
+          'After raising funding, Goodmeal became Cliking — a new name, a new logo, a whole new visual identity — and the former website carried none of it. The brief was to design and build a brand new showcase site from scratch on WordPress, carrying the new brand on every page and kept alive after launch with a monthly blog.',
         steps: [
           {
             title: 'Translating the new identity',
@@ -437,10 +442,10 @@ export const projects = [
             caption: 'Walkthrough of the new Cliking website',
           },
           visuals: [
-            { file: 'wordpress-website/page-1.jpg', caption: 'Homepage, introducing Cliking’s new identity' },
-            { file: 'wordpress-website/page-2.jpg', caption: 'Industry pages, resources and customer testimonials' },
-            { file: 'wordpress-website/page-3.jpg', caption: 'Feature page detailing the product experience' },
-            { file: 'wordpress-website/page-4.jpg', caption: 'Contact page and footer, with the new monthly blog' },
+            { scroll: true, file: 'wordpress-website/page-1.jpg', caption: 'Homepage, introducing Cliking’s new identity' },
+            { scroll: true, file: 'wordpress-website/page-2.jpg', caption: 'Industry pages, resources and customer testimonials' },
+            { scroll: true, file: 'wordpress-website/page-3.jpg', caption: 'Feature page detailing the product experience' },
+            { scroll: true, file: 'wordpress-website/page-4.jpg', caption: 'Contact page and footer, with the new monthly blog' },
           ],
         },
       ],

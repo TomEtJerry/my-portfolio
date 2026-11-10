@@ -1,11 +1,15 @@
+import ExperiencePage from './pages/ExperiencePage'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import ProjectPage from './pages/ProjectPage'
 import { projects } from './data/projects'
 
-// Minimal routing: "/" is the home page, "/projects/<slug>" a project page.
+// Minimal routing: "/" is the home page, "/experience" the full experience (resume) page,
+// "/projects/<slug>" a project page.
 // Links are plain <a href>, so each page is loaded fresh (scroll animations start clean).
 function App() {
+  if (/^\/experience\/?$/.test(window.location.pathname)) return <ExperiencePage />
+
   const match = window.location.pathname.match(/^\/projects\/([^/]+)\/?$/)
   if (!match) return window.location.pathname === '/' ? <Home /> : <NotFound />
 
