@@ -167,8 +167,9 @@ function Projects() {
 
   return (
     // The id sits on this wrapper so it also covers the pinned scroll distance (for the navbar).
-    // Negative top margin: the section's empty top padding slides under the banner, bringing it closer.
-    <section id="projects" ref={section} className="-mt-6 md:-mt-12">
+    // Negative top margin (tablets and computers): the section's empty top padding slides under the
+    // banner, bringing it closer. Phones have no banner.
+    <section id="projects" ref={section} className="md:-mt-12">
       <div
         ref={pinned}
         // Its own stable GPU layer (translateZ + backface-hidden): this block stays on screen while

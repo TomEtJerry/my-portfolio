@@ -1,6 +1,7 @@
-// Messages shown in turn, separated by a sparkle
-const MESSAGES = ['Open to work', 'User experience', 'User interface', 'Product design']
-const REPEAT = 4
+// Message repeated in a loop, separated by a sparkle
+const MESSAGES = ['Open to work']
+// 16 copies per group: wider than any screen, and the same scrolling speed as before
+const REPEAT = 16
 
 // Four-point sparkle placed between each message
 function Sparkle() {
@@ -27,12 +28,13 @@ function Group() {
   )
 }
 
+// Hidden on phones (tablets and computers only)
 function OpenToWorkBanner() {
   return (
     <div
       role="status"
       aria-label={MESSAGES.join(' — ')}
-      className="relative z-10 mt-6 flex h-12 items-center overflow-hidden md:mt-10 bg-accent font-display text-sm font-bold uppercase tracking-[0.2em] text-paper md:h-16 md:text-lg"
+      className="relative z-10 mt-6 hidden h-12 items-center overflow-hidden md:mt-10 md:flex bg-accent font-display text-sm font-bold uppercase tracking-[0.2em] text-paper md:h-16 md:text-lg"
     >
       {/* Two identical groups slide left; when the first is fully out, the loop restarts seamlessly */}
       <div className="flex w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none">
