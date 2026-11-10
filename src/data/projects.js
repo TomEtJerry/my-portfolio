@@ -111,9 +111,8 @@ export const projects = [
     company: 'Allianz',
     role: 'UX/UI Designer',
     image: projectTwo,
-    // Content of the project's page — `draft: true`: the page isn't created yet
+    // Content of the project's own page (/projects/<slug>)
     caseStudy: {
-      draft: true,
       intro:
         'A dedicated space for visualizing and tracking insurance premium payments, designed for individual policyholders.',
       meta: [
@@ -131,6 +130,9 @@ export const projects = [
       },
       approach: {
         title: 'From wireframe to validated flow',
+        // Shown under the title: sums up the context (the context section isn't displayed)
+        intro:
+          'Premium payment details used to be visible only to Allianz agents. For the simplest question — amount charged, next payment date, payment history — policyholders had to call or write to their agency. The goal was to give them a space where they can see and track their payments on their own, and to free agents from these avoidable requests.',
         steps: [
           {
             title: 'Scoping the need',
@@ -150,7 +152,9 @@ export const projects = [
           },
         ],
       },
-      wireframes: {
+      // Same layout as the other pages' mobile section (main phone large in the middle)
+      mobile: {
+        eyebrow: 'The wireframes',
         title: 'The payment tracking space',
         text: 'A look at the key mobile screens of the customer portal, from the contract overview to the detail of a single premium installment.',
         visuals: [
@@ -159,6 +163,7 @@ export const projects = [
           { file: 'payment-portal/wireframe-3.jpg', caption: 'Payment history open' },
         ],
       },
+      // Before / after cards, in place of the desktop section
       testing: {
         title: 'What UserTesting revealed',
         text: 'Several testing sessions surfaced friction points invisible on the wireframe alone, and the interface was adjusted accordingly.',

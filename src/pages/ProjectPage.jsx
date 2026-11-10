@@ -35,6 +35,37 @@ const Lead = ({ children }) => (
   <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-ink/70 md:mt-6 md:text-lg lg:max-w-4xl">{children}</p>
 )
 
+// One side of a before / after comparison: beige and tilted left before the tests,
+// dark and tilted right after (it overlaps the "before" card)
+function TestingCard({ file, text, after = false }) {
+  return (
+    <div
+      className={`relative flex flex-col gap-4 rounded-[20px] p-5 shadow-[0_30px_60px_-30px_rgba(26,20,16,0.45)] md:gap-5 md:rounded-[28px] md:p-8 ${
+        after
+          ? 'z-10 -mt-4 rotate-1 bg-ink text-paper md:mt-0 md:-ml-6 md:rotate-2'
+          : '-rotate-1 bg-sand text-ink md:-rotate-2'
+      }`}
+    >
+      <Visual
+        file={file}
+        alt={after ? 'Interface after the tests' : 'Interface before the tests'}
+        fitWidth
+        className="aspect-[3/1] !rounded-xl ring-1 ring-ink/10"
+      />
+      <span
+        className={`self-start rounded-full px-3 py-1 text-[0.625rem] font-medium uppercase tracking-[0.2em] md:text-xs ${
+          after ? 'bg-accent text-paper' : 'bg-ink/10 text-ink/70'
+        }`}
+      >
+        {after ? 'After adjustment' : 'Before testing'}
+      </span>
+      <p className={`text-[0.9375rem] leading-relaxed md:text-lg ${after ? 'text-paper/80' : 'text-ink/75'}`}>
+        {text}
+      </p>
+    </div>
+  )
+}
+
 function ProjectPage({ project }) {
   const page = useRef(null)
   const timeline = useRef(null)
@@ -266,8 +297,9 @@ function ProjectPage({ project }) {
         </section>
 
         {/* ===== MOBILE SHOWCASE: the main screen large in the middle, the two others around ===== */}
+        {study.mobile && (
         <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
-          <Eyebrow>The mobile experience</Eyebrow>
+          <Eyebrow>{study.mobile.eyebrow ?? 'The mobile experience'}</Eyebrow>
           <SectionTitle>{study.mobile.title}</SectionTitle>
           <Lead>{study.mobile.text}</Lead>
           <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 items-start gap-6 md:mt-16 md:grid-cols-3 md:gap-10 lg:gap-14">
@@ -291,8 +323,10 @@ function ProjectPage({ project }) {
             ))}
           </div>
         </section>
+        )}
 
         {/* ===== DESKTOP SHOWCASE ===== */}
+        {study.desktop && (
         <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
           <Eyebrow>The desktop experience</Eyebrow>
           <SectionTitle>{study.desktop.title}</SectionTitle>
@@ -307,6 +341,25 @@ function ProjectPage({ project }) {
             ))}
           </div>
         </section>
+        )}
+
+        {/* ===== USER TESTING: what changed after the tests, as before / after cards ===== */}
+        {study.testing && (
+          <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
+            <Eyebrow>User testing</Eyebrow>
+            <SectionTitle>{study.testing.title}</SectionTitle>
+            <Lead>{study.testing.text}</Lead>
+            <div className="mx-auto mt-12 grid max-w-6xl gap-16 md:mt-16 md:gap-24">
+              {study.testing.changes.map((change) => (
+                // The two cards are slightly tilted and overlap, the "after" one on top
+                <div key={change.before.file} className="grid md:grid-cols-2 md:px-6">
+                  <TestingCard {...change.before} />
+                  <TestingCard {...change.after} after />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ===== KEY FIGURES ===== */}
         <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">

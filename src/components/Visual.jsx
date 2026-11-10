@@ -1,9 +1,10 @@
 import { projectImage } from '../lib/projectImages'
 
 // A project visual. Until its file exists in src/assets/projects/, shows a placeholder.
+// - alt: description of the image (defaults to the caption)
 // - fitWidth: the whole image is shown at the frame's width, and the frame takes the image's
 //   height — for phone screens, where cutting the sides would hide content
-function Visual({ file, caption, className = '', fitWidth = false }) {
+function Visual({ file, caption, alt = caption, className = '', fitWidth = false }) {
   const src = projectImage(file)
 
   return (
@@ -17,7 +18,7 @@ function Visual({ file, caption, className = '', fitWidth = false }) {
         {src ? (
           <img
             src={src}
-            alt={caption}
+            alt={alt}
             loading="lazy"
             className={fitWidth ? 'block h-auto w-full' : 'size-full object-cover object-left-top'}
           />
