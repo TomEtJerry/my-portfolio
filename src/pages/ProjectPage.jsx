@@ -174,26 +174,23 @@ function ProjectPage({ project }) {
 
       <main>
         {/* ===== HERO: visual + project info ===== */}
-        <section className="mx-auto grid max-w-page items-center gap-7 px-5 pb-10 pt-[calc(5.5rem+var(--safe-top))] max-md:[@media(max-height:720px)]:pt-[calc(5rem+var(--safe-top))] md:gap-10 md:px-12 md:pb-24 md:pt-40 lg:min-h-screen lg:grid-cols-2 lg:gap-16 lg:pb-20 lg:pt-32">
+        <section className="mx-auto grid max-w-page items-center gap-7 px-5 pb-8 pt-[calc(5.5rem+var(--safe-top))] max-md:flex max-md:min-h-[100svh] max-md:flex-col max-md:items-stretch max-md:[@media(max-height:720px)]:pt-[calc(5rem+var(--safe-top))] md:gap-10 md:px-12 md:pb-24 md:pt-40 lg:min-h-screen lg:grid-cols-2 lg:gap-16 lg:pb-20 lg:pt-32">
           {/* Visual with a soft orange glow behind it */}
-          <div className="relative lg:order-2">
+          {/* Phones: takes all the height left above the text, so the hero fills the screen */}
+          <div className="relative max-md:flex max-md:min-h-36 max-md:flex-1 max-md:flex-col lg:order-2">
             <div
               aria-hidden="true"
               className="absolute -inset-8 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent)_28%,transparent),transparent)] blur-2xl md:-inset-14"
             />
-            <div className="hero-visual relative aspect-[16/10] overflow-hidden rounded-[20px] md:aspect-[4/3] max-md:[@media(max-height:720px)]:aspect-[2/1] bg-sand shadow-[0_40px_80px_-40px_rgba(26,20,16,0.45)] ring-1 ring-ink/10 md:rounded-[32px]">
+            <div className="hero-visual relative overflow-hidden rounded-[20px] max-md:flex-1 md:aspect-[4/3] bg-sand shadow-[0_40px_80px_-40px_rgba(26,20,16,0.45)] ring-1 ring-ink/10 md:rounded-[32px]">
               <ResponsiveImage
                 image={project.image}
                 alt={project.title}
                 priority
                 sizes="(min-width: 64rem) 50vw, 100vw"
-                className="size-full object-cover object-left"
+                className="absolute inset-0 size-full object-cover object-left"
               />
             </div>
-            {/* Floating chip */}
-            <span className="hero-in absolute -bottom-3 left-4 rounded-full bg-ink px-3 py-1.5 text-[0.625rem] font-medium uppercase tracking-[0.2em] md:px-4 md:py-2 md:text-xs text-paper shadow-lg md:-bottom-5 md:left-8 md:text-sm">
-              {project.company} · {project.year}
-            </span>
           </div>
 
           {/* Info */}
