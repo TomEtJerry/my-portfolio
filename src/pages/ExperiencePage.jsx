@@ -18,11 +18,17 @@ function Chip({ children }) {
   )
 }
 
-const Section = ({ children }) => (
-  <section data-reveal className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
+// reveal: the whole section fades in as one block. Sections with cards set it to false: their
+// header fades in on its own (data-reveal) and the cards arrive one after another (data-card).
+const Section = ({ children, reveal = true }) => (
+  <section data-reveal={reveal || undefined} className="mx-auto max-w-page px-5 py-16 md:px-12 md:py-28">
     {children}
   </section>
 )
+
+// Card look, shared by the experience and education cards (slight lift on hover)
+const CARD =
+  'flex flex-col rounded-[20px] bg-sand p-6 transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-35px_rgba(26,20,16,0.4)] md:rounded-[28px] md:p-8'
 
 // Small gray title inside a section
 const SubTitle = ({ children, as: Tag = 'h3' }) => (
@@ -55,6 +61,26 @@ function ExperiencePage() {
             ease: 'power3.out',
             scrollTrigger: { trigger: section, start: 'top 85%', once: true },
           })
+        })
+
+        // Cards: each one rises, straightens and grows as it comes into view. The cards that
+        // appear together (a row of 3 on desktop) follow one another; on phones, one by one.
+        // clearProps: once in place, the card's own hover effect works again.
+        gsap.set('[data-card]', { y: 90, rotate: 2, scale: 0.94, opacity: 0, transformOrigin: '50% 100%' })
+        ScrollTrigger.batch('[data-card]', {
+          start: 'top 90%',
+          once: true,
+          onEnter: (cards) =>
+            gsap.to(cards, {
+              y: 0,
+              rotate: 0,
+              scale: 1,
+              opacity: 1,
+              duration: 1,
+              ease: 'power3.out',
+              stagger: 0.15,
+              clearProps: 'transform,opacity',
+            }),
         })
       })
     },
@@ -111,15 +137,17 @@ function ExperiencePage() {
         </section>
 
         {/* ===== EXPERIENCE: one row per role, most recent first ===== */}
-        <Section>
-          <Eyebrow>Experience</Eyebrow>
-          <SectionTitle>Three years of design, in three companies</SectionTitle>
+        <Section reveal={false}>
+          <div data-reveal>
+            <Eyebrow>Experience</Eyebrow>
+            <SectionTitle>Three years of design, in three companies</SectionTitle>
+          </div>
           {/* One card per role, like the education cards: most recent first */}
           <ol className="mt-10 grid gap-4 md:mt-16 md:gap-6 lg:grid-cols-3">
             {experience.jobs.map((job) => {
               const related = projects.filter((p) => p.company === job.company && projectUrl(p))
               return (
-                <li key={job.company} className="flex flex-col rounded-[20px] bg-sand p-6 md:rounded-[28px] md:p-8">
+                <li key={job.company} data-card className={CARD}>
                   {/* Period and contract type, company logo */}
                   <div className="flex items-start justify-between gap-4">
                     <p className="font-display text-sm tabular-nums text-accent">
@@ -171,16 +199,18 @@ function ExperiencePage() {
         </Section>
 
         {/* ===== EDUCATION ===== */}
-        <Section>
-          <Eyebrow>Education</Eyebrow>
-          <SectionTitle>A business background, turned toward design</SectionTitle>
-          <Lead>
-            A business school curriculum specialised in digital business, completed by a dedicated UI
-            design program at GOBELINS Paris.
-          </Lead>
+        <Section reveal={false}>
+          <div data-reveal>
+            <Eyebrow>Education</Eyebrow>
+            <SectionTitle>A business background, turned toward design</SectionTitle>
+            <Lead>
+              A business school curriculum specialised in digital business, completed by a dedicated UI
+              design program at GOBELINS Paris.
+            </Lead>
+          </div>
           <ol className="mt-10 grid gap-4 md:mt-16 md:gap-6 lg:grid-cols-3">
             {experience.education.map((school) => (
-              <li key={school.degree} className="flex flex-col rounded-[20px] bg-sand p-6 md:rounded-[28px] md:p-8">
+              <li key={school.degree} data-card className={CARD}>
                 <p className="font-display text-sm tabular-nums text-accent">{school.period}</p>
                 <h3 className="mt-3 font-display text-xl font-bold tracking-tight md:text-2xl">{school.school}</h3>
                 <p className="mt-1 text-[0.9375rem] text-ink/70 md:text-base">{school.degree}</p>
