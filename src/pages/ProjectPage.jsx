@@ -65,18 +65,17 @@ function ProjectPage({ project }) {
         gsap.from('.hero-in', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' })
         gsap.from('.hero-visual', { scale: 0.94, opacity: 0, duration: 1.2, ease: 'power3.out' })
 
-        // Each section rises and fades in with the scroll
+        // Each section rises and fades in once, as it comes into view (like the home page). Played
+        // as a short animation rather than tied to the scroll: nothing is recomputed while the
+        // finger scrolls, which kept phones from scrolling smoothly.
         gsap.utils.toArray('[data-reveal]').forEach((section) => {
-          gsap.fromTo(
-            section,
-            { autoAlpha: 0, y: 60 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              ease: 'power2.out',
-              scrollTrigger: { trigger: section, start: 'top 90%', end: 'top 55%', scrub: true },
-            },
-          )
+          gsap.from(section, {
+            y: 50,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+          })
         })
       })
 
@@ -111,12 +110,15 @@ function ProjectPage({ project }) {
         ScrollTrigger.addEventListener('refreshInit', placeTrack)
 
         // Fill the line and light the dots for a given progress (0 → 1)
+        // (cheap on every scroll frame: one transform, and the dots only change when they're reached)
+        const setFill = gsap.quickSetter(fill, horizontal ? 'scaleX' : 'scaleY')
+        let litCount = -1
         const render = (progress) => {
-          gsap.set(fill, horizontal ? { scaleX: progress } : { scaleY: progress })
-          steps.forEach((step, i) => {
-            const reached = progress >= i / Math.max(steps.length - 1, 1) - 0.001
-            step.classList.toggle('is-active', reached)
-          })
+          setFill(progress)
+          const lit = steps.filter((_, i) => progress >= i / Math.max(steps.length - 1, 1) - 0.001).length
+          if (lit === litCount) return
+          litCount = lit
+          steps.forEach((step, i) => step.classList.toggle('is-active', i < lit))
         }
 
         if (horizontal) {
@@ -247,7 +249,7 @@ function ProjectPage({ project }) {
                   className="group relative grid grid-cols-[1.5rem_1fr] gap-5 pb-12 last:pb-0 md:grid-cols-[2rem_1fr] md:gap-8 md:pb-16 lg:grid-cols-1 lg:content-start lg:gap-7 lg:pb-0"
                 >
                   {/* Dot: outlined, filled orange once the line reaches it */}
-                  <span data-dot className="relative z-10 mt-0.5 size-6 rounded-full border-2 border-accent bg-paper transition-all duration-500 group-[.is-active]:bg-accent group-[.is-active]:shadow-[0_0_0_6px_color-mix(in_srgb,var(--color-accent)_18%,transparent)] md:size-8" />
+                  <span data-dot className="relative z-10 mt-0.5 size-6 rounded-full border-2 border-accent bg-paper transition-[background-color,box-shadow] duration-500 group-[.is-active]:bg-accent group-[.is-active]:shadow-[0_0_0_6px_color-mix(in_srgb,var(--color-accent)_18%,transparent)] md:size-8" />
                   <div>
                     <span className="font-display text-sm tabular-nums text-ink/40 transition-colors duration-500 group-[.is-active]:text-accent">
                       Step {String(i + 1).padStart(2, '0')}
