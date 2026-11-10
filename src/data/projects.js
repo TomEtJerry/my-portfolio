@@ -280,8 +280,8 @@ export const projects = [
       ],
       results: [
         { value: '2', text: 'connected pieces of work delivered: the health hub and the guarantees experience.' },
+        { value: '7', text: 'care categories once locked in a PDF, now brought together in one native, dynamic page with real‑time benefit usage.' },
         { value: '1', text: 'full benchmark of competitor health platforms, strengths and weaknesses mapped.' },
-        { value: '1', text: 'guarantees PDF turned into a native page with real‑time benefit usage.' },
       ],
     },
   },
